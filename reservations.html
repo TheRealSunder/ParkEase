@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ParkEase - My Reservations</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="phone-container">
+        <div class="screen">
+            <div class="header">
+                <div class="status-bar">
+                    <span>9:41</span>
+                    <span>100%</span>
+                </div>
+                <h1>My Reservations</h1>
+                <p>Active and recent parking reservations</p>
+            </div>
+            
+            <div class="content">
+                <!-- Active Reservations -->
+                <div class="reservations-section">
+                    <div class="section-title">Active Reservations</div>
+                    <div id="activeReservations">
+                        <!-- Active reservations will be populated by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Recent Reservations -->
+                <div class="reservations-section">
+                    <div class="section-title">Recent Activity</div>
+                    <div id="recentReservations">
+                        <div class="reservation-item completed">
+                            <div class="reservation-header">
+                                <div class="reservation-info">
+                                    <div class="parking-name">One Archer's Place</div>
+                                    <div class="reservation-date">Yesterday, 2:30 PM</div>
+                                </div>
+                                <div class="reservation-status">
+                                    <span class="status-badge completed">Completed</span>
+                                </div>
+                            </div>
+                            <div class="reservation-details">
+                                <div class="detail-item">
+                                    <span>Duration:</span>
+                                    <span>2 hours</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span>Total Paid:</span>
+                                    <span>₱110</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="reservation-item cancelled">
+                            <div class="reservation-header">
+                                <div class="reservation-info">
+                                    <div class="parking-name">Street Parking (Leon Guinto)</div>
+                                    <div class="reservation-date">3 days ago, 9:15 AM</div>
+                                </div>
+                                <div class="reservation-status">
+                                    <span class="status-badge cancelled">Cancelled</span>
+                                </div>
+                            </div>
+                            <div class="reservation-details">
+                                <div class="detail-item">
+                                    <span>Downpayment:</span>
+                                    <span>₱50 (Non-refundable)</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span>Reason:</span>
+                                    <span>Plans changed</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Empty State -->
+                <div id="emptyState" class="empty-state" style="display: none;">
+                    <div class="empty-icon">📅</div>
+                    <div class="empty-text">No Active Reservations</div>
+                    <div class="empty-subtext">
+                        You don't have any active parking reservations at the moment. 
+                        Browse available parking spots to make a new reservation.
+                    </div>
+                    <button class="empty-action-btn" onclick="window.location.href='home.html'">
+                        Find Parking
+                    </button>
+                </div>
+            </div>
+            
+            <div class="bottom-nav">
+                <a href="home.html" class="nav-item">
+                    <div class="nav-icon">Home</div>
+                    <div class="nav-label">Home</div>
+                </a>
+                <a href="reservations.html" class="nav-item active">
+                    <div class="nav-icon">Reservations</div>
+                    <div class="nav-label">Reservations</div>
+                </a>
+                <a href="profile.html" class="nav-item">
+                    <div class="nav-icon">Profile</div>
+                    <div class="nav-label">Profile</div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Check if there's an active reservation from EGI Taft (simulated)
+        function loadReservations() {
+            const activeContainer = document.getElementById('activeReservations');
+            const emptyState = document.getElementById('emptyState');
+            
+            // Check localStorage for simulated reservation (in real app, this would be from a database)
+            const hasActiveReservation = localStorage.getItem('egiTaftReservation') === 'true';
+            
+            if (hasActiveReservation) {
+                // Calculate remaining time (simulate 30 minutes from "now")
+                const reservationTime = localStorage.getItem('reservationTime');
+                let timeRemaining = '25:30'; // Simulate time remaining
+                
+                if (reservationTime) {
+                    const created = new Date(reservationTime);
+                    const now = new Date();
+                    const elapsed = Math.floor((now - created) / 1000 / 60); // minutes elapsed
+                    const remaining = Math.max(0, 30 - elapsed);
+                    timeRemaining = `${Math.floor(remaining)}:${(remaining % 1 * 60).toFixed(0).padStart(2, '0')}`;
+                }
+                
+                activeContainer.innerHTML = `
+                    <div class="reservation-item active">
+                        <div class="reservation-header">
+                            <div class="reservation-info">
+                                <div class="parking-name">EGI Taft Parking</div>
+                                <div class="reservation-date">Reserved ${timeRemaining} ago</div>
+                            </div>
+                            <div class="reservation-status">
+                                <span class="status-badge active">Active</span>
+                            </div>
+                        </div>
+                        <div class="reservation-timer">
+                            <div class="timer-label">Time Remaining:</div>
+                            <div class="timer-display" id="countdown">${timeRemaining}</div>
+                        </div>
+                        <div class="reservation-details">
+                            <div class="detail-item">
+                                <span>Downpayment Paid:</span>
+                                <span>₱50</span>
+                            </div>
+                            <div class="detail-item">
+                                <span>Remaining on arrival:</span>
+                                <span>₱25/hr - ₱50</span>
+                            </div>
+                        </div>
+                        <div class="reservation-actions">
+                            <button class="cancel-btn" onclick="cancelReservation()">
+                                Cancel Reservation
+                            </button>
+                            <button class="directions-btn" onclick="getDirections()">
+                                Get Directions
+                            </button>
+                        </div>
+                    </div>
+                `;
+                
+                // Start countdown timer
+                startCountdown();
+                emptyState.style.display = 'none';
+            } else {
+                activeContainer.innerHTML = '';
+                emptyState.style.display = 'block';
+            }
+        }
+
+        function startCountdown() {
+            const countdownElement = document.getElementById('countdown');
+            if (!countdownElement) return;
+            
+            let timeInSeconds = 25 * 60 + 30; // 25:30 in seconds
+            
+            const timer = setInterval(() => {
+                const minutes = Math.floor(timeInSeconds / 60);
+                const seconds = timeInSeconds % 60;
+                
+                countdownElement.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+                
+                if (timeInSeconds <= 0) {
+                    clearInterval(timer);
+                    countdownElement.textContent = 'Expired';
+                    // Auto-remove expired reservation
+                    setTimeout(() => {
+                        localStorage.removeItem('egiTaftReservation');
+                        localStorage.removeItem('reservationTime');
+                        loadReservations();
+                    }, 2000);
+                }
+                
+                timeInSeconds--;
+            }, 1000);
+        }
+
+        function cancelReservation() {
+            if (confirm('Are you sure you want to cancel this reservation? Your ₱50 downpayment will not be refunded.')) {
+                // Remove from localStorage (simulate cancellation)
+                localStorage.removeItem('egiTaftReservation');
+                localStorage.removeItem('reservationTime');
+                
+                // Show cancellation message
+                alert('Reservation cancelled. Downpayment is non-refundable as per policy.');
+                
+                // Reload reservations
+                loadReservations();
+            }
+        }
+
+        function getDirections() {
+            alert('Opening directions to EGI Taft Parking...\n\n(In a real app, this would open Maps with navigation)');
+        }
+
+        // Load reservations when page loads
+        document.addEventListener('DOMContentLoaded', loadReservations);
+    </script>
+
+    <style>
+        .reservations-section {
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .reservation-item {
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            transition: border-color 0.3s ease;
+        }
+
+        .reservation-item.active {
+            border-color: #333;
+            background: #f9f9f9;
+        }
+
+        .reservation-item.completed {
+            border-color: #ddd;
+            opacity: 0.8;
+        }
+
+        .reservation-item.cancelled {
+            border-color: #999;
+            opacity: 0.6;
+        }
+
+        .reservation-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .parking-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .reservation-date {
+            font-size: 13px;
+            color: #666;
+        }
+
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-badge.active {
+            background: #333;
+            color: white;
+        }
+
+        .status-badge.completed {
+            background: #e8f5e8;
+            color: #2d5a2d;
+        }
+
+        .status-badge.cancelled {
+            background: #f5f5f5;
+            color: #666;
+        }
+
+        .reservation-timer {
+            background: #333;
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .timer-label {
+            font-size: 12px;
+            opacity: 0.8;
+            margin-bottom: 4px;
+        }
+
+        .timer-display {
+            font-size: 24px;
+            font-weight: 700;
+            font-family: 'Courier New', monospace;
+        }
+
+        .reservation-details {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #eee;
+        }
+
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 13px;
+        }
+
+        .detail-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .detail-item span:first-child {
+            color: #666;
+        }
+
+        .detail-item span:last-child {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .reservation-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .cancel-btn {
+            flex: 1;
+            background: white;
+            color: #999;
+            border: 2px solid #ddd;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .cancel-btn:hover {
+            border-color: #999;
+            color: #666;
+        }
+
+        .directions-btn {
+            flex: 1;
+            background: #333;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .directions-btn:hover {
+            background: #444;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+
+        .empty-icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        .empty-text {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .empty-subtext {
+            font-size: 14px;
+            line-height: 1.4;
+            margin-bottom: 25px;
+        }
+
+        .empty-action-btn {
+            background: #333;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .empty-action-btn:hover {
+            background: #444;
+        }
+    </style>
+</body>
+</html> 

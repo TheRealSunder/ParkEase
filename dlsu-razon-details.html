@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ParkEase - DLSU Razon Parking</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="phone-container">
+        <div class="screen">
+            <div class="header">
+                <div class="status-bar">
+                    <span>9:41</span>
+                    <span>100%</span>
+                </div>
+                <button class="back-btn" onclick="window.location.href='home.html'">←</button>
+                <h1>DLSU Razon Parking</h1>
+                <p>On-Campus Parking Details</p>
+            </div>
+            
+            <div class="content">
+                <div class="detail-section">
+                    <div class="detail-title">Current Status</div>
+                    <div class="detail-grid">
+                        <div class="detail-item">
+                            <div class="detail-value">0</div>
+                            <div class="detail-label">Available Slots</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-value">₱15</div>
+                            <div class="detail-label">Per Hour</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <div class="detail-title">Location</div>
+                    <div class="map-preview">
+                        <div>Tap to open in Maps</div>
+                        <div class="map-pin">📍</div>
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <div class="detail-title">Parking Information</div>
+                    <div class="info-box">
+                        <p><strong>Operating Hours:</strong> 6:00 AM - 10:00 PM (Mon-Sat)</p>
+                        <p><strong>Requirements:</strong> Valid university parking permit required</p>
+                        <p><strong>Security:</strong> Campus security, CCTV surveillance</p>
+                        <p><strong>Special Rates:</strong> ₱30/hr after 4 hours</p>
+                        <p><strong>Payment Methods:</strong> Cash at parking booth</p>
+                        <p><strong>Features:</strong> Covered parking, near SJ Hall & LS Building</p>
+                        <p><strong>Notes:</strong> Priority given to faculty and staff</p>
+                        <p><strong>Reservation:</strong> Not available for this parking area</p>
+                    </div>
+                </div>
+
+                <div class="unavailable-notice">
+                    <div class="notice-icon">🚫</div>
+                    <div class="notice-title">Parking Currently Full</div>
+                    <div class="notice-subtitle">No slots available at this time</div>
+                    <div class="notice-description">
+                        This parking area is currently at full capacity. Please check back later or consider other nearby parking options.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .unavailable-notice {
+            background: #f8f8f8;
+            border: 2px solid #ddd;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .notice-icon {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .notice-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .notice-subtitle {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .notice-description {
+            font-size: 12px;
+            color: #666;
+            line-height: 1.4;
+        }
+    </style>
+</body>
+</html>

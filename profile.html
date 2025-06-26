@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ParkEase - Profile</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="phone-container">
+        <div class="screen">
+            <div class="header">
+                <div class="status-bar">
+                    <span>9:41</span>
+                    <span>100%</span>
+                </div>
+                <h1>Profile</h1>
+                <p>Manage your account and preferences</p>
+            </div>
+            
+            <div class="content">
+                <div class="profile-header">
+                    <div class="profile-avatar">JD</div>
+                    <div class="profile-name">Juan Dela Cruz</div>
+                    <div class="profile-email">juan.delacruz@gmail.com</div>
+                    <div class="profile-student-id">University Student • Manila</div>
+                </div>
+
+                <div class="menu-list">
+                    <div class="menu-item" onclick="showFeature('My Vehicles')">
+                        <div class="menu-icon">•</div>
+                        <div class="menu-text">
+                            <div class="menu-title">My Vehicles</div>
+                            <div class="menu-subtitle">Honda Civic (ABC 1234)</div>
+                        </div>
+                        <div class="menu-arrow">></div>
+                    </div>
+                    
+                    <div class="menu-item" onclick="showFeature('Notifications')">
+                        <div class="menu-icon">•</div>
+                        <div class="menu-text">
+                            <div class="menu-title">Notifications</div>
+                            <div class="menu-subtitle">Parking alerts and reminders</div>
+                        </div>
+                        <div class="menu-arrow">></div>
+                    </div>
+                    
+                    <div class="menu-item" onclick="showFeature('Language')">
+                        <div class="menu-icon">•</div>
+                        <div class="menu-text">
+                            <div class="menu-title">Language</div>
+                            <div class="menu-subtitle">English / Filipino</div>
+                        </div>
+                        <div class="menu-arrow">></div>
+                    </div>
+                    
+                    <div class="menu-item" onclick="showFeature('Privacy')">
+                        <div class="menu-icon">•</div>
+                        <div class="menu-text">
+                            <div class="menu-title">Privacy & Security</div>
+                            <div class="menu-subtitle">Data settings and permissions</div>
+                        </div>
+                        <div class="menu-arrow">></div>
+                    </div>
+                    
+                    <div class="menu-item" onclick="showFeature('Help')">
+                        <div class="menu-icon">•</div>
+                        <div class="menu-text">
+                            <div class="menu-title">Help & Support</div>
+                            <div class="menu-subtitle">FAQs and contact support</div>
+                        </div>
+                        <div class="menu-arrow">></div>
+                    </div>
+                    
+                    <div class="menu-item" onclick="confirmSignOut()">
+                        <div class="menu-icon">•</div>
+                        <div class="menu-text">
+                            <div class="menu-title">Sign Out</div>
+                            <div class="menu-subtitle">Log out of your account</div>
+                        </div>
+                        <div class="menu-arrow">></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bottom-nav">
+                <a href="home.html" class="nav-item">
+                    <div class="nav-icon">Home</div>
+                    <div class="nav-label">Home</div>
+                </a>
+                <a href="reservations.html" class="nav-item">
+                    <div class="nav-icon">Reservations</div>
+                    <div class="nav-label">Reservations</div>
+                </a>
+                <a href="profile.html" class="nav-item active">
+                    <div class="nav-icon">Profile</div>
+                    <div class="nav-label">Profile</div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showFeature(featureName) {
+            alert(`${featureName} feature - Coming soon in full version!`);
+        }
+
+        function confirmSignOut() {
+            if (confirm('Are you sure you want to sign out?')) {
+                alert('Signing out...');
+                window.location.href = 'login.html';
+            }
+        }
+    </script>
+</body>
+</html>

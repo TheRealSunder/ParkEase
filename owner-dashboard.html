@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ParkEase - POS System</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="phone-container">
+        <div class="screen">
+            <div class="header">
+                <div class="status-bar">
+                    <span>9:41</span>
+                    <span>100%</span>
+                </div>
+                <h1>POS System</h1>
+                <p>EGI Taft Parking Management</p>
+            </div>
+            
+            <div class="content">
+                <!-- Quick Stats -->
+                <div class="stats-row">
+                    <div class="stat-card">
+                        <div class="stat-value" id="availableSlots">3</div>
+                        <div class="stat-label">Available</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="currentParked">4</div>
+                        <div class="stat-label">Currently Parked</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="todayRevenue">₱450</div>
+                        <div class="stat-label">Today's Revenue</div>
+                    </div>
+                </div>
+
+                <!-- Main Actions -->
+                <div class="action-section">
+                    <button class="action-button scanner-btn" onclick="openScanner()">
+                        <div class="action-icon">📱</div>
+                        <div class="action-text">
+                            <div class="action-title">Scan Customer QR</div>
+                            <div class="action-subtitle">Check-in customers</div>
+                        </div>
+                    </button>
+                    
+                    <button class="action-button checkout-btn" onclick="showCurrentCustomers()">
+                        <div class="action-icon">💰</div>
+                        <div class="action-text">
+                            <div class="action-title">Process Payment</div>
+                            <div class="action-subtitle">Check-out customers</div>
+                        </div>
+                    </button>
+                </div>
+
+                <!-- Currently Parked Section -->
+                <div class="parked-section">
+                    <div class="section-title">Currently Parked</div>
+                    <div id="parkedCustomers">
+                        <!-- Sample parked customers -->
+                        <div class="customer-item">
+                            <div class="customer-info">
+                                <div class="customer-name">Maria Santos</div>
+                                <div class="customer-details">Honda Civic • ABC-1234</div>
+                                <div class="customer-time">Entered: 2:30 PM</div>
+                            </div>
+                            <div class="customer-cost">
+                                <div class="cost-amount">₱75</div>
+                                <div class="cost-duration">3h 0m</div>
+                            </div>
+                            <button class="checkout-customer-btn" onclick="processCheckout('maria')">
+                                Check Out
+                            </button>
+                        </div>
+
+                        <div class="customer-item">
+                            <div class="customer-info">
+                                <div class="customer-name">John Doe</div>
+                                <div class="customer-details">Toyota Vios • XYZ-5678</div>
+                                <div class="customer-time">Entered: 4:15 PM</div>
+                            </div>
+                            <div class="customer-cost">
+                                <div class="cost-amount">₱37</div>
+                                <div class="cost-duration">1h 30m</div>
+                            </div>
+                            <button class="checkout-customer-btn" onclick="processCheckout('john')">
+                                Check Out
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- QR Scanner Modal -->
+            <div id="scannerModal" class="modal" style="display: none;">
+                <div class="modal-content scanner-modal">
+                    <div class="scanner-header">
+                        <h3>Scan Customer QR</h3>
+                        <button class="close-btn" onclick="closeScanner()">×</button>
+                    </div>
+                    <div class="scanner-area">
+                        <div class="camera-preview">
+                            <div class="scan-frame"></div>
+                            <div class="scan-instruction">Point camera at customer's QR code</div>
+                        </div>
+                    </div>
+                    <div class="scanner-actions">
+                        <button class="scan-demo-btn" onclick="simulateScan()">
+                            Simulate Scan (Demo)
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Check-in Success Modal -->
+            <div id="checkinModal" class="modal" style="display: none;">
+                <div class="modal-content">
+                    <div class="success-content">
+                        <div class="success-icon">✅</div>
+                        <h3>Customer Checked In!</h3>
+                        <div class="customer-details-display" id="checkedInCustomer">
+                            <!-- Customer details will be populated -->
+                        </div>
+                        <button class="success-btn" onclick="closeCheckinModal()">
+                            Continue
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Checkout Modal -->
+            <div id="checkoutModal" class="modal" style="display: none;">
+                <div class="modal-content">
+                    <div class="checkout-header">
+                        <h3>Process Payment</h3>
+                        <button class="close-btn" onclick="closeCheckoutModal()">×</button>
+                    </div>
+                    <div class="checkout-details" id="checkoutDetails">
+                        <!-- Checkout details will be populated -->
+                    </div>
+                    <div class="payment-actions">
+                        <button class="payment-received-btn" onclick="confirmPayment()">
+                            💰 Payment Received
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentCheckoutCustomer = null;
+
+        function openScanner() {
+            document.getElementById('scannerModal').style.display = 'block';
+        }
+
+        function closeScanner() {
+            document.getElementById('scannerModal').style.display = 'none';
+        }
+
+        function simulateScan() {
+            // Simulate scanning Juan's QR from profile
+            const customerData = {
+                userId: 'JDC-2024-001',
+                name: 'Juan Dela Cruz',
+                phone: '+63 917 123 4567',
+                vehicle: 'Honda Civic • ABC-1234'
+            };
+
+            // Close scanner
+            closeScanner();
+
+            // Show check-in success
+            showCheckinSuccess(customerData);
+
+            // Update stats
+            updateStats();
+        }
+
+        function showCheckinSuccess(customer) {
+            const customerDisplay = document.getElementById('checkedInCustomer');
+            const currentTime = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            
+            customerDisplay.innerHTML = `
+                <div class="customer-summary">
+                    <div class="summary-item">
+                        <span class="summary-label">Name:</span>
+                        <span class="summary-value">${customer.name}</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">Phone:</span>
+                        <span class="summary-value">${customer.phone}</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">Vehicle:</span>
+                        <span class="summary-value">${customer.vehicle}</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">Entry Time:</span>
+                        <span class="summary-value">${currentTime}</span>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('checkinModal').style.display = 'block';
+        }
+
+        function closeCheckinModal() {
+            document.getElementById('checkinModal').style.display = 'none';
+            
+            // Add new customer to parked list
+            addCustomerToParkedList({
+                name: 'Juan Dela Cruz',
+                vehicle: 'Honda Civic • ABC-1234',
+                entryTime: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
+            });
+        }
+
+        function addCustomerToParkedList(customer) {
+            const parkedContainer = document.getElementById('parkedCustomers');
+            const customerElement = document.createElement('div');
+            customerElement.className = 'customer-item';
+            customerElement.innerHTML = `
+                <div class="customer-info">
+                    <div class="customer-name">${customer.name}</div>
+                    <div class="customer-details">${customer.vehicle}</div>
+                    <div class="customer-time">Entered: ${customer.entryTime}</div>
+                </div>
+                <div class="customer-cost">
+                    <div class="cost-amount">₱25</div>
+                    <div class="cost-duration">0h 1m</div>
+                </div>
+                <button class="checkout-customer-btn" onclick="processCheckout('juan-new')">
+                    Check Out
+                </button>
+            `;
+            parkedContainer.appendChild(customerElement);
+        }
+
+        function processCheckout(customerId) {
+            // Sample checkout data based on customer
+            let checkoutData = {};
+            
+            if (customerId === 'maria') {
+                checkoutData = {
+                    name: 'Maria Santos',
+                    vehicle: 'Honda Civic • ABC-1234',
+                    entryTime: '2:30 PM',
+                    duration: '3h 0m',
+                    cost: '₱75'
+                };
+            } else if (customerId === 'john') {
+                checkoutData = {
+                    name: 'John Doe',
+                    vehicle: 'Toyota Vios • XYZ-5678',
+                    entryTime: '4:15 PM',
+                    duration: '1h 30m',
+                    cost: '₱37'
+                };
+            } else {
+                checkoutData = {
+                    name: 'Juan Dela Cruz',
+                    vehicle: 'Honda Civic • ABC-1234',
+                    entryTime: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),
+                    duration: '0h 1m',
+                    cost: '₱25'
+                };
+            }
+
+            currentCheckoutCustomer = customerId;
+            showCheckoutModal(checkoutData);
+        }
+
+        function showCheckoutModal(data) {
+            const checkoutDetails = document.getElementById('checkoutDetails');
+            checkoutDetails.innerHTML = `
+                <div class="checkout-summary">
+                    <div class="summary-item">
+                        <span class="summary-label">Customer:</span>
+                        <span class="summary-value">${data.name}</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">Vehicle:</span>
+                        <span class="summary-value">${data.vehicle}</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">Entry Time:</span>
+                        <span class="summary-value">${data.entryTime}</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">Duration:</span>
+                        <span class="summary-value">${data.duration}</span>
+                    </div>
+                    <div class="summary-item total">
+                        <span class="summary-label">Total Amount:</span>
+                        <span class="summary-value">${data.cost}</span>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('checkoutModal').style.display = 'block';
+        }
+
+        function closeCheckoutModal() {
+            document.getElementById('checkoutModal').style.display = 'none';
+        }
+
+        function confirmPayment() {
+            // Remove customer from parked list (simulate)
+            alert('Payment confirmed! Customer checked out successfully.');
+            
+            closeCheckoutModal();
+            
+            // Update stats
+            updateStatsAfterCheckout();
+        }
+
+        function updateStats() {
+            // Update available slots (decrease by 1)
+            const availableSlots = document.getElementById('availableSlots');
+            const currentParked = document.getElementById('currentParked');
+            
+            availableSlots.textContent = parseInt(availableSlots.textContent) - 1;
+            currentParked.textContent = parseInt(currentParked.textContent) + 1;
+        }
+
+        function updateStatsAfterCheckout() {
+            // Update available slots (increase by 1)
+            const availableSlots = document.getElementById('availableSlots');
+            const currentParked = document.getElementById('currentParked');
+            const todayRevenue = document.getElementById('todayRevenue');
+            
+            availableSlots.textContent = parseInt(availableSlots.textContent) + 1;
+            currentParked.textContent = parseInt(currentParked.textContent) - 1;
+            
+            // Add to revenue (simulate)
+            const current = parseInt(todayRevenue.textContent.replace('₱', ''));
+            todayRevenue.textContent = '₱' + (current + 75);
+        }
+
+        function showCurrentCustomers() {
+            // Scroll to currently parked section
+            document.querySelector('.parked-section').scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+
+    <style>
+        /* Stats Row */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            border: 2px solid #ddd;
+        }
+
+        .stat-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #666;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        /* Action Buttons */
+        .action-section {
+            margin-bottom: 30px;
+        }
+
+        .action-button {
+            width: 100%;
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .action-button:hover {
+            border-color: #333;
+            background: #f5f5f5;
+        }
+
+        .scanner-btn {
+            border-color: #333;
+            background: #333;
+            color: white;
+        }
+
+        .scanner-btn:hover {
+            background: #444;
+        }
+
+        .action-icon {
+            font-size: 24px;
+            margin-right: 15px;
+        }
+
+        .action-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .action-subtitle {
+            font-size: 13px;
+            opacity: 0.8;
+        }
+
+        /* Parked Section */
+        .parked-section {
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .customer-item {
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .customer-info {
+            flex: 1;
+        }
+
+        .customer-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 2px;
+        }
+
+        .customer-details {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 2px;
+        }
+
+        .customer-time {
+            font-size: 12px;
+            color: #999;
+        }
+
+        .customer-cost {
+            text-align: right;
+            margin-right: 15px;
+        }
+
+        .cost-amount {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 2px;
+        }
+
+        .cost-duration {
+            font-size: 11px;
+            color: #666;
+        }
+
+        .checkout-customer-btn {
+            background: #333;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        /* Modal Styles */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding: 80px 20px 20px 20px;
+            box-sizing: border-box;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 320px;
+            padding: 20px;
+            position: relative;
+            margin: auto;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .scanner-modal {
+            max-width: 350px;
+        }
+
+        .scanner-header, .checkout-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .scanner-header h3, .checkout-header h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #999;
+        }
+
+        /* Scanner Area */
+        .scanner-area {
+            margin-bottom: 20px;
+        }
+
+        .camera-preview {
+            background: #f0f0f0;
+            height: 200px;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            border: 2px dashed #ddd;
+        }
+
+        .scan-frame {
+            width: 100px;
+            height: 100px;
+            border: 3px solid #333;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .scan-instruction {
+            font-size: 12px;
+            color: #666;
+            text-align: center;
+        }
+
+        .scan-demo-btn {
+            width: 100%;
+            background: #333;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        /* Success Modal */
+        .success-content {
+            text-align: center;
+        }
+
+        .success-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .success-content h3 {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .customer-summary, .checkout-summary {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 13px;
+        }
+
+        .summary-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .summary-item.total {
+            font-weight: 600;
+            font-size: 16px;
+            color: #333;
+            padding-top: 8px;
+            border-top: 1px solid #ddd;
+        }
+
+        .summary-label {
+            color: #666;
+        }
+
+        .summary-value {
+            color: #333;
+            font-weight: 600;
+        }
+
+        .success-btn, .payment-received-btn {
+            width: 100%;
+            background: #333;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .payment-received-btn {
+            background: #28a745;
+        }
+
+        .payment-received-btn:hover {
+            background: #218838;
+        }
+    </style>
+</body>
+</html>

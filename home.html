@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ParkEase - Find Parking</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="phone-container">
+        <div class="screen">
+            <div class="header">
+                <div class="status-bar">
+                    <span>9:41</span>
+                    <span>100%</span>
+                </div>
+                <h1>Find Parking</h1>
+                <p>Near DLSU Campus, Manila</p>
+            </div>
+            
+            <div class="content">
+                <div class="search-container">
+                    <input type="text" class="search-input" placeholder="Search parking lots...">
+                    <button class="search-btn">Search</button>
+                </div>
+                
+                <div class="parking-list">
+                    <div class="parking-card" onclick="window.location.href='dlsu-razon-details.html'">
+                        <div class="parking-header">
+                            <div>
+                                <div class="parking-name">DLSU Razon Parking</div>
+                                <div class="parking-distance">On campus • 1 min walk to SJ Hall</div>
+                            </div>
+                            <div class="availability">
+                                <span class="slots-available slots-full">0 slots</span>
+                            </div>
+                        </div>
+                        <div class="parking-info">
+                            <div class="price">₱15/hr</div>
+                        </div>
+                    </div>
+                    
+                    <div class="parking-card" onclick="window.location.href='egi-taft-details.html'">
+                        <div class="parking-header">
+                            <div>
+                                <div class="parking-name">EGI Taft Parking</div>
+                                <div class="parking-distance">0.2 km away • 3 min walk to campus</div>
+                            </div>
+                            <div class="availability">
+                                <span class="slots-available slots-limited">4 slots</span>
+                            </div>
+                        </div>
+                        <div class="parking-info">
+                            <div class="price">₱25/hr</div>
+                        </div>
+                    </div>
+
+                    <div class="parking-card">
+                        <div class="parking-header">
+                            <div>
+                                <div class="parking-name">One Archer's Place</div>
+                                <div class="parking-distance">0.3 km away • 5 min walk to DLSU</div>
+                            </div>
+                            <div class="availability">
+                                <span class="slots-available">14 slots</span>
+                            </div>
+                        </div>
+                        <div class="parking-info">
+                            <div class="price">₱30/hr</div>
+                        </div>
+                    </div>
+
+                    <div class="parking-card">
+                        <div class="parking-header">
+                            <div>
+                                <div class="parking-name">Street Parking (Leon Guinto)</div>
+                                <div class="parking-distance">0.1 km away • 2 min walk to campus</div>
+                            </div>
+                            <div class="availability">
+                                <span class="slots-available slots-limited">2 slots</span>
+                            </div>
+                        </div>
+                        <div class="parking-info">
+                            <div class="price">₱20/hr</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bottom-nav">
+                <a href="home.html" class="nav-item active">
+                    <div class="nav-icon">Home</div>
+                    <div class="nav-label">Home</div>
+                </a>
+                <a href="reservations.html" class="nav-item">
+                    <div class="nav-icon">Reservations</div>
+                    <div class="nav-label">Reservations</div>
+                </a>
+                <a href="profile.html" class="nav-item">
+                    <div class="nav-icon">Profile</div>
+                    <div class="nav-label">Profile</div>
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

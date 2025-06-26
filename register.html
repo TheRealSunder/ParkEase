@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ParkEase - Register</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="phone-container">
+        <div class="screen">
+            <div class="header">
+                <div class="status-bar">
+                    <span>9:41</span>
+                    <span>100%</span>
+                </div>
+                <button class="back-btn" onclick="window.location.href='login.html'">←</button>
+                <h1>Create Account</h1>
+                <p>Join ParkEase Community</p>
+            </div>
+            
+            <div class="auth-form">
+                <!-- User Type Selection -->
+                <div class="user-type-selection">
+                    <div class="user-type-title">Register as:</div>
+                    <div class="user-type-options">
+                        <div class="user-type-option active" data-type="driver">
+                            <div class="user-type-icon">🚗</div>
+                            <div class="user-type-label">Driver</div>
+                        </div>
+                        <div class="user-type-option" data-type="owner">
+                            <div class="user-type-icon">🏢</div>
+                            <div class="user-type-label">Parking Owner</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Registration Form -->
+                <div class="input-group">
+                    <label>Full Name</label>
+                    <input type="text" id="fullName" placeholder="Enter your full name">
+                </div>
+                <div class="input-group">
+                    <label>Email</label>
+                    <input type="email" id="email" placeholder="Enter your email address">
+                </div>
+                <div class="input-group">
+                    <label>Phone Number</label>
+                    <input type="tel" id="phone" placeholder="Enter your phone number">
+                </div>
+                <div class="input-group">
+                    <label>Password</label>
+                    <input type="password" id="password" placeholder="Create a strong password">
+                </div>
+                <div class="input-group">
+                    <label>Confirm Password</label>
+                    <input type="password" id="confirmPassword" placeholder="Confirm your password">
+                </div>
+                
+                <button class="auth-btn" onclick="handleRegister()">Create Account</button>
+                
+                <div class="terms">
+                    By creating an account, you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
+                </div>
+                
+                <div class="auth-links">
+                    <a href="login.html">Already have an account? Sign In</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let selectedUserType = 'driver'; // Default selection
+
+        // Handle user type selection
+        document.querySelectorAll('.user-type-option').forEach(option => {
+            option.addEventListener('click', function() {
+                // Remove active class from all options
+                document.querySelectorAll('.user-type-option').forEach(opt => opt.classList.remove('active'));
+                
+                // Add active class to clicked option
+                this.classList.add('active');
+                
+                // Update selected user type
+                selectedUserType = this.getAttribute('data-type');
+            });
+        });
+
+        function handleRegister() {
+            const fullName = document.getElementById('fullName').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+
+            // Basic validation
+            if (!fullName || !email || !phone || !password || !confirmPassword) {
+                alert('Please fill in all fields');
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                alert('Passwords do not match');
+                return;
+            }
+
+            // Route based on user type after successful registration
+            if (selectedUserType === 'driver') {
+                // Redirect to driver dashboard
+                window.location.href = 'home.html';
+            } else if (selectedUserType === 'owner') {
+                // Redirect to owner dashboard
+                window.location.href = 'owner-dashboard.html';
+            }
+        }
+    </script>
+
+    <style>
+        /* User Type Selection Styles */
+        .user-type-selection {
+            margin-bottom: 25px;
+        }
+
+        .user-type-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .user-type-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .user-type-option {
+            padding: 20px 15px;
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .user-type-option.active {
+            background: #333;
+            color: white;
+            border-color: #333;
+        }
+
+        .user-type-option:hover:not(.active) {
+            border-color: #333;
+            background: #f5f5f5;
+        }
+
+        .user-type-icon {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+
+        .user-type-label {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        /* Adjust form spacing */
+        .auth-form {
+            padding: 30px 20px;
+        }
+    </style>
+</body>
+</html>
