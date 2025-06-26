@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ParkEase - Setup Parking Area</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="phone-container">
+        <div class="screen">
+            <div class="header">
+                <div class="status-bar">
+                    <span>9:41</span>
+                    <span>100%</span>
+                </div>
+                <button class="back-btn" onclick="goBack()">←</button>
+                <h1>Setup Parking Area</h1>
+                <p>Configure your parking space</p>
+            </div>
+            
+            <div class="content">
+                <!-- Progress Indicator -->
+                <div class="progress-section">
+                    <div class="progress-steps">
+                        <div class="progress-step active" id="step1">1</div>
+                        <div class="progress-line" id="line1"></div>
+                        <div class="progress-step" id="step2">2</div>
+                        <div class="progress-line" id="line2"></div>
+                        <div class="progress-step" id="step3">3</div>
+                    </div>
+                    <div class="progress-labels">
+                        <span>Basic Info</span>
+                        <span>Structure</span>
+                        <span>Pricing</span>
+                    </div>
+                </div>
+
+                <!-- Step 1: Basic Information -->
+                <div class="setup-step" id="setupStep1">
+                    <div class="step-title">Basic Information</div>
+                    <div class="step-subtitle">Tell us about your parking area</div>
+                    
+                    <div class="form-group">
+                        <label>Parking Area Name</label>
+                        <input type="text" id="parkingName" placeholder="e.g., EGI Taft Parking" value="EGI Taft Parking">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Location/Address</label>
+                        <input type="text" id="parkingLocation" placeholder="e.g., Taft Avenue, Manila" value="Taft Avenue, Manila">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Operating Hours</label>
+                        <select id="operatingHours">
+                            <option value="24/7">24/7 (24 hours)</option>
+                            <option value="6AM-10PM">6:00 AM - 10:00 PM</option>
+                            <option value="7AM-9PM">7:00 AM - 9:00 PM</option>
+                            <option value="custom">Custom Hours</option>
+                        </select>
+                    </div>
+                    
+                    <button class="continue-btn" onclick="nextStep(2)">Continue</button>
+                </div>
+
+                <!-- Step 2: Structure Configuration -->
+                <div class="setup-step" id="setupStep2" style="display: none;">
+                    <div class="step-title">Parking Structure</div>
+                    <div class="step-subtitle">Configure your parking levels and spaces</div>
+                    
+                    <div class="form-group">
+                        <label>Number of Levels</label>
+                        <select id="numberOfLevels" onchange="generateLevelInputs()">
+                            <option value="1">1 Level (Ground only)</option>
+                            <option value="2">2 Levels</option>
+                            <option value="3" selected>3 Levels</option>
+                            <option value="4">4 Levels</option>
+                            <option value="5">5 Levels</option>
+                        </select>
+                    </div>
+                    
+                    <div id="levelInputs">
+                        <!-- Dynamic level inputs will be generated here -->
+                    </div>
+                    
+                    <div class="total-summary">
+                        <div class="summary-item">
+                            <span class="summary-label">Total Parking Spaces:</span>
+                            <span class="summary-value" id="totalSpaces">50</span>
+                        </div>
+                    </div>
+                    
+                    <div class="button-group">
+                        <button class="back-btn-step" onclick="prevStep(1)">Back</button>
+                        <button class="continue-btn" onclick="nextStep(3)">Continue</button>
+                    </div>
+                </div>
+
+                <!-- Step 3: Pricing & Reservations -->
+                <div class="setup-step" id="setupStep3" style="display: none;">
+                    <div class="step-title">Pricing & Reservations</div>
+                    <div class="step-subtitle">Set your rates and reservation settings</div>
+                    
+                    <div class="pricing-section">
+                        <div class="section-header">Pricing</div>
+                        
+                        <div class="form-group">
+                            <label>Hourly Rate</label>
+                            <div class="input-with-currency">
+                                <span class="currency">₱</span>
+                                <input type="number" id="hourlyRate" placeholder="25" value="25" min="1">
+                                <span class="unit">/hour</span>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Overnight Rate (Optional)</label>
+                            <div class="input-with-currency">
+                                <span class="currency">₱</span>
+                                <input type="number" id="overnightRate" placeholder="100" min="0">
+                                <span class="unit">/night</span>
+                            </div>
+                            <div class="form-note">Rate for parking overnight (10 PM - 6 AM)</div>
+                        </div>
+                    </div>
+                    
+                    <div class="reservation-section">
+                        <div class="section-header">Reservations</div>
+                        
+                        <div class="form-group">
+                            <label>Reservation Downpayment</label>
+                            <div class="input-with-currency">
+                                <span class="currency">₱</span>
+                                <input type="number" id="downpayment" placeholder="50" value="50" min="0">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Slots Available for Reservation</label>
+                            <input type="number" id="reservationSlots" placeholder="20" value="20" min="0">
+                            <div class="form-note">Remaining slots will be for walk-in customers</div>
+                        </div>
+                    </div>
+                    
+                    <div class="final-summary">
+                        <div class="summary-header">Setup Summary</div>
+                        <div class="summary-grid">
+                            <div class="summary-item">
+                                <span class="summary-label">Total Spaces:</span>
+                                <span class="summary-value" id="summaryTotalSpaces">50</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">Reservation Slots:</span>
+                                <span class="summary-value" id="summaryReservationSlots">20</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">Walk-in Slots:</span>
+                                <span class="summary-value" id="summaryWalkinSlots">30</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">Hourly Rate:</span>
+                                <span class="summary-value" id="summaryHourlyRate">₱25/hr</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="button-group">
+                        <button class="back-btn-step" onclick="prevStep(2)">Back</button>
+                        <button class="complete-btn" onclick="completeSetup()">Complete Setup</button>
+                    </div>
+                </div>
+
+                <!-- Success Modal -->
+                <div id="successModal" class="modal" style="display: none;">
+                    <div class="modal-content">
+                        <div class="success-content">
+                            <div class="success-icon">✅</div>
+                            <h3>Setup Complete!</h3>
+                            <p>Your parking area has been successfully configured</p>
+                            <div class="success-details">
+                                <p><strong>Name:</strong> <span id="successName"></span></p>
+                                <p><strong>Total Spaces:</strong> <span id="successSpaces"></span></p>
+                                <p><strong>Hourly Rate:</strong> ₱<span id="successRate"></span>/hr</p>
+                            </div>
+                            <button class="success-btn" onclick="goToDashboard()">
+                                Go to Dashboard
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentStep = 1;
+
+        function nextStep(step) {
+            if (validateCurrentStep()) {
+                currentStep = step;
+                showStep(step);
+                updateProgress(step);
+                updateSummary();
+            }
+        }
+
+        function prevStep(step) {
+            currentStep = step;
+            showStep(step);
+            updateProgress(step);
+        }
+
+        function showStep(step) {
+            // Hide all steps
+            document.querySelectorAll('.setup-step').forEach(stepEl => {
+                stepEl.style.display = 'none';
+            });
+            
+            // Show current step
+            document.getElementById(`setupStep${step}`).style.display = 'block';
+        }
+
+        function updateProgress(step) {
+            // Update progress indicators
+            for (let i = 1; i <= 3; i++) {
+                const stepEl = document.getElementById(`step${i}`);
+                const lineEl = document.getElementById(`line${i}`);
+                
+                if (i <= step) {
+                    stepEl.classList.add('active');
+                    if (lineEl && i < step) {
+                        lineEl.classList.add('active');
+                    }
+                } else {
+                    stepEl.classList.remove('active');
+                    if (lineEl) {
+                        lineEl.classList.remove('active');
+                    }
+                }
+            }
+        }
+
+        function validateCurrentStep() {
+            if (currentStep === 1) {
+                const name = document.getElementById('parkingName').value;
+                const location = document.getElementById('parkingLocation').value;
+                
+                if (!name || !location) {
+                    alert('Please fill in all required fields');
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        function generateLevelInputs() {
+            const levels = parseInt(document.getElementById('numberOfLevels').value);
+            const container = document.getElementById('levelInputs');
+            
+            container.innerHTML = '';
+            
+            for (let i = 1; i <= levels; i++) {
+                const levelDiv = document.createElement('div');
+                levelDiv.className = 'form-group';
+                levelDiv.innerHTML = `
+                    <label>Level ${i} Spaces</label>
+                    <input type="number" id="level${i}Spaces" placeholder="17" value="17" min="1" onchange="calculateTotal()">
+                `;
+                container.appendChild(levelDiv);
+            }
+            
+            calculateTotal();
+        }
+
+        function calculateTotal() {
+            const levels = parseInt(document.getElementById('numberOfLevels').value);
+            let total = 0;
+            
+            for (let i = 1; i <= levels; i++) {
+                const input = document.getElementById(`level${i}Spaces`);
+                if (input) {
+                    total += parseInt(input.value) || 0;
+                }
+            }
+            
+            document.getElementById('totalSpaces').textContent = total;
+            document.getElementById('summaryTotalSpaces').textContent = total;
+            
+            // Update walk-in slots calculation
+            updateWalkinSlots();
+        }
+
+        function updateWalkinSlots() {
+            const totalSpaces = parseInt(document.getElementById('totalSpaces').textContent) || 0;
+            const reservationSlots = parseInt(document.getElementById('reservationSlots').value) || 0;
+            const walkinSlots = Math.max(0, totalSpaces - reservationSlots);
+            
+            document.getElementById('summaryWalkinSlots').textContent = walkinSlots;
+        }
+
+        function updateSummary() {
+            if (currentStep === 3) {
+                const totalSpaces = document.getElementById('totalSpaces').textContent;
+                const reservationSlots = document.getElementById('reservationSlots').value || '0';
+                const hourlyRate = document.getElementById('hourlyRate').value || '25';
+                
+                document.getElementById('summaryTotalSpaces').textContent = totalSpaces;
+                document.getElementById('summaryReservationSlots').textContent = reservationSlots;
+                document.getElementById('summaryHourlyRate').textContent = `₱${hourlyRate}/hr`;
+                
+                updateWalkinSlots();
+            }
+        }
+
+        function completeSetup() {
+            // Collect all form data
+            const setupData = {
+                name: document.getElementById('parkingName').value,
+                location: document.getElementById('parkingLocation').value,
+                operatingHours: document.getElementById('operatingHours').value,
+                levels: parseInt(document.getElementById('numberOfLevels').value),
+                totalSpaces: parseInt(document.getElementById('totalSpaces').textContent),
+                hourlyRate: parseInt(document.getElementById('hourlyRate').value),
+                overnightRate: parseInt(document.getElementById('overnightRate').value) || 0,
+                downpayment: parseInt(document.getElementById('downpayment').value),
+                reservationSlots: parseInt(document.getElementById('reservationSlots').value),
+                walkinSlots: parseInt(document.getElementById('summaryWalkinSlots').textContent)
+            };
+
+            // Save to localStorage
+            localStorage.setItem('parkingAreaSetup', 'true');
+            localStorage.setItem('parkingAreaData', JSON.stringify(setupData));
+
+            // Show success modal
+            document.getElementById('successName').textContent = setupData.name;
+            document.getElementById('successSpaces').textContent = setupData.totalSpaces;
+            document.getElementById('successRate').textContent = setupData.hourlyRate;
+            document.getElementById('successModal').style.display = 'block';
+        }
+
+        function goToDashboard() {
+            window.location.href = 'owner-dashboard.html';
+        }
+
+        function goBack() {
+            if (currentStep === 1) {
+                window.location.href = 'owner-dashboard.html';
+            } else {
+                prevStep(currentStep - 1);
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            generateLevelInputs();
+            
+            // Add event listeners for real-time updates
+            document.getElementById('reservationSlots').addEventListener('input', updateWalkinSlots);
+            document.getElementById('hourlyRate').addEventListener('input', updateSummary);
+        });
+    </script>
+
+    <style>
+        /* Progress Section */
+        .progress-section {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .progress-steps {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+
+        .progress-step {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: #ddd;
+            color: #999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .progress-step.active {
+            background: #333;
+            color: white;
+        }
+
+        .progress-line {
+            width: 40px;
+            height: 2px;
+            background: #ddd;
+            transition: all 0.3s ease;
+        }
+
+        .progress-line.active {
+            background: #333;
+        }
+
+        .progress-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #666;
+            margin-top: 8px;
+        }
+
+        /* Setup Steps */
+        .setup-step {
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .step-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .step-subtitle {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 25px;
+        }
+
+        /* Form Groups */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #333;
+        }
+
+        .input-with-currency {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .currency {
+            position: absolute;
+            left: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #666;
+            z-index: 1;
+        }
+
+        .input-with-currency input {
+            padding-left: 30px;
+            padding-right: 50px;
+        }
+
+        .unit {
+            position: absolute;
+            right: 12px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .form-note {
+            font-size: 12px;
+            color: #999;
+            margin-top: 4px;
+        }
+
+        /* Sections */
+        .pricing-section,
+        .reservation-section {
+            margin-bottom: 25px;
+        }
+
+        .section-header {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #eee;
+        }
+
+        /* Summary */
+        .total-summary,
+        .final-summary {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .summary-header {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 12px;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 8px;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+        }
+
+        .summary-label {
+            color: #666;
+        }
+
+        .summary-value {
+            color: #333;
+            font-weight: 600;
+        }
+
+        /* Buttons */
+        .continue-btn,
+        .complete-btn {
+            width: 100%;
+            background: #333;
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .continue-btn:hover,
+        .complete-btn:hover {
+            background: #444;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .back-btn-step {
+            flex: 1;
+            background: white;
+            color: #333;
+            border: 2px solid #ddd;
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn-step:hover {
+            border-color: #333;
+            background: #f5f5f5;
+        }
+
+        .continue-btn {
+            flex: 2;
+        }
+
+        /* Modal Styles */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding: 80px 20px 20px 20px;
+            box-sizing: border-box;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 320px;
+            padding: 20px;
+            position: relative;
+            margin: auto;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .success-content {
+            text-align: center;
+        }
+
+        .success-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .success-content h3 {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .success-content p {
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .success-details {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .success-details p {
+            margin-bottom: 6px;
+            font-size: 13px;
+        }
+
+        .success-btn {
+            width: 100%;
+            background: #333;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+    </style>
+</body>
+</html>

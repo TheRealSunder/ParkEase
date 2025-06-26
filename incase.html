@@ -1,0 +1,332 @@
+<script>
+        // Campus data with their respective parking areas and themes
+        const campusData = {
+            dlsu: {
+                name: "DLSU Campus, Manila",
+                theme: "#1e7e34", // DLSU Green
+                parkingAreas: [
+                    {
+                        name: "DLSU Razon Parking",
+                        distance: "On campus • 1 min walk to SJ Hall",
+                        slots: 0,
+                        status: "slots-full",
+                        pricing: { type: "base", rate: "₱50 base rate", model: "All-day parking" },
+                        link: "dlsu-razon-details.html"
+                    },
+                    {
+                        name: "EGI Taft Parking",
+                        distance: "0.2 km away • 3 min walk to campus",
+                        slots: 4,
+                        status: "slots-limited",
+                        pricing: { type: "base", rate: "₱30 base + ₱25/hr", model: "Hourly after initial" },
+                        link: "egi-taft-details.html"
+                    },
+                    {
+                        name: "One Archer's Place",
+                        distance: "0.3 km away • 5 min walk to DLSU",
+                        slots: 14,
+                        status: "slots-available",
+                        pricing: { type: "hourly", rate: "₱30/hr" }
+                    },
+                    {
+                        name: "Street Parking (Leon Guinto)",
+                        distance: "0.1 km away • 2 min walk to campus",
+                        slots: 2,
+                        status: "slots-limited",
+                        pricing: { type: "hourly", rate: "₱20/hr" }
+                    }
+                ]
+            },
+            ust: {
+                name: "UST Campus, Manila",
+                theme: "#f8ba0c", // UST Yellow
+                parkingAreas: [
+                    {
+                        name: "UST Main Parking",
+                        distance: "On campus • 2 min walk to Main Building",
+                        slots: 0,
+                        status: "slots-full",
+                        pricing: { type: "base", rate: "₱60 base rate", model: "All-day parking" }
+                    },
+                    {
+                        name: "Sampaloc Commercial Plaza",
+                        distance: "0.3 km away • 5 min walk to campus",
+                        slots: 8,
+                        status: "slots-available",
+                        pricing: { type: "base", rate: "₱25 base + ₱20/hr", model: "Hourly after initial" }
+                    },
+                    {
+                        name: "España Boulevard Parking",
+                        distance: "0.4 km away • 6 min walk to UST",
+                        slots: 12,
+                        status: "slots-available",
+                        pricing: { type: "hourly", rate: "₱25/hr" }
+                    },
+                    {
+                        name: "Street Parking (P. Noval)",
+                        distance: "0.2 km away • 3 min walk to campus",
+                        slots: 3,
+                        status: "slots-limited",
+                        pricing: { type: "hourly", rate: "₱15/hr" }
+                    }
+                ]
+            },
+            ateneo: {
+                name: "Ateneo Campus, Quezon City",
+                theme: "#1c3f94", // Ateneo Blue
+                parkingAreas: [
+                    {
+                        name: "Ateneo Faculty Parking",
+                        distance: "On campus • 1 min walk to SEC Building",
+                        slots: 2,
+                        status: "slots-limited",
+                        pricing: { type: "base", rate: "₱80 base rate", model: "All-day parking" }
+                    },
+                    {
+                        name: "Katipunan Commercial Center",
+                        distance: "0.5 km away • 7 min walk to campus",
+                        slots: 15,
+                        status: "slots-available",
+                        pricing: { type: "base", rate: "₱40 base + ₱30/hr", model: "Hourly after initial" }
+                    },
+                    {
+                        name: "UP Town Center Parking",
+                        distance: "0.8 km away • 10 min walk to Ateneo",
+                        slots: 25,
+                        status: "slots-available",
+                        pricing: { type: "hourly", rate: "₱35/hr" }
+                    },
+                    {
+                        name: "Street Parking (Katipunan Ave)",
+                        distance: "0.3 km away • 4 min walk to campus",
+                        slots: 5,
+                        status: "slots-limited",
+                        pricing: { type: "hourly", rate: "₱25/hr" }
+                    }
+                ]
+            },
+            nu: {
+                name: "NU Campus, Manila",
+                theme: "#35408e", // NU Blue
+                parkingAreas: [
+                    {
+                        name: "NU Main Parking",
+                        distance: "On campus • 1 min walk to Main Building",
+                        slots: 1,
+                        status: "slots-limited",
+                        pricing: { type: "base", rate: "₱45 base rate", model: "All-day parking" }
+                    },
+                    {
+                        name: "Jhocson Parking Building",
+                        distance: "0.2 km away • 3 min walk to campus",
+                        slots: 6,
+                        status: "slots-available",
+                        pricing: { type: "base", rate: "₱35 base + ₱20/hr", model: "Hourly after initial" }
+                    },
+                    {
+                        name: "Samson Road Parking",
+                        distance: "0.4 km away • 6 min walk to NU",
+                        slots: 10,
+                        status: "slots-available",
+                        pricing: { type: "hourly", rate: "₱28/hr" }
+                    },
+                    {
+                        name: "Street Parking (M. Earnshaw)",
+                        distance: "0.1 km away • 2 min walk to campus",
+                        slots: 0,
+                        status: "slots-full",
+                        pricing: { type: "hourly", rate: "₱18/hr" }
+                    }
+                ]
+            }
+        };
+
+        function changeCampus() {
+            const selectedCampus = document.getElementById('campusSelect').value;
+            const campus = campusData[selectedCampus];
+            
+            // Update theme color
+            updateTheme(campus.theme);
+            
+            // Update parking list
+            updateParkingList(campus.parkingAreas);
+        }
+
+        function updateTheme(themeColor) {
+            // Update header background
+            const header = document.querySelector('.header');
+            header.style.background = themeColor;
+            
+            // Update slots available badge
+            const style = document.createElement('style');
+            style.textContent = `
+                .slots-available { background: ${themeColor} !important; }
+                .nav-item.active { color: ${themeColor} !important; }
+                .search-btn { background: ${themeColor} !important; }
+            `;
+            
+            // Remove previous dynamic styles
+            const existingStyle = document.getElementById('dynamic-theme');
+            if (existingStyle) {
+                existingStyle.remove();
+            }
+            
+            style.id = 'dynamic-theme';
+            document.head.appendChild(style);
+        }
+
+        function updateParkingList(parkingAreas) {
+            const parkingList = document.getElementById('parkingList');
+            parkingList.innerHTML = '';
+            
+            parkingAreas.forEach(area => {
+                const parkingCard = document.createElement('div');
+                parkingCard.className = 'parking-card';
+                if (area.link) {
+                    parkingCard.onclick = () => window.location.href = area.link;
+                    parkingCard.style.cursor = 'pointer';
+                }
+                
+                const pricingHTML = area.pricing.type === 'base' 
+                    ? `<div class="pricing-details">
+                         <div class="base-rate">${area.pricing.rate}</div>
+                         <div class="pricing-model">${area.pricing.model}</div>
+                       </div>`
+                    : `<div class="price">${area.pricing.rate}</div>`;
+                
+                parkingCard.innerHTML = `
+                    <div class="parking-header">
+                        <div>
+                            <div class="parking-name">${area.name}</div>
+                            <div class="parking-distance">${area.distance}</div>
+                        </div>
+                        <div class="availability">
+                            <span class="slots-available ${area.status}">${area.slots} slots</span>
+                        </div>
+                    </div>
+                    <div class="parking-info">
+                        ${pricingHTML}
+                    </div>
+                `;
+                
+                parkingList.appendChild(parkingCard);
+            });
+        }
+
+        // Initialize with DLSU campus
+        document.addEventListener('DOMContentLoaded', function() {
+            changeCampus();
+        });
+    </script>    <style>
+        /* Campus Selector */
+        .campus-selector {
+            margin-top: 10px;
+        }
+
+        .campus-selector select {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 8px;
+            padding: 8px 12px;
+            font-size: 14px;
+            font-weight: 500;
+            width: 100%;
+            cursor: pointer;
+        }
+
+        .campus-selector select:focus {
+            outline: none;
+            border-color: rgba(255,255,255,0.5);
+        }
+
+        .campus-selector option {
+            background: #333;
+            color: white;
+        }
+
+        /* Pricing Details Styling */
+        .pricing-details {
+            text-align: right;
+        }
+
+        .base-rate {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 2px;
+        }
+
+        .pricing-model {
+            font-size: 11px;
+            color: #666;
+            font-style: italic;
+        }
+
+        .price {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        /* Transition effects for theme changes */
+        .header {
+            transition: background-color 0.3s ease;
+        }
+
+        .slots-available {
+            transition: background-color 0.3s ease;
+        }
+    </style><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ParkEase - Find Parking</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="phone-container">
+        <div class="screen">
+            <div class="header">
+                <div class="status-bar">
+                    <span>9:41</span>
+                    <span>100%</span>
+                </div>
+                <h1>Find Parking</h1>
+                <div class="campus-selector">
+                    <select id="campusSelect" onchange="changeCampus()">
+                        <option value="dlsu">DLSU Campus, Manila</option>
+                        <option value="ust">UST Campus, Manila</option>
+                        <option value="ateneo">Ateneo Campus, Quezon City</option>
+                        <option value="nu">NU Campus, Manila</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="content">
+                <div class="search-container">
+                    <input type="text" class="search-input" placeholder="Search parking lots...">
+                    <button class="search-btn">Search</button>
+                </div>
+                
+                <div class="parking-list" id="parkingList">
+                    <!-- Parking options will be populated by JavaScript -->
+                </div>
+            </div>
+            
+            <div class="bottom-nav">
+                <a href="home.html" class="nav-item active">
+                    <div class="nav-label">Home</div>
+                </a>
+                <a href="reservations.html" class="nav-item">
+                    <div class="nav-label">Reservations</div>
+                </a>
+                <a href="profile.html" class="nav-item">
+                    <div class="nav-label">Profile</div>
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

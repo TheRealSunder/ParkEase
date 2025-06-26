@@ -19,23 +19,98 @@
             </div>
             
             <div class="content">
-                <!-- Active Reservations -->
+                <!-- Filter Tabs -->
+                <div class="filter-tabs">
+                    <div class="filter-tab active" onclick="filterReservations('all')">All</div>
+                    <div class="filter-tab" onclick="filterReservations('active')">Active</div>
+                    <div class="filter-tab" onclick="filterReservations('completed')">Completed</div>
+                    <div class="filter-tab" onclick="filterReservations('cancelled')">Cancelled</div>
+                </div>
+
+                <!-- Active/Reserved Reservations -->
                 <div class="reservations-section">
-                    <div class="section-title">Active Reservations</div>
+                    <div class="section-title">Current Reservations</div>
                     <div id="activeReservations">
-                        <!-- Active reservations will be populated by JavaScript -->
+                        <!-- Reserved Status -->
+                        <div class="reservation-item reserved" data-status="active">
+                            <div class="reservation-header">
+                                <div class="reservation-info">
+                                    <div class="parking-name">EGI Taft Parking</div>
+                                    <div class="reservation-date">Reserved 5 minutes ago</div>
+                                </div>
+                                <div class="reservation-status">
+                                    <span class="status-badge reserved">Reserved</span>
+                                </div>
+                            </div>
+                            <div class="reservation-timer">
+                                <div class="timer-label">Time Remaining:</div>
+                                <div class="timer-display">24:32</div>
+                            </div>
+                            <div class="reservation-details">
+                                <div class="detail-item">
+                                    <span>Downpayment Paid:</span>
+                                    <span>₱50</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span>Remaining on arrival:</span>
+                                    <span>₱25/hr - ₱50</span>
+                                </div>
+                            </div>
+                            <div class="reservation-actions">
+                                <button class="cancel-btn" onclick="cancelReservation('egi-taft')">
+                                    Cancel Reservation
+                                </button>
+                                <button class="directions-btn" onclick="getDirections()">
+                                    Get Directions
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Ongoing Status -->
+                        <div class="reservation-item ongoing" data-status="active">
+                            <div class="reservation-header">
+                                <div class="reservation-info">
+                                    <div class="parking-name">NU Main Parking</div>
+                                    <div class="reservation-date">Parked since 1:30 PM</div>
+                                </div>
+                                <div class="reservation-status">
+                                    <span class="status-badge ongoing">Ongoing</span>
+                                </div>
+                            </div>
+                            <div class="ongoing-timer">
+                                <div class="timer-label">Duration:</div>
+                                <div class="timer-display ongoing-display">1h 45m</div>
+                                <div class="current-cost">Current Cost: ₱80</div>
+                            </div>
+                            <div class="reservation-details">
+                                <div class="detail-item">
+                                    <span>Base Rate Paid:</span>
+                                    <span>₱45</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span>Additional Hours:</span>
+                                    <span>₱35 (1h 45m)</span>
+                                </div>
+                            </div>
+                            <div class="reservation-actions">
+                                <button class="checkout-btn" onclick="checkoutParking('nu-main')">
+                                    Check Out & Pay
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Recent Reservations -->
+                <!-- Recent Activity -->
                 <div class="reservations-section">
                     <div class="section-title">Recent Activity</div>
                     <div id="recentReservations">
-                        <div class="reservation-item completed">
+                        <!-- Completed Status -->
+                        <div class="reservation-item completed" data-status="completed">
                             <div class="reservation-header">
                                 <div class="reservation-info">
                                     <div class="parking-name">One Archer's Place</div>
-                                    <div class="reservation-date">Yesterday, 2:30 PM</div>
+                                    <div class="reservation-date">Yesterday, 2:30 PM - 4:45 PM</div>
                                 </div>
                                 <div class="reservation-status">
                                     <span class="status-badge completed">Completed</span>
@@ -44,19 +119,29 @@
                             <div class="reservation-details">
                                 <div class="detail-item">
                                     <span>Duration:</span>
-                                    <span>2 hours</span>
+                                    <span>2h 15m</span>
                                 </div>
                                 <div class="detail-item">
                                     <span>Total Paid:</span>
-                                    <span>₱110</span>
+                                    <span>₱68</span>
                                 </div>
+                                <div class="detail-item">
+                                    <span>Payment Method:</span>
+                                    <span>Cash on exit</span>
+                                </div>
+                            </div>
+                            <div class="reservation-actions">
+                                <button class="review-btn" onclick="leaveReview('one-archers')">
+                                    Leave Review
+                                </button>
                             </div>
                         </div>
 
-                        <div class="reservation-item cancelled">
+                        <!-- Cancelled Status -->
+                        <div class="reservation-item cancelled" data-status="cancelled">
                             <div class="reservation-header">
                                 <div class="reservation-info">
-                                    <div class="parking-name">Street Parking (Leon Guinto)</div>
+                                    <div class="parking-name">UST Main Parking</div>
                                     <div class="reservation-date">3 days ago, 9:15 AM</div>
                                 </div>
                                 <div class="reservation-status">
@@ -66,7 +151,11 @@
                             <div class="reservation-details">
                                 <div class="detail-item">
                                     <span>Downpayment:</span>
-                                    <span>₱50 (Non-refundable)</span>
+                                    <span>₱60 (Non-refundable)</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span>Cancellation time:</span>
+                                    <span>15 minutes after booking</span>
                                 </div>
                                 <div class="detail-item">
                                     <span>Reason:</span>
@@ -74,15 +163,47 @@
                                 </div>
                             </div>
                         </div>
+
+                        <!-- Another Completed -->
+                        <div class="reservation-item completed" data-status="completed">
+                            <div class="reservation-header">
+                                <div class="reservation-info">
+                                    <div class="parking-name">Katipunan Commercial Center</div>
+                                    <div class="reservation-date">Last week, 10:00 AM - 3:30 PM</div>
+                                </div>
+                                <div class="reservation-status">
+                                    <span class="status-badge completed">Completed</span>
+                                </div>
+                            </div>
+                            <div class="reservation-details">
+                                <div class="detail-item">
+                                    <span>Duration:</span>
+                                    <span>5h 30m</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span>Total Paid:</span>
+                                    <span>₱205</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span>Payment Method:</span>
+                                    <span>GCash</span>
+                                </div>
+                            </div>
+                            <div class="reservation-actions">
+                                <button class="review-btn reviewed" disabled>
+                                    ✓ Reviewed
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Empty State -->
+                <!-- Empty State (hidden by default) -->
                 <div id="emptyState" class="empty-state" style="display: none;">
                     <div class="empty-icon">📅</div>
-                    <div class="empty-text">No Active Reservations</div>
+                    <div class="empty-text">No Reservations Found</div>
                     <div class="empty-subtext">
-                        You don't have any active parking reservations at the moment. 
+                        No reservations match the selected filter. 
                         Browse available parking spots to make a new reservation.
                     </div>
                     <button class="empty-action-btn" onclick="window.location.href='home.html'">
@@ -94,15 +215,12 @@
             <div class="bottom-nav">
                 <a href="home.html" class="nav-item">
                     <div class="nav-icon">Home</div>
-                    <div class="nav-label">Home</div>
                 </a>
                 <a href="reservations.html" class="nav-item active">
                     <div class="nav-icon">Reservations</div>
-                    <div class="nav-label">Reservations</div>
                 </a>
                 <a href="profile.html" class="nav-item">
                     <div class="nav-icon">Profile</div>
-                    <div class="nav-label">Profile</div>
                 </a>
             </div>
         </div>
@@ -225,8 +343,127 @@
     </script>
 
     <style>
-        .reservations-section {
-            margin-bottom: 30px;
+        /* Filter Tabs */
+        .filter-tabs {
+            display: flex;
+            background: #f5f5f5;
+            border-radius: 12px;
+            padding: 4px;
+            margin-bottom: 20px;
+        }
+
+        .filter-tab {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #666;
+        }
+
+        .filter-tab.active {
+            background: #333;
+            color: white;
+        }
+
+        .filter-tab:hover:not(.active) {
+            background: #e0e0e0;
+        }
+
+        /* Reservation Status Badges */
+        .status-badge.reserved {
+            background: #007bff;
+            color: white;
+        }
+
+        .status-badge.ongoing {
+            background: #28a745;
+            color: white;
+        }
+
+        .status-badge.completed {
+            background: #6c757d;
+            color: white;
+        }
+
+        .status-badge.cancelled {
+            background: #dc3545;
+            color: white;
+        }
+
+        /* Ongoing Timer Styling */
+        .ongoing-timer {
+            background: #28a745;
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .ongoing-timer .timer-label {
+            font-size: 12px;
+            opacity: 0.9;
+            margin-bottom: 4px;
+        }
+
+        .ongoing-display {
+            font-size: 20px;
+            font-weight: 700;
+            font-family: 'Courier New', monospace;
+            margin-bottom: 4px;
+        }
+
+        .current-cost {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        /* Action Buttons */
+        .checkout-btn {
+            flex: 1;
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .checkout-btn:hover {
+            background: #218838;
+        }
+
+        .review-btn {
+            flex: 1;
+            background: #17a2b8;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .review-btn:hover {
+            background: #138496;
+        }
+
+        .review-btn.reviewed {
+            background: #6c757d;
+            cursor: not-allowed;
+        }
+
+        .review-btn.reviewed:hover {
+            background: #6c757d;
         }
 
         .section-title {
@@ -433,4 +670,4 @@
         }
     </style>
 </body>
-</html> 
+</html>
