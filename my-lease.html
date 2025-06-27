@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ParkEase - My Lease</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="phone-container">
+        <div class="screen">
+            <div class="header">
+                <div class="status-bar">
+                    <span>9:41</span>
+                    <span>100%</span>
+                </div>
+                <button class="back-btn" onclick="window.location.href='profile.html'">←</button>
+                <h1>My Lease</h1>
+                <p>Manage your parking slot listings</p>
+            </div>
+            
+            <div class="content">
+                <!-- Create New Listing Section -->
+                <div class="create-section">
+                    <button class="create-btn" onclick="createNewListing()">
+                        <div class="create-icon">+</div>
+                        <div class="create-text">
+                            <div class="create-title">Create New Listing</div>
+                            <div class="create-subtitle">Lease your parking slot to drivers</div>
+                        </div>
+                    </button>
+                </div>
+
+                <!-- Pending Booking Requests -->
+                <div class="requests-section">
+                    <div class="section-title">Pending Booking Requests</div>
+                    <div id="pendingRequests">
+                        <div class="request-card">
+                            <div class="request-header">
+                                <div class="request-info">
+                                    <div class="renter-name">Maria Santos</div>
+                                    <div class="request-details">One Archer's Place - Tower A, Slot 15</div>
+                                    <div class="request-date">Tomorrow, 9:00 AM - 5:00 PM (8 hours)</div>
+                                </div>
+                                <div class="request-amount">
+                                    <div class="amount">₱200</div>
+                                    <div class="deposit">₱50 paid</div>
+                                </div>
+                            </div>
+                            <div class="request-actions">
+                                <button class="decline-btn" onclick="declineRequest('maria-req-1')">Decline</button>
+                                <button class="accept-btn" onclick="acceptRequest('maria-req-1')">Accept</button>
+                            </div>
+                        </div>
+
+                        <div class="request-card">
+                            <div class="request-header">
+                                <div class="request-info">
+                                    <div class="renter-name">John Cruz</div>
+                                    <div class="request-details">The Residences - Building B, Slot 8</div>
+                                    <div class="request-date">Friday, 10:00 AM - 6:00 PM (8 hours)</div>
+                                </div>
+                                <div class="request-amount">
+                                    <div class="amount">₱150</div>
+                                    <div class="deposit">₱50 paid</div>
+                                </div>
+                            </div>
+                            <div class="request-actions">
+                                <button class="decline-btn" onclick="declineRequest('john-req-1')">Decline</button>
+                                <button class="accept-btn" onclick="acceptRequest('john-req-1')">Accept</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- My Listings Section -->
+                <div class="listings-section">
+                    <div class="section-title">My Listings</div>
+                    <div id="myListings">
+                        <!-- Active Listing -->
+                        <div class="listing-card">
+                            <div class="listing-header">
+                                <div class="listing-info">
+                                    <div class="listing-title">One Archer's Place - Tower A</div>
+                                    <div class="listing-details">Level 2, Slot 15 • Covered parking</div>
+                                    <div class="listing-price">₱200 per 8 hours</div>
+                                </div>
+                                <div class="listing-status">
+                                    <span class="status-badge booked">Booked</span>
+                                </div>
+                            </div>
+                            <div class="listing-meta">
+                                <div class="current-booking">Current: Maria S. - Tomorrow 9:00 AM</div>
+                                <div class="listing-stats">⭐ 4.8 (12 reviews) • 15 bookings</div>
+                            </div>
+                            <div class="listing-actions">
+                                <button class="edit-btn" onclick="editListing('listing-1')">Edit</button>
+                                <button class="manage-btn" onclick="manageListing('listing-1')">Manage</button>
+                            </div>
+                        </div>
+
+                        <!-- Pending Listing -->
+                        <div class="listing-card">
+                            <div class="listing-header">
+                                <div class="listing-info">
+                                    <div class="listing-title">The Residences - Building B</div>
+                                    <div class="listing-details">Ground floor, Slot 8 • Easy access</div>
+                                    <div class="listing-price">₱150 per 8 hours</div>
+                                </div>
+                                <div class="listing-status">
+                                    <span class="status-badge pending">Pending</span>
+                                </div>
+                            </div>
+                            <div class="listing-meta">
+                                <div class="next-available">Next available: Today 2:00 PM - 10:00 PM</div>
+                                <div class="listing-stats">⭐ 4.5 (8 reviews) • 8 bookings</div>
+                            </div>
+                            <div class="listing-actions">
+                                <button class="edit-btn" onclick="editListing('listing-2')">Edit</button>
+                                <button class="manage-btn" onclick="manageListing('listing-2')">Manage</button>
+                            </div>
+                        </div>
+
+                        <!-- Completed Listing -->
+                        <div class="listing-card">
+                            <div class="listing-header">
+                                <div class="listing-info">
+                                    <div class="listing-title">Malate Towers - Unit 15A</div>
+                                    <div class="listing-details">Basement 1, Slot 23 • Secure parking</div>
+                                    <div class="listing-price">₱120 per 8 hours</div>
+                                </div>
+                                <div class="listing-status">
+                                    <span class="status-badge complete">Complete</span>
+                                </div>
+                            </div>
+                            <div class="listing-meta">
+                                <div class="last-booking">Last booking: Yesterday - Ana D. (₱120)</div>
+                                <div class="listing-stats">⭐ 5.0 (3 reviews) • 3 bookings</div>
+                            </div>
+                            <div class="listing-actions">
+                                <button class="edit-btn" onclick="editListing('listing-3')">Edit</button>
+                                <button class="manage-btn" onclick="manageListing('listing-3')">Manage</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Stats -->
+                <div class="stats-section">
+                    <div class="section-title">This Month</div>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-value">₱1,340</div>
+                            <div class="stat-label">Total Earnings</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">8</div>
+                            <div class="stat-label">Bookings</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">4.7</div>
+                            <div class="stat-label">Avg Rating</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function createNewListing() {
+            // Route to create listing page
+            window.location.href = 'create-listing.html';
+        }
+
+        function acceptRequest(requestId) {
+            if (confirm('Accept this booking request?\n\nThe renter will be notified and you\'ll receive their contact details.')) {
+                alert('Booking request accepted!\n\nRenter contact details:\nMaria Santos - +63 917 123 4567\n\nMeetup instructions sent to renter.');
+                // In real app, would update request status and notify renter
+                // Remove from pending requests and add to booked listings
+            }
+        }
+
+        function declineRequest(requestId) {
+            const reason = prompt('Reason for declining (optional):');
+            alert('Booking request declined.\n\nThe renter will be notified and their deposit will be refunded.');
+            // In real app, would update request status and refund deposit
+        }
+
+        function editListing(listingId) {
+            // Route to edit listing page with pre-filled data
+            alert(`Edit Listing ${listingId} - Coming soon!\n\nWill open edit form with current listing details.`);
+            // window.location.href = `edit-listing.html?id=${listingId}`;
+        }
+
+        function manageListing(listingId) {
+            // Show listing management options
+            alert(`Manage Listing ${listingId}:\n\n• View booking history\n• Update availability\n• Set temporary pricing\n• Mark as unavailable\n\nFeature coming soon!`);
+        }
+    </script>
+
+    <style>
+        /* Create New Listing Section */
+        .create-section {
+            margin-bottom: 30px;
+        }
+
+        .create-btn {
+            width: 100%;
+            background: #333;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .create-btn:hover {
+            background: #444;
+            transform: translateY(-2px);
+        }
+
+        .create-icon {
+            font-size: 24px;
+            margin-right: 15px;
+        }
+
+        .create-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .create-subtitle {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        /* Section Titles */
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        /* Booking Requests */
+        .requests-section {
+            margin-bottom: 30px;
+        }
+
+        .request-card {
+            background: white;
+            border: 2px solid #ffd700;
+            border-radius: 12px;
+            padding: 18px;
+            margin-bottom: 15px;
+        }
+
+        .request-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .request-info {
+            flex: 1;
+        }
+
+        .renter-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .request-details {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 2px;
+        }
+
+        .request-date {
+            font-size: 13px;
+            color: #999;
+        }
+
+        .request-amount {
+            text-align: right;
+        }
+
+        .amount {
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 2px;
+        }
+
+        .deposit {
+            font-size: 11px;
+            color: #666;
+        }
+
+        .request-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .decline-btn {
+            flex: 1;
+            background: white;
+            color: #dc3545;
+            border: 2px solid #dc3545;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .decline-btn:hover {
+            background: #dc3545;
+            color: white;
+        }
+
+        .accept-btn {
+            flex: 2;
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .accept-btn:hover {
+            background: #218838;
+        }
+
+        /* My Listings */
+        .listings-section {
+            margin-bottom: 30px;
+        }
+
+        .listing-card {
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 12px;
+            padding: 18px;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .listing-card:hover {
+            border-color: #333;
+        }
+
+        .listing-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+
+        .listing-info {
+            flex: 1;
+        }
+
+        .listing-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .listing-details {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 2px;
+        }
+
+        .listing-price {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .listing-status {
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-badge.pending {
+            background: #ffc107;
+            color: #212529;
+        }
+
+        .status-badge.booked {
+            background: #28a745;
+            color: white;
+        }
+
+        .status-badge.complete {
+            background: #6c757d;
+            color: white;
+        }
+
+        .listing-meta {
+            margin-bottom: 15px;
+            font-size: 13px;
+        }
+
+        .current-booking,
+        .next-available,
+        .last-booking {
+            color: #666;
+            margin-bottom: 4px;
+        }
+
+        .listing-stats {
+            color: #999;
+        }
+
+        .listing-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .edit-btn {
+            flex: 1;
+            background: white;
+            color: #333;
+            border: 2px solid #ddd;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .edit-btn:hover {
+            border-color: #333;
+            background: #f5f5f5;
+        }
+
+        .manage-btn {
+            flex: 1;
+            background: #333;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .manage-btn:hover {
+            background: #444;
+        }
+
+        /* Stats Section */
+        .stats-section {
+            margin-bottom: 20px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            border: 2px solid #ddd;
+        }
+
+        .stat-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #666;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+    </style>
+</body>
+</html>

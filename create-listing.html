@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ParkEase - Create New Listing</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="phone-container">
+        <div class="screen">
+            <div class="header">
+                <div class="status-bar">
+                    <span>9:41</span>
+                    <span>100%</span>
+                </div>
+                <button class="back-btn" onclick="goBack()">←</button>
+                <h1>Create New Listing</h1>
+                <p>Lease your parking slot to drivers</p>
+            </div>
+            
+            <div class="content">
+                <!-- Progress Indicator -->
+                <div class="progress-section">
+                    <div class="progress-steps">
+                        <div class="progress-step active" id="step1">1</div>
+                        <div class="progress-line" id="line1"></div>
+                        <div class="progress-step" id="step2">2</div>
+                        <div class="progress-line" id="line2"></div>
+                        <div class="progress-step" id="step3">3</div>
+                        <div class="progress-line" id="line3"></div>
+                        <div class="progress-step" id="step4">4</div>
+                    </div>
+                    <div class="progress-labels">
+                        <span>Location</span>
+                        <span>Details</span>
+                        <span>Pricing</span>
+                        <span>Photos</span>
+                    </div>
+                </div>
+
+                <!-- Step 1: Location & Building Info -->
+                <div class="listing-step" id="step1Content">
+                    <div class="step-title">Location & Building Details</div>
+                    <div class="step-subtitle">Tell us about your parking slot location</div>
+                    
+                    <div class="form-group">
+                        <label>Building/Condo Name</label>
+                        <input type="text" id="buildingName" placeholder="e.g., One Archer's Place" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Building Address</label>
+                        <input type="text" id="buildingAddress" placeholder="e.g., Taft Avenue, Malate, Manila" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Tower/Building (if applicable)</label>
+                        <input type="text" id="towerBuilding" placeholder="e.g., Tower A, Building B (optional)">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Distance to DLSU</label>
+                        <select id="distanceDLSU" required>
+                            <option value="">Select distance</option>
+                            <option value="0.1">0.1 km (1-2 min walk)</option>
+                            <option value="0.3">0.3 km (3-4 min walk)</option>
+                            <option value="0.5">0.5 km (5-6 min walk)</option>
+                            <option value="0.7">0.7 km (7-8 min walk)</option>
+                            <option value="1.0">1.0 km (10+ min walk)</option>
+                        </select>
+                    </div>
+                    
+                    <button class="continue-btn" onclick="nextStep(2)">Continue</button>
+                </div>
+
+                <!-- Step 2: Slot Details -->
+                <div class="listing-step" id="step2Content" style="display: none;">
+                    <div class="step-title">Parking Slot Details</div>
+                    <div class="step-subtitle">Provide specific information about your slot</div>
+                    
+                    <div class="form-group">
+                        <label>Level/Floor</label>
+                        <select id="slotLevel" required>
+                            <option value="">Select level</option>
+                            <option value="Ground">Ground Floor</option>
+                            <option value="B1">Basement 1</option>
+                            <option value="B2">Basement 2</option>
+                            <option value="Level 2">Level 2</option>
+                            <option value="Level 3">Level 3</option>
+                            <option value="Level 4">Level 4</option>
+                            <option value="Level 5">Level 5</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Slot Number</label>
+                        <input type="text" id="slotNumber" placeholder="e.g., 15, A-23, Unit 15A" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Parking Features</label>
+                        <div class="feature-options">
+                            <label class="feature-option">
+                                <input type="checkbox" id="covered" value="covered">
+                                <span>Covered parking</span>
+                            </label>
+                            <label class="feature-option">
+                                <input type="checkbox" id="security" value="security">
+                                <span>24/7 Security</span>
+                            </label>
+                            <label class="feature-option">
+                                <input type="checkbox" id="cctv" value="cctv">
+                                <span>CCTV surveillance</span>
+                            </label>
+                            <label class="feature-option">
+                                <input type="checkbox" id="easyAccess" value="easy-access">
+                                <span>Easy access</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Meetup Instructions</label>
+                        <textarea id="meetupInstructions" placeholder="Where should drivers meet you? e.g., 'Meet at main lobby, I'll escort you to parking area'" rows="3" required></textarea>
+                    </div>
+                    
+                    <div class="button-group">
+                        <button class="back-btn-step" onclick="prevStep(1)">Back</button>
+                        <button class="continue-btn" onclick="nextStep(3)">Continue</button>
+                    </div>
+                </div>
+
+                <!-- Step 3: Pricing & Availability -->
+                <div class="listing-step" id="step3Content" style="display: none;">
+                    <div class="step-title">Pricing & Availability</div>
+                    <div class="step-subtitle">Set your rates and available times</div>
+                    
+                    <div class="pricing-section">
+                        <div class="section-header">Pricing</div>
+                        
+                        <div class="form-group">
+                            <label>Daily Rate (24 hours)</label>
+                            <div class="input-with-currency">
+                                <span class="currency">₱</span>
+                                <input type="number" id="dailyRate" placeholder="200" min="50" max="1000" required>
+                            </div>
+                            <div class="form-note">Recommended: ₱120-300 based on location and features</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>8-Hour Rate (Half day)</label>
+                            <div class="input-with-currency">
+                                <span class="currency">₱</span>
+                                <input type="number" id="halfDayRate" placeholder="150" min="30" max="500">
+                            </div>
+                            <div class="form-note">Optional: Many drivers only need 8 hours for classes</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Booking Deposit</label>
+                            <div class="input-with-currency">
+                                <span class="currency">₱</span>
+                                <input type="number" id="bookingDeposit" value="50" min="20" max="100" required>
+                            </div>
+                            <div class="form-note">Amount drivers pay to reserve your slot</div>
+                        </div>
+                    </div>
+                    
+                    <div class="availability-section">
+                        <div class="section-header">Availability</div>
+                        
+                        <div class="form-group">
+                            <label>Available Days</label>
+                            <div class="day-options">
+                                <label class="day-option">
+                                    <input type="checkbox" value="monday" checked>
+                                    <span>Mon</span>
+                                </label>
+                                <label class="day-option">
+                                    <input type="checkbox" value="tuesday" checked>
+                                    <span>Tue</span>
+                                </label>
+                                <label class="day-option">
+                                    <input type="checkbox" value="wednesday" checked>
+                                    <span>Wed</span>
+                                </label>
+                                <label class="day-option">
+                                    <input type="checkbox" value="thursday" checked>
+                                    <span>Thu</span>
+                                </label>
+                                <label class="day-option">
+                                    <input type="checkbox" value="friday" checked>
+                                    <span>Fri</span>
+                                </label>
+                                <label class="day-option">
+                                    <input type="checkbox" value="saturday">
+                                    <span>Sat</span>
+                                </label>
+                                <label class="day-option">
+                                    <input type="checkbox" value="sunday">
+                                    <span>Sun</span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Typical Available Hours</label>
+                            <div class="time-inputs">
+                                <input type="time" id="availableFrom" value="07:00" required>
+                                <span>to</span>
+                                <input type="time" id="availableTo" value="18:00" required>
+                            </div>
+                            <div class="form-note">When is your slot typically available for rent?</div>
+                        </div>
+                    </div>
+                    
+                    <div class="button-group">
+                        <button class="back-btn-step" onclick="prevStep(2)">Back</button>
+                        <button class="continue-btn" onclick="nextStep(4)">Continue</button>
+                    </div>
+                </div>
+
+                <!-- Step 4: Photos & Verification -->
+                <div class="listing-step" id="step4Content" style="display: none;">
+                    <div class="step-title">Photos & Verification</div>
+                    <div class="step-subtitle">Add photos and verify ownership</div>
+                    
+                    <div class="photos-section">
+                        <div class="section-header">Parking Slot Photos</div>
+                        
+                        <div class="form-group">
+                            <label>Slot Photos (Recommended)</label>
+                            <div class="photo-upload">
+                                <div class="upload-area" onclick="simulatePhotoUpload()">
+                                    <div class="upload-icon">📷</div>
+                                    <div class="upload-text">Tap to add photos</div>
+                                    <div class="upload-subtext">Show your parking slot, access routes, nearby landmarks</div>
+                                </div>
+                            </div>
+                            <div class="form-note">Good photos increase booking chances by 3x</div>
+                        </div>
+                    </div>
+                    
+                    <div class="verification-section">
+                        <div class="section-header">Ownership Verification</div>
+                        
+                        <div class="form-group">
+                            <label>Proof of Ownership</label>
+                            <div class="verification-upload">
+                                <div class="upload-area" onclick="simulateDocUpload()">
+                                    <div class="upload-icon">📄</div>
+                                    <div class="upload-text">Upload ownership document</div>
+                                    <div class="upload-subtext">Condo title, lease agreement, or parking certificate</div>
+                                </div>
+                            </div>
+                            <div class="form-note">Required to verify you can legally lease this slot</div>
+                        </div>
+                    </div>
+                    
+                    <div class="summary-section">
+                        <div class="section-header">Listing Summary</div>
+                        <div class="summary-card">
+                            <div class="summary-item">
+                                <span class="summary-label">Location:</span>
+                                <span class="summary-value" id="summaryLocation">-</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">Slot:</span>
+                                <span class="summary-value" id="summarySlot">-</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">Daily Rate:</span>
+                                <span class="summary-value" id="summaryRate">-</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">Deposit:</span>
+                                <span class="summary-value" id="summaryDeposit">-</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="button-group">
+                        <button class="back-btn-step" onclick="prevStep(3)">Back</button>
+                        <button class="create-listing-btn" onclick="createListing()">Create Listing</button>
+                    </div>
+                </div>
+
+                <!-- Success Modal -->
+                <div id="successModal" class="modal" style="display: none;">
+                    <div class="modal-content">
+                        <div class="success-content">
+                            <div class="success-icon">✅</div>
+                            <h3>Listing Created Successfully!</h3>
+                            <p>Your parking slot is now available for booking</p>
+                            <div class="success-details">
+                                <p><strong>Location:</strong> <span id="successLocation"></span></p>
+                                <p><strong>Daily Rate:</strong> ₱<span id="successRate"></span></p>
+                                <p><strong>Status:</strong> Pending approval (up to 24 hours)</p>
+                            </div>
+                            <button class="success-btn" onclick="goToMyLease()">
+                                View My Listings
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentStep = 1;
+
+        function nextStep(step) {
+            if (validateCurrentStep()) {
+                currentStep = step;
+                showStep(step);
+                updateProgress(step);
+                if (step === 4) {
+                    updateSummary();
+                }
+            }
+        }
+
+        function prevStep(step) {
+            currentStep = step;
+            showStep(step);
+            updateProgress(step);
+        }
+
+        function showStep(step) {
+            // Hide all steps
+            document.querySelectorAll('.listing-step').forEach(stepEl => {
+                stepEl.style.display = 'none';
+            });
+            
+            // Show current step
+            document.getElementById(`step${step}Content`).style.display = 'block';
+        }
+
+        function updateProgress(step) {
+            // Update progress indicators
+            for (let i = 1; i <= 4; i++) {
+                const stepEl = document.getElementById(`step${i}`);
+                const lineEl = document.getElementById(`line${i}`);
+                
+                if (i <= step) {
+                    stepEl.classList.add('active');
+                    if (lineEl && i < step) {
+                        lineEl.classList.add('active');
+                    }
+                } else {
+                    stepEl.classList.remove('active');
+                    if (lineEl) {
+                        lineEl.classList.remove('active');
+                    }
+                }
+            }
+        }
+
+        function validateCurrentStep() {
+            if (currentStep === 1) {
+                const building = document.getElementById('buildingName').value;
+                const address = document.getElementById('buildingAddress').value;
+                const distance = document.getElementById('distanceDLSU').value;
+                
+                if (!building || !address || !distance) {
+                    alert('Please fill in all required fields');
+                    return false;
+                }
+            } else if (currentStep === 2) {
+                const level = document.getElementById('slotLevel').value;
+                const number = document.getElementById('slotNumber').value;
+                const instructions = document.getElementById('meetupInstructions').value;
+                
+                if (!level || !number || !instructions) {
+                    alert('Please fill in all required fields');
+                    return false;
+                }
+            } else if (currentStep === 3) {
+                const dailyRate = document.getElementById('dailyRate').value;
+                const deposit = document.getElementById('bookingDeposit').value;
+                
+                if (!dailyRate || !deposit) {
+                    alert('Please fill in all required pricing fields');
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        function updateSummary() {
+            const building = document.getElementById('buildingName').value;
+            const tower = document.getElementById('towerBuilding').value;
+            const level = document.getElementById('slotLevel').value;
+            const number = document.getElementById('slotNumber').value;
+            const dailyRate = document.getElementById('dailyRate').value;
+            const deposit = document.getElementById('bookingDeposit').value;
+            
+            const location = tower ? `${building} - ${tower}` : building;
+            const slot = `${level}, Slot ${number}`;
+            
+            document.getElementById('summaryLocation').textContent = location;
+            document.getElementById('summarySlot').textContent = slot;
+            document.getElementById('summaryRate').textContent = `₱${dailyRate}/day`;
+            document.getElementById('summaryDeposit').textContent = `₱${deposit}`;
+        }
+
+        function simulatePhotoUpload() {
+            alert('Photo upload simulation:\n\n📷 Select photos from gallery\n📷 Take new photos\n📷 Add captions\n\nFeature coming soon!');
+        }
+
+        function simulateDocUpload() {
+            alert('Document upload simulation:\n\n📄 Upload condo title\n📄 Upload lease agreement\n📄 Upload parking certificate\n\nFeature coming soon!');
+        }
+
+        function createListing() {
+            // Collect all form data
+            const listingData = {
+                building: document.getElementById('buildingName').value,
+                address: document.getElementById('buildingAddress').value,
+                tower: document.getElementById('towerBuilding').value,
+                distance: document.getElementById('distanceDLSU').value,
+                level: document.getElementById('slotLevel').value,
+                slotNumber: document.getElementById('slotNumber').value,
+                dailyRate: document.getElementById('dailyRate').value,
+                halfDayRate: document.getElementById('halfDayRate').value,
+                deposit: document.getElementById('bookingDeposit').value,
+                meetupInstructions: document.getElementById('meetupInstructions').value
+            };
+
+            // Save to localStorage (simulate)
+            const existingListings = JSON.parse(localStorage.getItem('myListings') || '[]');
+            existingListings.push({
+                id: Date.now(),
+                ...listingData,
+                status: 'pending',
+                createdAt: new Date().toISOString()
+            });
+            localStorage.setItem('myListings', JSON.stringify(existingListings));
+
+            // Show success modal
+            const location = listingData.tower ? `${listingData.building} - ${listingData.tower}` : listingData.building;
+            document.getElementById('successLocation').textContent = location;
+            document.getElementById('successRate').textContent = listingData.dailyRate;
+            document.getElementById('successModal').style.display = 'flex';
+        }
+
+        function goToMyLease() {
+            alert('Redirecting to My Lease dashboard...\n\n(For demo: Save the lessor dashboard HTML as my-lease.html to enable navigation)');
+            // window.location.href = 'my-lease.html';
+        }
+
+        function goBack() {
+            if (currentStep === 1) {
+                window.location.href = 'my-lease.html';
+            } else {
+                prevStep(currentStep - 1);
+            }
+        }
+
+        // Auto-fill half day rate based on daily rate
+        document.addEventListener('DOMContentLoaded', function() {
+            const dailyRateInput = document.getElementById('dailyRate');
+            const halfDayRateInput = document.getElementById('halfDayRate');
+            
+            dailyRateInput.addEventListener('input', function() {
+                const dailyRate = parseInt(this.value);
+                if (dailyRate) {
+                    const halfDayRate = Math.round(dailyRate * 0.75);
+                    halfDayRateInput.value = halfDayRate;
+                }
+            });
+        });
+    </script>
+
+    <style>
+        /* Progress Section */
+        .progress-section {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .progress-steps {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+
+        .progress-step {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: #ddd;
+            color: #999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .progress-step.active {
+            background: #333;
+            color: white;
+        }
+
+        .progress-line {
+            width: 25px;
+            height: 2px;
+            background: #ddd;
+            transition: all 0.3s ease;
+        }
+
+        .progress-line.active {
+            background: #333;
+        }
+
+        .progress-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+            color: #666;
+            margin-top: 8px;
+        }
+
+        /* Listing Steps */
+        .listing-step {
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .step-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .step-subtitle {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 25px;
+        }
+
+        /* Form Groups */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #333;
+        }
+
+        .form-note {
+            font-size: 12px;
+            color: #999;
+            margin-top: 4px;
+        }
+
+        /* Feature Options */
+        .feature-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .feature-option {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background: #f5f5f5;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .feature-option:hover {
+            background: #e0e0e0;
+        }
+
+        .feature-option input[type="checkbox"] {
+            margin-right: 10px;
+            width: auto;
+        }
+
+        /* Day Options */
+        .day-options {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 8px;
+        }
+
+        .day-option {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 8px;
+            background: #f5f5f5;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .day-option:hover {
+            background: #e0e0e0;
+        }
+
+        .day-option input[type="checkbox"] {
+            margin-bottom: 4px;
+            width: auto;
+        }
+
+        .day-option span {
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        /* Time Inputs */
+        .time-inputs {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .time-inputs input {
+            flex: 1;
+        }
+
+        .time-inputs span {
+            font-size: 14px;
+            color: #666;
+        }
+
+        /* Currency Input */
+        .input-with-currency {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .currency {
+            position: absolute;
+            left: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #666;
+            z-index: 1;
+        }
+
+        .input-with-currency input {
+            padding-left: 30px;
+        }
+
+        /* Sections */
+        .section-header {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #eee;
+        }
+
+        /* Photo Upload */
+        .photo-upload,
+        .verification-upload {
+            margin-bottom: 10px;
+        }
+
+        .upload-area {
+            border: 2px dashed #ddd;
+            border-radius: 8px;
+            padding: 30px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .upload-area:hover {
+            border-color: #333;
+            background: #f5f5f5;
+        }
+
+        .upload-icon {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .upload-text {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .upload-subtext {
+            font-size: 12px;
+            color: #666;
+        }
+
+        /* Summary */
+        .summary-card {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .summary-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .summary-label {
+            color: #666;
+        }
+
+        .summary-value {
+            color: #333;
+            font-weight: 600;
+        }
+
+        /* Buttons */
+        .continue-btn,
+        .create-listing-btn {
+            width: 100%;
+            background: #333;
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .continue-btn:hover,
+        .create-listing-btn:hover {
+            background: #444;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .back-btn-step {
+            flex: 1;
+            background: white;
+            color: #333;
+            border: 2px solid #ddd;
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn-step:hover {
+            border-color: #333;
+            background: #f5f5f5;
+        }
+
+        .continue-btn {
+            flex: 2;
+        }
+
+        /* Modal */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding: 80px 20px 20px 20px;
+            box-sizing: border-box;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 320px;
+            padding: 20px;
+        }
+
+        .success-content {
+            text-align: center;
+        }
+
+        .success-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .success-content h3 {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .success-content p {
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .success-details {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .success-details p {
+            margin-bottom: 6px;
+            font-size: 13px;
+        }
+
+        .success-btn {
+            width: 100%;
+            background: #333;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+    </style>
+</body>
+</html>

@@ -26,9 +26,67 @@
                     <div class="profile-student-id">University Student • Manila</div>
                 </div>
 
+                <!-- QR Code Section -->
+                <div class="qr-section">
+                    <div class="qr-title">My Parking QR</div>
+                    <div class="qr-subtitle">Show this QR to parking attendants</div>
+                    <div class="qr-container">
+                        <div class="qr-code" id="userQR">
+                            <div class="qr-placeholder">
+                                <div class="qr-grid">
+                                    <div class="qr-dot"></div>
+                                    <div class="qr-dot"></div>
+                                    <div class="qr-dot"></div>
+                                    <div class="qr-dot"></div>
+                                    <div class="qr-dot"></div>
+                                    <div class="qr-dot"></div>
+                                    <div class="qr-dot"></div>
+                                    <div class="qr-dot"></div>
+                                    <div class="qr-dot"></div>
+                                    <div class="qr-dot"></div>
+                                    <div class="qr-dot"></div>
+                                    <div class="qr-dot"></div>
+                                    <div class="qr-dot"></div>
+                                    <div class="qr-dot"></div>
+                                    <div class="qr-dot"></div>
+                                    <div class="qr-dot"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="qr-info">
+                            <div class="qr-data">
+                                <span class="qr-label">User ID:</span>
+                                <span class="qr-value">JDC-2024-001</span>
+                            </div>
+                            <div class="qr-data">
+                                <span class="qr-label">Name:</span>
+                                <span class="qr-value">Juan Dela Cruz</span>
+                            </div>
+                            <div class="qr-data">
+                                <span class="qr-label">Phone:</span>
+                                <span class="qr-value">+63 917 123 4567</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="qr-instructions">
+                        <div class="instruction-item">
+                            <span class="instruction-number">1</span>
+                            <span class="instruction-text">Show this QR when entering parking areas</span>
+                        </div>
+                        <div class="instruction-item">
+                            <span class="instruction-number">2</span>
+                            <span class="instruction-text">Attendant will scan to log your entry</span>
+                        </div>
+                        <div class="instruction-item">
+                            <span class="instruction-number">3</span>
+                            <span class="instruction-text">Pay when leaving based on duration</span>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="menu-list">
                     <div class="menu-item" onclick="showFeature('My Vehicles')">
-                        <div class="menu-icon">•</div>
+                        <div class="menu-icon">🚗</div>
                         <div class="menu-text">
                             <div class="menu-title">My Vehicles</div>
                             <div class="menu-subtitle">Honda Civic (ABC 1234)</div>
@@ -36,62 +94,29 @@
                         <div class="menu-arrow">></div>
                     </div>
                     
-                    <!-- <div class="menu-item" onclick="showFeature('Notifications')">
-                        <div class="menu-icon">•</div>
+                    <div class="menu-item" onclick="goToMyLease()">
+                        <div class="menu-icon">🏠</div>
                         <div class="menu-text">
-                            <div class="menu-title">Notifications</div>
-                            <div class="menu-subtitle">Parking alerts and reminders</div>
+                            <div class="menu-title">My Lease</div>
+                            <div class="menu-subtitle">Lease your parking slot to drivers</div>
                         </div>
                         <div class="menu-arrow">></div>
                     </div>
-                    
-                    <div class="menu-item" onclick="showFeature('Language')">
-                        <div class="menu-icon">•</div>
-                        <div class="menu-text">
-                            <div class="menu-title">Language</div>
-                            <div class="menu-subtitle">English / Filipino</div>
-                        </div>
-                        <div class="menu-arrow">></div>
-                    </div>
-                    
-                    <div class="menu-item" onclick="showFeature('Privacy')">
-                        <div class="menu-icon">•</div>
-                        <div class="menu-text">
-                            <div class="menu-title">Privacy & Security</div>
-                            <div class="menu-subtitle">Data settings and permissions</div>
-                        </div>
-                        <div class="menu-arrow">></div>
-                    </div>
-                    
-                    <div class="menu-item" onclick="showFeature('Help')">
-                        <div class="menu-icon">•</div>
-                        <div class="menu-text">
-                            <div class="menu-title">Help & Support</div>
-                            <div class="menu-subtitle">FAQs and contact support</div>
-                        </div>
-                        <div class="menu-arrow">></div>
-                    </div>
-                    
-                    <div class="menu-item" onclick="confirmSignOut()">
-                        <div class="menu-icon">•</div>
-                        <div class="menu-text">
-                            <div class="menu-title">Sign Out</div>
-                            <div class="menu-subtitle">Log out of your account</div>
-                        </div>
-                        <div class="menu-arrow">></div>
-                    </div> -->
                 </div>
             </div>
             
             <div class="bottom-nav">
                 <a href="home.html" class="nav-item">
-                    <div class="nav-icon">Home</div>
+                    <div class="nav-icon">🏠</div>
+                    <div class="nav-label">Home</div>
                 </a>
                 <a href="reservations.html" class="nav-item">
-                    <div class="nav-icon">Reservations</div>
+                    <div class="nav-icon">📅</div>
+                    <div class="nav-label">Reservations</div>
                 </a>
                 <a href="profile.html" class="nav-item active">
-                    <div class="nav-icon">Profile</div>
+                    <div class="nav-icon">👤</div>
+                    <div class="nav-label">Profile</div>
                 </a>
             </div>
         </div>
@@ -105,9 +130,169 @@
         function confirmSignOut() {
             if (confirm('Are you sure you want to sign out?')) {
                 alert('Signing out...');
-                window.location.href = 'index.html';
+                window.location.href = 'login.html';
             }
         }
+
+        // Generate QR code data (simulated)
+        function generateUserQR() {
+            const userData = {
+                userId: 'JDC-2024-001',
+                name: 'Juan Dela Cruz',
+                phone: '+63 917 123 4567',
+                email: 'juan.delacruz@gmail.com'
+            };
+            
+            // In a real app, this would generate an actual QR code
+            // For now, we just show the data that would be encoded
+            console.log('QR Data:', JSON.stringify(userData));
+        }
+
+        // Initialize QR when page loads
+        document.addEventListener('DOMContentLoaded', generateUserQR);
     </script>
+
+    <style>
+        /* QR Section Styles */
+        .qr-section {
+            background: white;
+            margin: 20px 0;
+            padding: 25px 20px;
+            border-radius: 12px;
+            border: 2px solid #ddd;
+            text-align: center;
+        }
+
+        .qr-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .qr-subtitle {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .qr-container {
+            background: #f8f8f8;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .qr-code {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            display: inline-block;
+            border: 1px solid #ddd;
+        }
+
+        /* QR Code Placeholder (Simulated Pattern) */
+        .qr-placeholder {
+            width: 120px;
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .qr-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            width: 80px;
+            height: 80px;
+        }
+
+        .qr-dot {
+            background: #333;
+            border-radius: 2px;
+        }
+
+        .qr-dot:nth-child(2n) {
+            background: transparent;
+        }
+
+        .qr-dot:nth-child(3n) {
+            background: #333;
+        }
+
+        .qr-dot:nth-child(5n) {
+            background: transparent;
+        }
+
+        /* QR Info */
+        .qr-info {
+            text-align: left;
+        }
+
+        .qr-data {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 13px;
+        }
+
+        .qr-label {
+            color: #666;
+            font-weight: 500;
+        }
+
+        .qr-value {
+            color: #333;
+            font-weight: 600;
+        }
+
+        /* Instructions */
+        .qr-instructions {
+            text-align: left;
+        }
+
+        .instruction-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            font-size: 14px;
+        }
+
+        .instruction-number {
+            background: #333;
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 600;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+
+        .instruction-text {
+            color: #666;
+            line-height: 1.4;
+        }
+
+        /* Update menu icons to use consistent style */
+        .menu-icon {
+            width: 32px;
+            height: 32px;
+            background: #333;
+            color: white;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            font-size: 16px;
+        }
+    </style>
 </body>
 </html>
