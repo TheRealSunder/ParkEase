@@ -1,0 +1,634 @@
+/* Reservations Page Specific Styles */
+
+/* Main Parking Type Tabs */
+.main-tabs {
+    display: flex;
+    background: #f5f5f5;
+    border-radius: 12px;
+    padding: 4px;
+    margin-bottom: 20px;
+}
+
+.main-tab {
+    flex: 1;
+    padding: 12px;
+    text-align: center;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: #666;
+}
+
+.main-tab.active {
+    background: #333;
+    color: white;
+}
+
+.main-tab:hover:not(.active) {
+    background: #e0e0e0;
+}
+
+/* Parking Sections */
+.parking-section {
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Filter Tabs for Public */
+.filter-tabs {
+    display: flex;
+    background: #f5f5f5;
+    border-radius: 12px;
+    padding: 4px;
+    margin-bottom: 20px;
+}
+
+.filter-tab {
+    flex: 1;
+    padding: 10px;
+    text-align: center;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: #666;
+}
+
+.filter-tab.active {
+    background: #333;
+    color: white;
+}
+
+.filter-tab:hover:not(.active) {
+    background: #e0e0e0;
+}
+
+/* Reservations Section */
+.reservations-section {
+    margin-bottom: 30px;
+}
+
+.section-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+/* Reservation Items */
+.reservation-item {
+    background: white;
+    border: 2px solid #ddd;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 15px;
+    transition: border-color 0.3s ease;
+}
+
+.reservation-item.reserved,
+.reservation-item.ongoing,
+.reservation-item.completed,
+.reservation-item.cancelled {
+    background: white;
+    border-color: #ddd;
+    opacity: 1;
+}
+
+/* Reservation Header */
+.reservation-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 15px;
+}
+
+.reservation-info {
+    flex: 1;
+}
+
+.parking-name {
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 4px;
+}
+
+.reservation-date {
+    font-size: 13px;
+    color: #666;
+}
+
+/* Status Badges */
+.status-badge {
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    background: #f5f5f5;
+    color: #333;
+    border: 1px solid #ddd;
+}
+
+.status-badge.reserved,
+.status-badge.ongoing,
+.status-badge.completed,
+.status-badge.cancelled {
+    background: #f5f5f5;
+    color: #333;
+    border: 1px solid #ddd;
+}
+
+/* Timer Displays */
+.reservation-timer {
+    background: #f5f5f5;
+    color: #333;
+    border: 1px solid #ddd;
+    padding: 12px;
+    border-radius: 8px;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.ongoing-timer {
+    background: #f5f5f5;
+    color: #333;
+    border: 1px solid #ddd;
+    padding: 12px;
+    border-radius: 8px;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.timer-label {
+    font-size: 12px;
+    opacity: 0.9;
+    margin-bottom: 4px;
+}
+
+.timer-display {
+    font-size: 20px;
+    font-weight: 700;
+    font-family: 'Courier New', monospace;
+    margin-bottom: 4px;
+}
+
+.ongoing-display {
+    font-size: 20px;
+    font-weight: 700;
+    font-family: 'Courier New', monospace;
+    margin-bottom: 4px;
+}
+
+.current-cost {
+    font-size: 14px;
+    opacity: 0.9;
+}
+
+/* Reservation Details */
+.reservation-details {
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #eee;
+}
+
+.detail-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 13px;
+}
+
+.detail-item:last-child {
+    margin-bottom: 0;
+}
+
+.detail-item span:first-child {
+    color: #666;
+}
+
+.detail-item span:last-child {
+    font-weight: 600;
+    color: #333;
+}
+
+/* Action Buttons */
+.reservation-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.cancel-btn {
+    flex: 1;
+    background: white;
+    color: #999;
+    border: 2px solid #ddd;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.cancel-btn:hover {
+    border-color: #999;
+    color: #666;
+}
+
+.directions-btn {
+    flex: 1;
+    background: #333;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.directions-btn:hover {
+    background: #444;
+}
+
+.checkout-btn {
+    flex: 1;
+    background: white;
+    color: #333;
+    border: 2px solid #ddd;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.checkout-btn:hover {
+    background: #f5f5f5;
+}
+
+.review-btn {
+    flex: 1;
+    background: white;
+    color: #333;
+    border: 2px solid #ddd;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.review-btn:hover {
+    background: #f5f5f5;
+}
+
+/* Private Parking Search */
+.private-search-section {
+    background: white;
+    border: 2px solid #ddd;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 25px;
+}
+
+.search-filters {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.filter-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.filter-group label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 6px;
+}
+
+.filter-input {
+    padding: 10px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: border-color 0.3s ease;
+}
+
+.filter-input:focus {
+    outline: none;
+    border-color: #333;
+}
+
+.search-btn-private {
+    background: #333;
+    color: white;
+    border: none;
+    padding: 14px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+}
+
+.search-btn-private:hover {
+    background: #444;
+}
+
+/* Private Listing Cards */
+.private-results-section {
+    margin-bottom: 30px;
+}
+
+.private-listing-card {
+    background: white;
+    border: 2px solid #ddd;
+    border-radius: 12px;
+    padding: 18px;
+    margin-bottom: 15px;
+    transition: all 0.3s ease;
+}
+
+.private-listing-card:hover {
+    border-color: #333;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.listing-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 12px;
+}
+
+.listing-info {
+    flex: 1;
+}
+
+.listing-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 4px;
+}
+
+.listing-distance {
+    font-size: 13px;
+    color: #666;
+    margin-bottom: 2px;
+}
+
+.listing-details {
+    font-size: 12px;
+    color: #999;
+}
+
+.listing-price {
+    text-align: right;
+}
+
+.price-amount {
+    font-size: 20px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 2px;
+}
+
+.price-duration {
+    font-size: 12px;
+    color: #666;
+}
+
+.listing-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    font-size: 13px;
+}
+
+.listing-time {
+    color: #666;
+}
+
+.listing-rating {
+    color: #333;
+    font-weight: 500;
+}
+
+.listing-actions {
+    display: flex;
+}
+
+.book-btn {
+    flex: 1;
+    background: #333;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.book-btn:hover {
+    background: #444;
+}
+
+/* Private Bookings Section */
+.private-bookings-section {
+    margin-bottom: 20px;
+}
+
+/* Private Booking Items */
+.private-booking-item {
+    background: white;
+    border: 2px solid #ddd;
+    border-radius: 12px;
+    padding: 18px;
+    margin-bottom: 15px;
+    transition: border-color 0.3s ease;
+}
+
+.private-booking-item:hover {
+    border-color: #333;
+}
+
+.booking-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 15px;
+}
+
+.booking-info {
+    flex: 1;
+}
+
+.booking-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 4px;
+}
+
+.booking-location {
+    font-size: 13px;
+    color: #666;
+    margin-bottom: 2px;
+}
+
+.booking-time {
+    font-size: 12px;
+    color: #999;
+}
+
+.booking-status {
+    display: flex;
+    align-items: center;
+}
+
+.status-badge.confirmed {
+    background: #f5f5f5;
+    color: #333;
+    border: 1px solid #ddd;
+}
+
+.booking-details {
+    background: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #eee;
+}
+
+.booking-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.contact-btn {
+    flex: 1;
+    background: white;
+    color: #333;
+    border: 2px solid #ddd;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.contact-btn:hover {
+    background: #f5f5f5;
+    border-color: #333;
+}
+
+.cancel-booking-btn {
+    flex: 1;
+    background: white;
+    color: #999;
+    border: 2px solid #ddd;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.cancel-booking-btn:hover {
+    border-color: #999;
+    color: #666;
+}
+
+/* Empty State */
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: #666;
+}
+
+.empty-icon {
+    font-size: 64px;
+    margin-bottom: 20px;
+    opacity: 0.5;
+}
+
+.empty-text {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.empty-subtext {
+    font-size: 14px;
+    line-height: 1.4;
+    margin-bottom: 25px;
+}
+
+.empty-action-btn {
+    background: #333;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.empty-action-btn:hover {
+    background: #444;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 400px) {
+    .filter-row {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+    
+    .listing-header {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .listing-price {
+        text-align: left;
+    }
+    
+    .reservation-actions {
+        flex-direction: column;
+        gap: 8px;
+    }
+}

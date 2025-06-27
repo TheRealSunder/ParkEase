@@ -74,7 +74,7 @@
                                 <div class="parking-distance">0.2 km away • 3 min walk to campus</div>
                             </div>
                             <div class="availability">
-                                <span class="slots-available slots-limited">4 slots</span>
+                                <span id="egi-availability" class="slots-available slots-limited">4 slots</span>
                             </div>
                         </div>
                         <div class="parking-info">
@@ -92,7 +92,7 @@
                                 <div class="parking-distance">0.3 km away • 5 min walk to DLSU</div>
                             </div>
                             <div class="availability">
-                                <span class="slots-available">14 slots</span>
+                                <span id="oap-availability" class="slots-available">14 slots</span>
                             </div>
                         </div>
                         <div class="parking-info">
@@ -122,7 +122,7 @@
                     <div class="nav-icon">Home</div>
                 </a>
                 <a href="reservations.html" class="nav-item">
-                    <div class="nav-icon">Reservations</div>
+                    <div class="nav-icon">Parking</div>
                 </a>
                 <a href="profile.html" class="nav-item">
                     <div class="nav-icon">Profile</div>
@@ -130,5 +130,46 @@
             </div>
         </div>
     </div>
+
+<script>
+    const egiMaxSlots = 100;
+    let egiSlots = 4;
+    const egiSpan = document.getElementById("egi-availability");
+
+    function updateEGISlots() {
+        const change = Math.random() < 0.5 ? -1 : 1;
+        const newSlots = egiSlots + change;
+
+        if (newSlots >= 0 && newSlots <= egiMaxSlots) {
+            egiSlots = newSlots;
+            egiSpan.textContent = `${egiSlots} slots`;
+        }
+        const nextInterval = Math.random() * 9000 + 1000;
+        setTimeout(updateEGISlots, nextInterval);
+    }
+
+    setTimeout(updateEGISlots, Math.random() * 9000 + 1000);
+
+    // One Archer's Place timer
+    const oapMaxSlots = 50;
+    let oapSlots = 14;
+    const oapSpan = document.getElementById("oap-availability");
+
+    function updateOAPSlots() {
+        const change = Math.random() < 0.5 ? -1 : 1;
+        const newSlots = oapSlots + change;
+
+        if (newSlots >= 0 && newSlots <= oapMaxSlots) {
+            oapSlots = newSlots;
+            oapSpan.textContent = `${oapSlots} slots`;
+        }
+        const nextInterval = Math.random() * 9000 + 1000;
+        setTimeout(updateOAPSlots, nextInterval);
+    }
+
+    setTimeout(updateOAPSlots, Math.random() * 9000 + 1000);
+</script>
+
+
 </body>
 </html>

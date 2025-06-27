@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ParkEase - Parking Settings</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="phone-container">
+        <div class="screen">
+            <div class="header">
+                <div class="status-bar">
+                    <span>9:41</span>
+                    <span>100%</span>
+                </div>
+                <button class="back-btn" onclick="window.location.href='owner-pos.html'">←</button>
+                <h1>Parking Settings</h1>
+                <p>Configure rates and pricing</p>
+            </div>
+            
+            <div class="content">
+                <!-- Current Settings Summary -->
+                <div class="current-settings-section">
+                    <div class="section-title">Current Settings</div>
+                    <div class="settings-summary">
+                        <div class="summary-card">
+                            <div class="summary-row">
+                                <span class="summary-label">Initial Rate:</span>
+                                <span class="summary-value" id="currentInitialRate">₱30</span>
+                            </div>
+                            <div class="summary-row">
+                                <span class="summary-label">Hourly Rate:</span>
+                                <span class="summary-value" id="currentHourlyRate">₱25/hr</span>
+                            </div>
+                            <div class="summary-row">
+                                <span class="summary-label">Reservation Downpayment:</span>
+                                <span class="summary-value" id="currentDownpayment">₱50</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Rate Configuration -->
+                <div class="rate-config-section">
+                    <div class="section-title">Rate Configuration</div>
+                    
+                    <div class="config-card">
+                        <div class="config-group">
+                            <label class="config-label">Initial Rate (First Hour)</label>
+                            <div class="input-with-currency">
+                                <span class="currency">₱</span>
+                                <input type="number" id="initialRateInput" value="30" min="1" max="200">
+                            </div>
+                            <div class="config-note">Base charge for the first hour of parking</div>
+                        </div>
+                        
+                        <div class="config-group">
+                            <label class="config-label">Hourly Rate (Additional Hours)</label>
+                            <div class="input-with-currency">
+                                <span class="currency">₱</span>
+                                <input type="number" id="hourlyRateInput" value="25" min="1" max="100">
+                                <span class="unit">/hour</span>
+                            </div>
+                            <div class="config-note">Rate charged for each additional hour after the first</div>
+                        </div>
+                        
+                        <div class="config-group">
+                            <label class="config-label">Reservation Downpayment</label>
+                            <div class="input-with-currency">
+                                <span class="currency">₱</span>
+                                <input type="number" id="downpaymentInput" value="50" min="10" max="200">
+                            </div>
+                            <div class="config-note">Amount customers pay to reserve a parking slot</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Advanced Settings -->
+                <div class="advanced-settings-section">
+                    <div class="section-title">Advanced Settings</div>
+                    
+                    <div class="config-card">
+                        <div class="config-group">
+                            <label class="config-label">Grace Period</label>
+                            <select id="gracePeriodInput" class="config-select">
+                                <option value="0">No grace period</option>
+                                <option value="15" selected>15 minutes</option>
+                                <option value="30">30 minutes</option>
+                                <option value="60">1 hour</option>
+                            </select>
+                            <div class="config-note">Free time before charging starts</div>
+                        </div>
+                        
+                        <div class="config-group">
+                            <label class="config-label">Operating Hours</label>
+                            <select id="operatingHoursInput" class="config-select">
+                                <option value="24/7" selected>24/7 (24 hours)</option>
+                                <option value="6AM-10PM">6:00 AM - 10:00 PM</option>
+                                <option value="7AM-9PM">7:00 AM - 9:00 PM</option>
+                                <option value="8AM-8PM">8:00 AM - 8:00 PM</option>
+                                <option value="custom">Custom Hours</option>
+                            </select>
+                            <div class="config-note">When parking is available for customers</div>
+                        </div>
+                        
+                        <div class="config-group">
+                            <label class="config-label">Overnight Rate (Optional)</label>
+                            <div class="input-with-currency">
+                                <span class="currency">₱</span>
+                                <input type="number" id="overnightRateInput" value="100" min="0" max="500">
+                                <span class="unit">/night</span>
+                            </div>
+                            <div class="config-note">Flat rate for overnight parking (10 PM - 6 AM)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pricing Preview -->
+                <div class="pricing-preview-section">
+                    <div class="section-title">Pricing Preview</div>
+                    <div class="preview-card">
+                        <div class="preview-header">
+                            <div class="preview-title">Sample Pricing</div>
+                            <div class="preview-subtitle">Based on current settings</div>
+                        </div>
+                        
+                        <div class="preview-examples">
+                            <div class="example-row">
+                                <span class="example-duration">1 hour</span>
+                                <span class="example-price" id="price1h">₱30</span>
+                            </div>
+                            <div class="example-row">
+                                <span class="example-duration">2 hours</span>
+                                <span class="example-price" id="price2h">₱55</span>
+                            </div>
+                            <div class="example-row">
+                                <span class="example-duration">3 hours</span>
+                                <span class="example-price" id="price3h">₱80</span>
+                            </div>
+                            <div class="example-row">
+                                <span class="example-duration">4 hours</span>
+                                <span class="example-price" id="price4h">₱105</span>
+                            </div>
+                        </div>
+                        
+                        <div class="reservation-preview">
+                            <div class="reservation-info">
+                                <div class="reservation-label">Reservation Example:</div>
+                                <div class="reservation-detail">
+                                    <span>Customer pays: ₱<span id="previewDownpayment">50</span> (downpayment)</span>
+                                </div>
+                                <div class="reservation-detail">
+                                    <span>On exit (2h): ₱<span id="previewRemaining">5</span> remaining</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="action-section">
+                    <button class="reset-btn" onclick="resetToDefaults()">
+                        Reset to Defaults
+                    </button>
+                    <button class="save-btn" onclick="saveSettings()">
+                        Save Settings
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Default settings
+        const defaultSettings = {
+            initialRate: 30,
+            hourlyRate: 25,
+            downpayment: 50,
+            gracePeriod: 15,
+            operatingHours: '24/7',
+            overnightRate: 100
+        };
+
+        function loadSettings() {
+            // Load saved settings from localStorage or use defaults
+            const settings = JSON.parse(localStorage.getItem('parkingSettings')) || defaultSettings;
+
+            // Update form inputs
+            document.getElementById('initialRateInput').value = settings.initialRate;
+            document.getElementById('hourlyRateInput').value = settings.hourlyRate;
+            document.getElementById('downpaymentInput').value = settings.downpayment;
+            document.getElementById('gracePeriodInput').value = settings.gracePeriod;
+            document.getElementById('operatingHoursInput').value = settings.operatingHours;
+            document.getElementById('overnightRateInput').value = settings.overnightRate;
+
+            // Update current settings display
+            updateCurrentSettingsDisplay(settings);
+            updatePricingPreview(settings);
+        }
+
+        function updateCurrentSettingsDisplay(settings) {
+            document.getElementById('currentInitialRate').textContent = `₱${settings.initialRate}`;
+            document.getElementById('currentHourlyRate').textContent = `₱${settings.hourlyRate}/hr`;
+            document.getElementById('currentDownpayment').textContent = `₱${settings.downpayment}`;
+        }
+
+        function updatePricingPreview(settings) {
+            // Calculate pricing examples
+            const price1h = settings.initialRate;
+            const price2h = settings.initialRate + settings.hourlyRate;
+            const price3h = settings.initialRate + (settings.hourlyRate * 2);
+            const price4h = settings.initialRate + (settings.hourlyRate * 3);
+
+            document.getElementById('price1h').textContent = `₱${price1h}`;
+            document.getElementById('price2h').textContent = `₱${price2h}`;
+            document.getElementById('price3h').textContent = `₱${price3h}`;
+            document.getElementById('price4h').textContent = `₱${price4h}`;
+
+            // Update reservation preview
+            document.getElementById('previewDownpayment').textContent = settings.downpayment;
+            const remaining = Math.max(0, price2h - settings.downpayment);
+            document.getElementById('previewRemaining').textContent = remaining;
+        }
+
+        function saveSettings() {
+            const settings = {
+                initialRate: parseInt(document.getElementById('initialRateInput').value),
+                hourlyRate: parseInt(document.getElementById('hourlyRateInput').value),
+                downpayment: parseInt(document.getElementById('downpaymentInput').value),
+                gracePeriod: parseInt(document.getElementById('gracePeriodInput').value),
+                operatingHours: document.getElementById('operatingHoursInput').value,
+                overnightRate: parseInt(document.getElementById('overnightRateInput').value)
+            };
+
+            // Validation
+            if (settings.initialRate < 1 || settings.hourlyRate < 1 || settings.downpayment < 10) {
+                alert('Please check your inputs:\n\n• Initial rate must be at least ₱1\n• Hourly rate must be at least ₱1\n• Downpayment must be at least ₱10');
+                return;
+            }
+
+            // Save to localStorage
+            localStorage.setItem('parkingSettings', JSON.stringify(settings));
+
+            // Update displays
+            updateCurrentSettingsDisplay(settings);
+            updatePricingPreview(settings);
+
+            // Show confirmation
+            alert(`Settings saved successfully!\n\nInitial Rate: ₱${settings.initialRate}\nHourly Rate: ₱${settings.hourlyRate}/hr\nDownpayment: ₱${settings.downpayment}\n\nChanges will apply to new parking sessions.`);
+        }
+
+        function resetToDefaults() {
+            if (confirm('Reset all settings to default values?')) {
+                // Clear localStorage
+                localStorage.removeItem('parkingSettings');
+                
+                // Reload with defaults
+                loadSettings();
+                
+                alert('Settings reset to defaults!');
+            }
+        }
+
+        // Real-time preview updates
+        function setupRealTimePreview() {
+            const inputs = ['initialRateInput', 'hourlyRateInput', 'downpaymentInput'];
+            
+            inputs.forEach(inputId => {
+                document.getElementById(inputId).addEventListener('input', function() {
+                    const tempSettings = {
+                        initialRate: parseInt(document.getElementById('initialRateInput').value) || 0,
+                        hourlyRate: parseInt(document.getElementById('hourlyRateInput').value) || 0,
+                        downpayment: parseInt(document.getElementById('downpaymentInput').value) || 0
+                    };
+                    
+                    if (tempSettings.initialRate > 0 && tempSettings.hourlyRate > 0) {
+                        updatePricingPreview(tempSettings);
+                    }
+                });
+            });
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            loadSettings();
+            setupRealTimePreview();
+        });
+    </script>
+
+    <style>
+        /* Current Settings Section */
+        .current-settings-section {
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .settings-summary {
+            margin-bottom: 20px;
+        }
+
+        .summary-card {
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .summary-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .summary-label {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .summary-value {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        /* Configuration Sections */
+        .rate-config-section,
+        .advanced-settings-section {
+            margin-bottom: 25px;
+        }
+
+        .config-card {
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .config-group {
+            margin-bottom: 20px;
+        }
+
+        .config-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .config-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .input-with-currency {
+            position: relative;
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+
+        .currency {
+            position: absolute;
+            left: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #666;
+            z-index: 1;
+        }
+
+        .input-with-currency input {
+            width: 100%;
+            padding: 12px 50px 12px 35px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        .input-with-currency input:focus {
+            outline: none;
+            border-color: #333;
+        }
+
+        .unit {
+            position: absolute;
+            right: 12px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .config-select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            background: white;
+            transition: border-color 0.3s ease;
+            margin-bottom: 5px;
+        }
+
+        .config-select:focus {
+            outline: none;
+            border-color: #333;
+        }
+
+        .config-note {
+            font-size: 12px;
+            color: #999;
+            line-height: 1.4;
+        }
+
+        /* Pricing Preview */
+        .pricing-preview-section {
+            margin-bottom: 25px;
+        }
+
+        .preview-card {
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .preview-header {
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .preview-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 2px;
+        }
+
+        .preview-subtitle {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .preview-examples {
+            margin-bottom: 20px;
+        }
+
+        .example-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .example-row:last-child {
+            border-bottom: none;
+        }
+
+        .example-duration {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .example-price {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            font-family: 'Courier New', monospace;
+        }
+
+        .reservation-preview {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+        }
+
+        .reservation-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .reservation-detail {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 4px;
+        }
+
+        .reservation-detail:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Action Buttons */
+        .action-section {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .reset-btn {
+            flex: 1;
+            background: white;
+            color: #333;
+            border: 2px solid #ddd;
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .reset-btn:hover {
+            border-color: #333;
+            background: #f5f5f5;
+        }
+
+        .save-btn {
+            flex: 2;
+            background: #333;
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .save-btn:hover {
+            background: #444;
+        }
+
+        /* Responsive */
+        @media (max-width: 400px) {
+            .action-section {
+                flex-direction: column;
+                gap: 8px;
+            }
+        }
+    </style>
+</body>
+</html>

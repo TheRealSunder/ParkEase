@@ -1,0 +1,1065 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ParkEase - Customer Exit</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="phone-container">
+        <div class="screen">
+            <div class="header">
+                <div class="status-bar">
+                    <span>9:41</span>
+                    <span>100%</span>
+                </div>
+                <button class="back-btn" onclick="window.location.href='owner-pos.html'">←</button>
+                <h1>Customer Exit</h1>
+                <p>Process payment and checkout</p>
+            </div>
+            
+            <div class="content">
+                <!-- Step 1: QR Code Entry -->
+                <div class="exit-step" id="qrEntryStep">
+                    <div class="step-header">
+                        <div class="step-title">Scan Customer QR Code</div>
+                        <div class="step-subtitle">Find parking session</div>
+                    </div>
+                    
+                    <div class="qr-entry-section">
+                        <div class="qr-scanner-placeholder">
+                            <div class="scanner-icon">📱</div>
+                            <div class="scanner-text">
+                                <div class="scanner-title">Customer QR Scanner</div>
+                                <div class="scanner-subtitle">Customer shows QR code from their phone</div>
+                            </div>
+                        </div>
+                        
+                        <div class="manual-entry-section">
+                            <div class="input-label">Or manually enter QR ID:</div>
+                            <input type="text" class="qr-input" id="qrIdInput" placeholder="PK-2024-1127-XXX" onkeyup="validateQRInput()">
+                            <button class="find-session-btn" id="findSessionBtn" onclick="findParkingSession()" disabled>
+                                Find Parking Session
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Step 2: Session Details & Fee Calculation -->
+                <div class="exit-step" id="feeCalculationStep" style="display: none;">
+                    <div class="step-header">
+                        <div class="step-title">Parking Session Found</div>
+                        <div class="step-subtitle">Review charges and process payment</div>
+                    </div>
+                    
+                    <div class="session-summary">
+                        <div class="summary-card">
+                            <div class="session-header">
+                                <div class="session-qr">QR: <span id="sessionQrId">#PK-2024-1127-001</span></div>
+                                <div class="session-type" id="sessionType">Walk-in</div>
+                            </div>
+                            
+                            <div class="time-summary">
+                                <div class="time-row">
+                                    <span class="time-label">Entry Time:</span>
+                                    <span class="time-value" id="entryTime">1:30 PM</span>
+                                </div>
+                                <div class="time-row">
+                                    <span class="time-label">Exit Time:</span>
+                                    <span class="time-value" id="exitTime">3:45 PM</span>
+                                </div>
+                                <div class="time-row total-time">
+                                    <span class="time-label">Total Duration:</span>
+                                    <span class="time-value" id="totalDuration">2h 15m</span>
+                                </div>
+                            </div>
+                            
+                            <div class="fee-breakdown">
+                                <div class="fee-row">
+                                    <span class="fee-label">Base Rate (₱25/hr):</span>
+                                    <span class="fee-value" id="baseRate">₱56.25</span>
+                                </div>
+                                <div class="fee-row" id="downpaymentRow" style="display: none;">
+                                    <span class="fee-label">Downpayment Paid:</span>
+                                    <span class="fee-value" id="downpayment">-₱50</span>
+                                </div>
+                                <div class="fee-row total-fee">
+                                    <span class="fee-label">Total Amount Due:</span>
+                                    <span class="fee-value" id="totalAmountDue">₱56</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="payment-section">
+                        <div class="section-title">Select Payment Method</div>
+                        <div class="payment-options">
+                            <div class="payment-option" data-method="cash" onclick="selectPaymentMethod('cash')">
+                                <div class="payment-icon">💵</div>
+                                <div class="payment-text">
+                                    <div class="payment-name">Cash Payment</div>
+                                    <div class="payment-desc">Customer pays with cash</div>
+                                </div>
+                                <div class="payment-radio"></div>
+                            </div>
+                            
+                            <div class="payment-option" data-method="gcash" onclick="selectPaymentMethod('gcash')">
+                                <div class="payment-icon">📱</div>
+                                <div class="payment-text">
+                                    <div class="payment-name">GCash</div>
+                                    <div class="payment-desc">Show GCash QR to customer</div>
+                                </div>
+                                <div class="payment-radio"></div>
+                            </div>
+                            
+                            <div class="payment-option" data-method="maya" onclick="selectPaymentMethod('maya')">
+                                <div class="payment-icon">💳</div>
+                                <div class="payment-text">
+                                    <div class="payment-name">Maya</div>
+                                    <div class="payment-desc">Show Maya QR to customer</div>
+                                </div>
+                                <div class="payment-radio"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <button class="back-btn-step" onclick="backToQREntry()">Back</button>
+                        <button class="process-payment-btn" id="processPaymentBtn" onclick="processPayment()" disabled>
+                            Process Payment
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Step 3: Payment Processing -->
+                <div class="exit-step" id="paymentProcessingStep" style="display: none;">
+                    <div class="step-header">
+                        <div class="step-title" id="paymentTitle">Cash Payment</div>
+                        <div class="step-subtitle" id="paymentSubtitle">Confirm payment received</div>
+                    </div>
+                    
+                    <!-- Cash Payment -->
+                    <div class="payment-method-section" id="cashPaymentSection" style="display: none;">
+                        <div class="cash-payment-card">
+                            <div class="cash-amount">
+                                <div class="amount-label">Amount to collect:</div>
+                                <div class="amount-value" id="cashAmount">₱56</div>
+                            </div>
+                            <div class="cash-instructions">
+                                <div class="instruction-title">Collect cash from customer</div>
+                                <div class="instruction-text">Verify the amount and confirm payment received</div>
+                            </div>
+                        </div>
+                        
+                        <div class="action-buttons">
+                            <button class="back-payment-btn" onclick="backToFeeCalculation()">Back</button>
+                            <button class="confirm-payment-btn" onclick="confirmCashPayment()">
+                                Cash Received - Complete Exit
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Digital Payment (GCash/Maya) -->
+                    <div class="payment-method-section" id="digitalPaymentSection" style="display: none;">
+                        <div class="qr-payment-card">
+                            <div class="payment-qr-display">
+                                <div class="payment-qr-code">
+                                    <div class="qr-placeholder">
+                                        <div class="qr-dots">
+                                            <div class="qr-row"><span>█ █  █</span></div>
+                                            <div class="qr-row"><span> █ █ █</span></div>
+                                            <div class="qr-row"><span>█  █ █</span></div>
+                                            <div class="qr-row"><span> █ █  </span></div>
+                                            <div class="qr-row"><span>█ █ █ </span></div>
+                                        </div>
+                                    </div>
+                                    <div class="qr-amount" id="qrPaymentAmount">₱56</div>
+                                </div>
+                                
+                                <div class="qr-instructions">
+                                    <div class="instruction-title" id="qrInstructionTitle">Show QR to customer</div>
+                                    <div class="instruction-text" id="qrInstructionText">Customer scans with GCash app to pay</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="action-buttons">
+                            <button class="back-payment-btn" onclick="backToFeeCalculation()">Back</button>
+                            <button class="confirm-payment-btn" onclick="confirmDigitalPayment()">
+                                Payment Received - Complete Exit
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Step 4: Receipt & Completion -->
+                <div class="exit-step" id="completionStep" style="display: none;">
+                    <div class="step-header">
+                        <div class="step-title">Exit Complete</div>
+                        <div class="step-subtitle">Digital receipt generated</div>
+                    </div>
+                    
+                    <div class="receipt-section">
+                        <div class="receipt-card">
+                            <div class="receipt-header">
+                                <div class="receipt-title">EGI Taft Parking</div>
+                                <div class="receipt-date" id="receiptDate">December 27, 2024 - 3:45 PM</div>
+                            </div>
+                            
+                            <div class="receipt-details">
+                                <div class="receipt-row">
+                                    <span class="receipt-label">QR ID:</span>
+                                    <span class="receipt-value" id="receiptQrId">#PK-2024-1127-001</span>
+                                </div>
+                                <div class="receipt-row">
+                                    <span class="receipt-label">Entry:</span>
+                                    <span class="receipt-value" id="receiptEntryTime">1:30 PM</span>
+                                </div>
+                                <div class="receipt-row">
+                                    <span class="receipt-label">Exit:</span>
+                                    <span class="receipt-value" id="receiptExitTime">3:45 PM</span>
+                                </div>
+                                <div class="receipt-row">
+                                    <span class="receipt-label">Duration:</span>
+                                    <span class="receipt-value" id="receiptDuration">2h 15m</span>
+                                </div>
+                                <div class="receipt-row">
+                                    <span class="receipt-label">Rate:</span>
+                                    <span class="receipt-value">₱25/hour</span>
+                                </div>
+                                <div class="receipt-row" id="receiptDownpaymentRow" style="display: none;">
+                                    <span class="receipt-label">Downpayment:</span>
+                                    <span class="receipt-value">₱50</span>
+                                </div>
+                                <div class="receipt-row total">
+                                    <span class="receipt-label">Total Paid:</span>
+                                    <span class="receipt-value" id="receiptTotalPaid">₱56</span>
+                                </div>
+                                <div class="receipt-row">
+                                    <span class="receipt-label">Payment:</span>
+                                    <span class="receipt-value" id="receiptPaymentMethod">Cash</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="completion-message">
+                            <div class="completion-icon">✅</div>
+                            <div class="completion-text">Transaction logged in database</div>
+                            <div class="completion-subtext">Customer exit processed successfully</div>
+                        </div>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <button class="new-exit-btn" onclick="startNewExit()">
+                            Process Another Exit
+                        </button>
+                        <button class="return-pos-btn" onclick="returnToPOS()">
+                            Return to POS
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let selectedPaymentMethod = null;
+        let currentSessionData = null;
+
+        // Sample parking sessions (mechanical turk database)
+        const parkingSessions = {
+            'PK-2024-1127-001': {
+                type: 'walk-in',
+                entryTime: '1:30 PM',
+                qrId: 'PK-2024-1127-001',
+                downpayment: 0
+            },
+            'PK-2024-1127-002': {
+                type: 'reserved',
+                entryTime: '10:15 AM',
+                qrId: 'PK-2024-1127-002',
+                downpayment: 50
+            },
+            'PK-2024-1127-003': {
+                type: 'walk-in',
+                entryTime: '2:00 PM',
+                qrId: 'PK-2024-1127-003',
+                downpayment: 0
+            }
+        };
+
+        function validateQRInput() {
+            const qrInput = document.getElementById('qrIdInput').value.trim();
+            const findBtn = document.getElementById('findSessionBtn');
+            
+            if (qrInput.length > 0) {
+                findBtn.disabled = false;
+            } else {
+                findBtn.disabled = true;
+            }
+        }
+
+        function findParkingSession() {
+            const qrId = document.getElementById('qrIdInput').value.trim();
+            
+            // Check if session exists in our mechanical turk database
+            if (parkingSessions[qrId]) {
+                currentSessionData = parkingSessions[qrId];
+                calculateFees();
+                showStep('feeCalculationStep');
+            } else {
+                alert('QR Code not found in system. Please check the ID and try again.');
+            }
+        }
+
+        function calculateFees() {
+            if (!currentSessionData) return;
+            
+            // Calculate parking duration and fees
+            const now = new Date();
+            const exitTimeString = now.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+            
+            // Simulate duration calculation (mechanical turk)
+            const durationMinutes = Math.floor(Math.random() * 180) + 60; // 1-4 hours
+            const hours = Math.floor(durationMinutes / 60);
+            const minutes = durationMinutes % 60;
+            const durationString = `${hours}h ${minutes}m`;
+            
+            // Calculate fees
+            const hourlyRate = 25;
+            const baseRate = Math.ceil(durationMinutes / 60) * hourlyRate;
+            const totalDue = Math.max(0, baseRate - currentSessionData.downpayment);
+            
+            // Update UI
+            document.getElementById('sessionQrId').textContent = `#${currentSessionData.qrId}`;
+            document.getElementById('sessionType').textContent = currentSessionData.type === 'reserved' ? 'Reserved' : 'Walk-in';
+            document.getElementById('entryTime').textContent = currentSessionData.entryTime;
+            document.getElementById('exitTime').textContent = exitTimeString;
+            document.getElementById('totalDuration').textContent = durationString;
+            document.getElementById('baseRate').textContent = `₱${baseRate}`;
+            document.getElementById('totalAmountDue').textContent = `₱${totalDue}`;
+            
+            // Show downpayment if reserved customer
+            if (currentSessionData.downpayment > 0) {
+                document.getElementById('downpaymentRow').style.display = 'flex';
+                document.getElementById('downpayment').textContent = `-₱${currentSessionData.downpayment}`;
+            }
+            
+            // Store calculated values for later use
+            currentSessionData.exitTime = exitTimeString;
+            currentSessionData.duration = durationString;
+            currentSessionData.baseRate = baseRate;
+            currentSessionData.totalDue = totalDue;
+        }
+
+        function selectPaymentMethod(method) {
+            // Remove previous selection
+            document.querySelectorAll('.payment-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // Add selection to clicked option
+            const selectedOption = document.querySelector(`[data-method="${method}"]`);
+            selectedOption.classList.add('selected');
+            
+            selectedPaymentMethod = method;
+            document.getElementById('processPaymentBtn').disabled = false;
+        }
+
+        function processPayment() {
+            if (!selectedPaymentMethod) return;
+            
+            if (selectedPaymentMethod === 'cash') {
+                showCashPayment();
+            } else {
+                showDigitalPayment(selectedPaymentMethod);
+            }
+            
+            showStep('paymentProcessingStep');
+        }
+
+        function showCashPayment() {
+            document.getElementById('paymentTitle').textContent = 'Cash Payment';
+            document.getElementById('paymentSubtitle').textContent = 'Collect payment from customer';
+            document.getElementById('cashAmount').textContent = `₱${currentSessionData.totalDue}`;
+            document.getElementById('cashPaymentSection').style.display = 'block';
+            document.getElementById('digitalPaymentSection').style.display = 'none';
+        }
+
+        function showDigitalPayment(method) {
+            const methodName = method === 'gcash' ? 'GCash' : 'Maya';
+            document.getElementById('paymentTitle').textContent = `${methodName} Payment`;
+            document.getElementById('paymentSubtitle').textContent = `Show QR code to customer`;
+            document.getElementById('qrPaymentAmount').textContent = `₱${currentSessionData.totalDue}`;
+            document.getElementById('qrInstructionTitle').textContent = `Show QR to customer`;
+            document.getElementById('qrInstructionText').textContent = `Customer scans with ${methodName} app to pay`;
+            document.getElementById('cashPaymentSection').style.display = 'none';
+            document.getElementById('digitalPaymentSection').style.display = 'block';
+        }
+
+        function confirmCashPayment() {
+            completeExit('Cash');
+        }
+
+        function confirmDigitalPayment() {
+            const methodName = selectedPaymentMethod === 'gcash' ? 'GCash' : 'Maya';
+            completeExit(methodName);
+        }
+
+        function completeExit(paymentMethod) {
+            // Update receipt with session data
+            const now = new Date();
+            document.getElementById('receiptDate').textContent = now.toLocaleDateString() + ' - ' + now.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+            document.getElementById('receiptQrId').textContent = `#${currentSessionData.qrId}`;
+            document.getElementById('receiptEntryTime').textContent = currentSessionData.entryTime;
+            document.getElementById('receiptExitTime').textContent = currentSessionData.exitTime;
+            document.getElementById('receiptDuration').textContent = currentSessionData.duration;
+            document.getElementById('receiptTotalPaid').textContent = `₱${currentSessionData.baseRate}`;
+            document.getElementById('receiptPaymentMethod').textContent = paymentMethod;
+            
+            // Show downpayment on receipt if applicable
+            if (currentSessionData.downpayment > 0) {
+                document.getElementById('receiptDownpaymentRow').style.display = 'flex';
+            }
+            
+            showStep('completionStep');
+            
+            // Simulate database logging
+            setTimeout(() => {
+                console.log('Exit logged to database:', {
+                    qrId: currentSessionData.qrId,
+                    type: currentSessionData.type,
+                    entryTime: currentSessionData.entryTime,
+                    exitTime: currentSessionData.exitTime,
+                    duration: currentSessionData.duration,
+                    totalPaid: currentSessionData.baseRate,
+                    paymentMethod: paymentMethod
+                });
+            }, 1000);
+        }
+
+        function showStep(stepId) {
+            // Hide all steps
+            document.querySelectorAll('.exit-step').forEach(step => {
+                step.style.display = 'none';
+            });
+            
+            // Show current step
+            document.getElementById(stepId).style.display = 'block';
+        }
+
+        function backToQREntry() {
+            showStep('qrEntryStep');
+            // Reset payment selection
+            selectedPaymentMethod = null;
+            document.querySelectorAll('.payment-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            document.getElementById('processPaymentBtn').disabled = true;
+        }
+
+        function backToFeeCalculation() {
+            showStep('feeCalculationStep');
+        }
+
+        function startNewExit() {
+            // Reset everything
+            document.getElementById('qrIdInput').value = '';
+            selectedPaymentMethod = null;
+            currentSessionData = null;
+            document.getElementById('findSessionBtn').disabled = true;
+            document.getElementById('processPaymentBtn').disabled = true;
+            document.querySelectorAll('.payment-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            showStep('qrEntryStep');
+        }
+
+        function returnToPOS() {
+            window.location.href = 'owner-pos.html';
+        }
+    </script>
+
+    <style>
+        /* Step Headers */
+        .step-header {
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .step-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .step-subtitle {
+            font-size: 14px;
+            color: #666;
+        }
+
+        /* QR Entry Section */
+        .qr-entry-section {
+            margin-bottom: 25px;
+        }
+
+        .qr-scanner-placeholder {
+            background: #f5f5f5;
+            border: 2px dashed #ddd;
+            border-radius: 12px;
+            padding: 30px 20px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .scanner-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .scanner-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .scanner-subtitle {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .manual-entry-section {
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .input-label {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        .qr-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            margin-bottom: 15px;
+        }
+
+        .qr-input:focus {
+            outline: none;
+            border-color: #333;
+        }
+
+        .find-session-btn {
+            width: 100%;
+            background: #333;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .find-session-btn:hover:not(:disabled) {
+            background: #444;
+        }
+
+        .find-session-btn:disabled {
+            background: #999;
+            cursor: not-allowed;
+        }
+
+        /* Session Summary */
+        .session-summary {
+            margin-bottom: 25px;
+        }
+
+        .summary-card {
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .session-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .session-qr {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            font-family: 'Courier New', monospace;
+        }
+
+        .session-type {
+            background: #f5f5f5;
+            color: #333;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .time-summary {
+            margin-bottom: 20px;
+        }
+
+        .time-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .time-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .time-row.total-time {
+            padding-top: 8px;
+            border-top: 1px solid #eee;
+            font-weight: 600;
+        }
+
+        .time-label {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .time-value {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .fee-breakdown {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .fee-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .fee-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .fee-row.total-fee {
+            padding-top: 8px;
+            border-top: 1px solid #ddd;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .fee-label {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .fee-value {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        /* Payment Options */
+        .payment-section {
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .payment-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .payment-option {
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 12px;
+            padding: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .payment-option:hover {
+            border-color: #333;
+            background: #f5f5f5;
+        }
+
+        .payment-option.selected {
+            border-color: #333;
+            background: #f5f5f5;
+        }
+
+        .payment-icon {
+            font-size: 24px;
+            margin-right: 15px;
+            width: 40px;
+            text-align: center;
+        }
+
+        .payment-text {
+            flex: 1;
+        }
+
+        .payment-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 2px;
+        }
+
+        .payment-desc {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .payment-radio {
+            width: 16px;
+            height: 16px;
+            border: 2px solid #ddd;
+            border-radius: 50%;
+            position: relative;
+        }
+
+        .payment-option.selected .payment-radio {
+            border-color: #333;
+        }
+
+        .payment-option.selected .payment-radio::after {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: #333;
+            border-radius: 50%;
+            position: absolute;
+            top: 2px;
+            left: 2px;
+        }
+
+        /* Cash Payment */
+        .cash-payment-card {
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .cash-amount {
+            margin-bottom: 20px;
+        }
+
+        .amount-label {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        .amount-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: #333;
+            font-family: 'Courier New', monospace;
+        }
+
+        .cash-instructions {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        /* QR Payment */
+        .qr-payment-card {
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .payment-qr-display {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .payment-qr-code {
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+
+        .qr-placeholder {
+            width: 120px;
+            height: 120px;
+            background: #f5f5f5;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+            font-family: monospace;
+        }
+
+        .qr-dots {
+            font-size: 12px;
+            line-height: 1.2;
+        }
+
+        .qr-row {
+            margin-bottom: 2px;
+        }
+
+        .qr-amount {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            font-family: 'Courier New', monospace;
+        }
+
+        .qr-instructions {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .instruction-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .instruction-text {
+            font-size: 12px;
+            color: #666;
+            line-height: 1.4;
+        }
+
+        /* Receipt Section */
+        .receipt-section {
+            margin-bottom: 25px;
+        }
+
+        .receipt-card {
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .receipt-header {
+            text-align: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .receipt-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .receipt-date {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .receipt-details {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .receipt-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .receipt-row.total {
+            padding-top: 8px;
+            border-top: 1px solid #eee;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .receipt-label {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .receipt-value {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .completion-message {
+            text-align: center;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            border: 1px solid #e9ecef;
+        }
+
+        .completion-icon {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+
+        .completion-text {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .completion-subtext {
+            font-size: 12px;
+            color: #666;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .back-btn-step,
+        .back-payment-btn {
+            flex: 1;
+            background: white;
+            color: #333;
+            border: 2px solid #ddd;
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn-step:hover,
+        .back-payment-btn:hover {
+            border-color: #333;
+            background: #f5f5f5;
+        }
+
+        .process-payment-btn,
+        .confirm-payment-btn {
+            flex: 2;
+            background: #333;
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .process-payment-btn:hover:not(:disabled),
+        .confirm-payment-btn:hover {
+            background: #444;
+        }
+
+        .process-payment-btn:disabled {
+            background: #999;
+            cursor: not-allowed;
+        }
+
+        .new-exit-btn,
+        .return-pos-btn {
+            flex: 1;
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .new-exit-btn {
+            background: white;
+            color: #333;
+            border: 2px solid #ddd;
+        }
+
+        .new-exit-btn:hover {
+            border-color: #333;
+            background: #f5f5f5;
+        }
+
+        .return-pos-btn {
+            background: #333;
+            color: white;
+            border: none;
+        }
+
+        .return-pos-btn:hover {
+            background: #444;
+        }
+
+        /* Responsive */
+        @media (max-width: 400px) {
+            .action-buttons {
+                flex-direction: column;
+                gap: 8px;
+            }
+            
+            .session-header {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+        }
+    </style>
+</body>
+</html>

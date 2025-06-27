@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ParkEase - Reserved Entry</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="phone-container">
+        <div class="screen">
+            <div class="header">
+                <div class="status-bar">
+                    <span>9:41</span>
+                    <span>100%</span>
+                </div>
+                <button class="back-btn" onclick="window.location.href='owner-pos.html'">←</button>
+                <h1>Reserved Entry</h1>
+                <p>Find and process customer reservations</p>
+            </div>
+            
+            <div class="content">
+                <!-- Step 1: Search for Reservation -->
+                <div class="search-step" id="searchStep">
+                    <div class="step-header">
+                        <div class="step-title">Find Customer Reservation</div>
+                        <div class="step-subtitle">Search by name or phone number</div>
+                    </div>
+                    
+                    <div class="search-section">
+                        <div class="search-input-group">
+                            <input type="text" class="search-input" id="reservationSearch" placeholder="Enter customer name or phone number" onkeyup="searchReservations()">
+                        </div>
+                        
+                        <div class="search-results" id="searchResults">
+                            <!-- Sample reservations -->
+                            <div class="reservation-item" data-customer="Juan Dela Cruz" data-phone="0917-123-4567" onclick="selectReservation(this)">
+                                <div class="reservation-header">
+                                    <div class="customer-info">
+                                        <div class="customer-name">Juan Dela Cruz</div>
+                                        <div class="customer-phone">0917-123-4567</div>
+                                    </div>
+                                    <div class="reservation-status">
+                                        <div class="status-timer">23:15</div>
+                                        <div class="status-label">Time Left</div>
+                                    </div>
+                                </div>
+                                <div class="reservation-details">
+                                    <div class="detail-row">
+                                        <span class="detail-label">Reserved:</span>
+                                        <span class="detail-value">5 minutes ago</span>
+                                    </div>
+                                    <div class="detail-row">
+                                        <span class="detail-label">Downpayment:</span>
+                                        <span class="detail-value">₱50 paid</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="reservation-item" data-customer="Maria Santos" data-phone="0926-876-5432" onclick="selectReservation(this)">
+                                <div class="reservation-header">
+                                    <div class="customer-info">
+                                        <div class="customer-name">Maria Santos</div>
+                                        <div class="customer-phone">0926-876-5432</div>
+                                    </div>
+                                    <div class="reservation-status">
+                                        <div class="status-timer">18:42</div>
+                                        <div class="status-label">Time Left</div>
+                                    </div>
+                                </div>
+                                <div class="reservation-details">
+                                    <div class="detail-row">
+                                        <span class="detail-label">Reserved:</span>
+                                        <span class="detail-value">12 minutes ago</span>
+                                    </div>
+                                    <div class="detail-row">
+                                        <span class="detail-label">Downpayment:</span>
+                                        <span class="detail-value">₱50 paid</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="reservation-item" data-customer="Anna Reyes" data-phone="0915-555-7890" onclick="selectReservation(this)">
+                                <div class="reservation-header">
+                                    <div class="customer-info">
+                                        <div class="customer-name">Anna Reyes</div>
+                                        <div class="customer-phone">0915-555-7890</div>
+                                    </div>
+                                    <div class="reservation-status">
+                                        <div class="status-timer">09:33</div>
+                                        <div class="status-label">Time Left</div>
+                                    </div>
+                                </div>
+                                <div class="reservation-details">
+                                    <div class="detail-row">
+                                        <span class="detail-label">Reserved:</span>
+                                        <span class="detail-value">21 minutes ago</span>
+                                    </div>
+                                    <div class="detail-row">
+                                        <span class="detail-label">Downpayment:</span>
+                                        <span class="detail-value">₱50 paid</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="no-results" id="noResults" style="display: none;">
+                            <div class="no-results-icon">🔍</div>
+                            <div class="no-results-text">No reservations found</div>
+                            <div class="no-results-subtext">Check the spelling or try searching by phone number</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Step 2: Confirm Reservation -->
+                <div class="confirm-step" id="confirmStep" style="display: none;">
+                    <div class="step-header">
+                        <div class="step-title">Confirm Reserved Entry</div>
+                        <div class="step-subtitle">Process customer check-in</div>
+                    </div>
+                    
+                    <div class="customer-summary">
+                        <div class="summary-card">
+                            <div class="customer-header">
+                                <div class="customer-avatar" id="customerAvatar">JD</div>
+                                <div class="customer-details">
+                                    <div class="customer-name" id="selectedCustomerName">Juan Dela Cruz</div>
+                                    <div class="customer-phone" id="selectedCustomerPhone">0917-123-4567</div>
+                                </div>
+                            </div>
+                            
+                            <div class="reservation-summary">
+                                <div class="summary-row">
+                                    <span class="summary-label">Downpayment Paid:</span>
+                                    <span class="summary-value">₱50</span>
+                                </div>
+                                <div class="summary-row">
+                                    <span class="summary-label">Remaining Payment:</span>
+                                    <span class="summary-value">Pay on exit (₱25/hr)</span>
+                                </div>
+                                <div class="summary-row">
+                                    <span class="summary-label">Time Remaining:</span>
+                                    <span class="summary-value" id="selectedTimeRemaining">23:15</span>
+                                </div>
+                                <div class="summary-row">
+                                    <span class="summary-label">Entry Time:</span>
+                                    <span class="summary-value" id="entryTime">--:--</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="confirm-instructions">
+                        <div class="instruction-title">Process reserved entry?</div>
+                        <div class="instruction-text">Customer will be checked in and can park. Their reservation timer will be marked as fulfilled.</div>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <button class="back-btn-step" onclick="backToSearch()">Back to Search</button>
+                        <button class="complete-entry-btn" onclick="completeReservedEntry()">
+                            Check In Customer
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function searchReservations() {
+            const searchTerm = document.getElementById('reservationSearch').value.toLowerCase();
+            const reservationItems = document.querySelectorAll('.reservation-item');
+            const noResults = document.getElementById('noResults');
+            let hasVisibleResults = false;
+            
+            reservationItems.forEach(item => {
+                const customerName = item.getAttribute('data-customer').toLowerCase();
+                const customerPhone = item.getAttribute('data-phone').toLowerCase();
+                
+                if (searchTerm === '' || customerName.includes(searchTerm) || customerPhone.includes(searchTerm)) {
+                    item.style.display = 'block';
+                    hasVisibleResults = true;
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+            
+            // Show/hide no results message
+            if (searchTerm !== '' && !hasVisibleResults) {
+                noResults.style.display = 'block';
+            } else {
+                noResults.style.display = 'none';
+            }
+        }
+
+        function selectReservation(element) {
+            // Remove previous selection
+            document.querySelectorAll('.reservation-item').forEach(item => {
+                item.classList.remove('selected');
+            });
+            
+            // Add selection to clicked item
+            element.classList.add('selected');
+            
+            // Get customer data
+            const customerName = element.getAttribute('data-customer');
+            const customerPhone = element.getAttribute('data-phone');
+            const timeRemaining = element.querySelector('.status-timer').textContent;
+            
+            // Update confirmation step with customer data
+            document.getElementById('selectedCustomerName').textContent = customerName;
+            document.getElementById('selectedCustomerPhone').textContent = customerPhone;
+            document.getElementById('selectedTimeRemaining').textContent = timeRemaining;
+            document.getElementById('entryTime').textContent = new Date().toLocaleTimeString();
+            
+            // Generate avatar initials
+            const initials = customerName.split(' ').map(n => n[0]).join('').substring(0, 2);
+            document.getElementById('customerAvatar').textContent = initials;
+            
+            // Show confirmation step
+            document.getElementById('searchStep').style.display = 'none';
+            document.getElementById('confirmStep').style.display = 'block';
+        }
+
+        function backToSearch() {
+            // Clear selection
+            document.querySelectorAll('.reservation-item').forEach(item => {
+                item.classList.remove('selected');
+            });
+            
+            // Show search step
+            document.getElementById('searchStep').style.display = 'block';
+            document.getElementById('confirmStep').style.display = 'none';
+        }
+
+        function completeReservedEntry() {
+            const customerName = document.getElementById('selectedCustomerName').textContent;
+            const customerPhone = document.getElementById('selectedCustomerPhone').textContent;
+            const entryTime = document.getElementById('entryTime').textContent;
+            
+            // Show completion message
+            alert(`Reserved Entry Complete!\n\nCustomer: ${customerName}\nPhone: ${customerPhone}\nEntry Time: ${entryTime}\nDownpayment: ₱50 (already paid)\nStatus: Checked in\n\nCustomer can now park. Remaining payment due on exit.`);
+            
+            // Return to POS system
+            window.location.href = 'owner-pos.html';
+        }
+
+        // Update timers every second
+        function updateTimers() {
+            document.querySelectorAll('.status-timer').forEach(timer => {
+                const currentTime = timer.textContent;
+                const [minutes, seconds] = currentTime.split(':').map(n => parseInt(n));
+                
+                let totalSeconds = minutes * 60 + seconds;
+                totalSeconds--;
+                
+                if (totalSeconds <= 0) {
+                    timer.textContent = 'Expired';
+                    timer.style.color = '#999';
+                } else {
+                    const newMinutes = Math.floor(totalSeconds / 60);
+                    const newSeconds = totalSeconds % 60;
+                    timer.textContent = `${newMinutes.toString().padStart(2, '0')}:${newSeconds.toString().padStart(2, '0')}`;
+                }
+            });
+        }
+
+        // Start timer updates
+        setInterval(updateTimers, 1000);
+    </script>
+
+    <style>
+        /* Step Headers */
+        .step-header {
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .step-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .step-subtitle {
+            font-size: 14px;
+            color: #666;
+        }
+
+        /* Search Section */
+        .search-section {
+            margin-bottom: 25px;
+        }
+
+        .search-input-group {
+            margin-bottom: 20px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #333;
+        }
+
+        /* Reservation Items */
+        .search-results {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .reservation-item {
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 12px;
+            padding: 18px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .reservation-item:hover {
+            border-color: #333;
+            background: #f5f5f5;
+        }
+
+        .reservation-item.selected {
+            border-color: #333;
+            background: #f5f5f5;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .reservation-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .customer-info {
+            flex: 1;
+        }
+
+        .customer-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .customer-phone {
+            font-size: 13px;
+            color: #666;
+        }
+
+        .reservation-status {
+            text-align: right;
+        }
+
+        .status-timer {
+            font-size: 20px;
+            font-weight: 700;
+            color: #333;
+            font-family: 'Courier New', monospace;
+            margin-bottom: 4px;
+        }
+
+        .status-label {
+            font-size: 11px;
+            color: #666;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .reservation-details {
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+            margin-top: 8px;
+        }
+
+        .detail-row {
+            display: flex;
+            gap: 3px;
+        }
+
+        .detail-label {
+            color: #999;
+            font-size: 10px;
+            text-transform: uppercase;
+        }
+
+        .detail-value {
+            color: #666;
+            font-weight: 500;
+            font-size: 10px;
+        }
+
+        /* No Results */
+        .no-results {
+            text-align: center;
+            padding: 50px 20px;
+            color: #666;
+        }
+
+        .no-results-icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        .no-results-text {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        .no-results-subtext {
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        /* Customer Summary */
+        .customer-summary {
+            margin-bottom: 25px;
+        }
+
+        .summary-card {
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .customer-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .customer-avatar {
+            width: 60px;
+            height: 60px;
+            background: #333;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: 600;
+            margin-right: 15px;
+        }
+
+        .customer-details {
+            flex: 1;
+        }
+
+        .customer-details .customer-name {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .customer-details .customer-phone {
+            font-size: 16px;
+            color: #666;
+        }
+
+        .reservation-summary {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .summary-label {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .summary-value {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        /* Instructions */
+        .confirm-instructions {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            border: 1px solid #e9ecef;
+        }
+
+        .instruction-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .instruction-text {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .back-btn-step {
+            flex: 1;
+            background: white;
+            color: #333;
+            border: 2px solid #ddd;
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn-step:hover {
+            border-color: #333;
+            background: #f5f5f5;
+        }
+
+        .complete-entry-btn {
+            flex: 2;
+            background: #333;
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .complete-entry-btn:hover {
+            background: #444;
+        }
+
+        /* Responsive */
+        @media (max-width: 400px) {
+            .action-buttons {
+                flex-direction: column;
+                gap: 8px;
+            }
+            
+            .reservation-header {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .reservation-status {
+                text-align: left;
+            }
+        }
+    </style>
+</body>
+</html>

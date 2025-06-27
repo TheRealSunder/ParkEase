@@ -32,24 +32,47 @@
                     <div class="section-title">Today's Overview</div>
                     <div class="overview-grid">
                         <div class="overview-card">
-                            <div class="overview-value" id="totalSpaces">0</div>
+                            <div class="overview-value" id="totalSpaces">50</div>
                             <div class="overview-label">Total Spaces</div>
                         </div>
                         <div class="overview-card">
-                            <div class="overview-value" id="occupiedSpaces">0</div>
+                            <div class="overview-value" id="occupiedSpaces">46</div>
                             <div class="overview-label">Currently Parked</div>
                         </div>
                         <div class="overview-card">
-                            <div class="overview-value" id="todayEarnings">₱0</div>
+                            <div class="overview-value" id="todayEarnings">₱1,840</div>
                             <div class="overview-label">Today's Revenue</div>
                         </div>
                     </div>
                 </div>
 
+                <!-- Main Actions Section -->
+                <div class="main-actions-section">
+                    <div class="section-title">Parking Management</div>
+                    
+                    <!-- Setup Parking Area -->
+                    <button class="action-card setup-card" onclick="setupParkingArea()">
+                        <div class="card-content">
+                            <div class="card-title">Setup Your Parking Area</div>
+                            <div class="card-subtitle">Configure spaces, levels, pricing, and reservation settings</div>
+                        </div>
+                        <div class="card-arrow">></div>
+                    </button>
+                    
+                    <!-- Manage Operations -->
+                    <button class="action-card operations-card" onclick="manageParkingOperations()">
+                        <div class="card-content">
+                            <div class="card-title">Parking POS System</div>
+                            <div class="card-subtitle">Handle customer entries, exits, and real-time parking management</div>
+                        </div>
+                        <div class="card-arrow">></div>
+                    </button>
+                </div>
+
                 <!-- Your Parking Area (Only show if setup) -->
                 <div class="parking-area-section" id="parkingAreaSection" style="display: none;">
                     <div class="section-title">Your Parking Area</div>
-                    <div class="parking-area-card" onclick="manageParkingArea()">
+                    <div class="parking-area-card" onclick="manageParkingOperations()">
                         <div class="area-info">
                             <div class="area-name" id="areaName">EGI Taft Parking</div>
                             <div class="area-location" id="areaLocation">Taft Avenue, Manila</div>
@@ -67,16 +90,6 @@
                     </div>
                 </div>
 
-                <!-- Setup/Configure Button -->
-                <div class="setup-section">
-                    <button class="setup-btn" onclick="setupParkingArea()" id="setupButton">
-                        <div class="setup-text">
-                            <div class="setup-title" id="setupTitle">Setup Your Parking Area</div>
-                            <div class="setup-subtitle" id="setupSubtitle">Configure spaces, levels, pricing, and reservation settings</div>
-                        </div>
-                    </button>
-                </div>
-
                 <!-- Sign Out -->
                 <div class="signout-section">
                     <button class="signout-btn" onclick="signOut()">
@@ -88,8 +101,8 @@
     </div>
 
     <script>
-        function manageParkingArea() {
-            // Route to POS system
+        function manageParkingOperations() {
+            // Route to POS system for daily operations
             window.location.href = 'owner-pos.html';
         }
 
@@ -180,6 +193,72 @@
             font-weight: 600;
         }
 
+        /* Main Actions Section */
+        .main-actions-section {
+            margin-bottom: 30px;
+        }
+
+        .action-card {
+            width: 100%;
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 12px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            text-align: left;
+            margin-bottom: 15px;
+        }
+
+        .action-card:hover {
+            border-color: #333;
+            background: #f5f5f5;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .setup-card:hover {
+            border-color: #2196F3;
+            background: #f8fbff;
+        }
+
+        .operations-card:hover {
+            border-color: #4CAF50;
+            background: #f8fff9;
+        }
+
+        .card-icon {
+            font-size: 28px;
+            margin-right: 15px;
+            width: 50px;
+            text-align: center;
+        }
+
+        .card-content {
+            flex: 1;
+        }
+
+        .card-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .card-subtitle {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.4;
+        }
+
+        .card-arrow {
+            font-size: 18px;
+            color: #ccc;
+            margin-left: 10px;
+        }
+
         /* Parking Area Section */
         .parking-area-section {
             margin-bottom: 30px;
@@ -260,44 +339,6 @@
             font-size: 16px;
             color: #ccc;
             margin-top: 4px;
-        }
-
-        /* Setup Section */
-        .setup-section {
-            margin-bottom: 30px;
-        }
-
-        .setup-btn {
-            width: 100%;
-            background: white;
-            border: 2px solid #333;
-            border-radius: 12px;
-            padding: 20px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-        }
-
-        .setup-btn:hover {
-            background: #333;
-            color: white;
-        }
-
-        .setup-icon {
-            font-size: 24px;
-            margin-right: 15px;
-        }
-
-        .setup-title {
-            font-size: 16px;
-            font-weight: 600;
-            margin-bottom: 2px;
-        }
-
-        .setup-subtitle {
-            font-size: 13px;
-            opacity: 0.8;
         }
 
         /* Sign Out Section */
