@@ -1,0 +1,54 @@
+/* User Type Selection Styles */
+.user-type-selection {
+    margin-bottom: 25px;
+}
+
+.user-type-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.user-type-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.user-type-option {
+    padding: 20px 15px;
+    background: white;
+    border: 2px solid #ddd;
+    border-radius: 12px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.user-type-option.active {
+    background: #333;
+    color: white;
+    border-color: #333;
+}
+
+.user-type-option:hover:not(.active) {
+    border-color: #333;
+    background: #f5f5f5;
+}
+
+.user-type-icon {
+    font-size: 24px;
+    margin-bottom: 8px;
+}
+
+.user-type-label {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+/* Adjust form spacing */
+.auth-form {
+    padding: 30px 20px;
+}

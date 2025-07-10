@@ -1,0 +1,32 @@
+.unavailable-notice {
+    background: #f8f8f8;
+    border: 2px solid #ddd;
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.notice-icon {
+    font-size: 32px;
+    margin-bottom: 10px;
+}
+
+.notice-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.notice-subtitle {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.notice-description {
+    font-size: 12px;
+    color: #666;
+    line-height: 1.4;
+}

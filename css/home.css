@@ -1,0 +1,23 @@
+/* Pricing Details Styling */
+.pricing-details {
+    text-align: right;
+}
+
+.base-rate {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 2px;
+}
+
+.pricing-model {
+    font-size: 11px;
+    color: #666;
+    font-style: italic;
+}
+
+.price {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+}

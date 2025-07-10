@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ParkEase - Login</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/index.css">
 </head>
 <body>
     <div class="phone-container">
@@ -66,138 +67,6 @@
         </div>
     </div>
 
-<script>
-        function validateAndProceed() {
-            const email = document.getElementById('loginInput').value;
-            const password = document.getElementById('passwordInput').value;
-
-            // Basic validation
-            if (!email || !password) {
-                alert('Please fill in all fields');
-                return;
-            }
-
-            // Hide login step and show user type selection
-            document.getElementById('loginStep').style.display = 'none';
-            document.getElementById('userTypeStep').style.display = 'block';
-        }
-
-        function selectUserType(userType) {
-            // Route based on user type
-            if (userType === 'driver') {
-                window.location.href = 'home.html';
-            } else if (userType === 'owner') {
-                window.location.href = 'owner-dashboard.html';
-            }
-        }
-
-        function goBackToLogin() {
-            // Show login step and hide user type selection
-            document.getElementById('loginStep').style.display = 'block';
-            document.getElementById('userTypeStep').style.display = 'none';
-        }
-    </script>
-
-    <style>
-        /* User Type Selection Step Styles */
-        .step-header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .step-header h2 {
-            font-size: 24px;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 8px;
-        }
-
-        .step-header p {
-            font-size: 16px;
-            color: #666;
-        }
-
-        .user-type-selection {
-            margin-bottom: 30px;
-        }
-
-        .user-type-options {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .user-type-option {
-            padding: 20px;
-            background: white;
-            border: 2px solid #ddd;
-            border-radius: 12px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .user-type-option:hover {
-            border-color: #333;
-            background: #f5f5f5;
-        }
-
-        .user-type-option:active {
-            transform: scale(0.98);
-        }
-
-        .user-type-icon {
-            font-size: 32px;
-            margin-bottom: 12px;
-        }
-
-        .user-type-label {
-            font-size: 16px;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 6px;
-        }
-
-        .user-type-description {
-            font-size: 14px;
-            color: #666;
-        }
-
-        .back-to-login {
-            background: none;
-            border: none;
-            color: #666;
-            font-size: 14px;
-            cursor: pointer;
-            text-align: center;
-            width: 100%;
-            padding: 10px;  
-            text-decoration: underline;
-        }
-
-        .back-to-login:hover {
-            color: #333;
-        }
-
-        /* Adjust auth-form spacing */
-        .auth-form {
-            padding: 30px 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            max-width: 300px;
-            margin: 0 auto;
-            flex: 1;
-            justify-content: center;
-        }
-
-        .auth-step {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-    </style>
-
-
+    <script src="js/index.js"></script>
 </body>
 </html>

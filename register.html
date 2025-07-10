@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ParkEase - Register</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/register.css">
 </head>
 <body>
     <div class="phone-container">
@@ -68,107 +69,6 @@
         </div>
     </div>
 
-    <script>
-        let selectedUserType = 'driver'; // Default selection
-
-        // Handle user type selection
-        document.querySelectorAll('.user-type-option').forEach(option => {
-            option.addEventListener('click', function() {
-                // Remove active class from all options
-                document.querySelectorAll('.user-type-option').forEach(opt => opt.classList.remove('active'));
-                
-                // Add active class to clicked option
-                this.classList.add('active');
-                
-                // Update selected user type
-                selectedUserType = this.getAttribute('data-type');
-            });
-        });
-
-        function handleRegister() {
-            const fullName = document.getElementById('fullName').value;
-            const email = document.getElementById('email').value;
-            const phone = document.getElementById('phone').value;
-            const password = document.getElementById('password').value;
-            const confirmPassword = document.getElementById('confirmPassword').value;
-
-            // Basic validation
-            if (!fullName || !email || !phone || !password || !confirmPassword) {
-                alert('Please fill in all fields');
-                return;
-            }
-
-            if (password !== confirmPassword) {
-                alert('Passwords do not match');
-                return;
-            }
-
-            // Route based on user type after successful registration
-            if (selectedUserType === 'driver') {
-                // Redirect to driver dashboard
-                window.location.href = 'home.html';
-            } else if (selectedUserType === 'owner') {
-                // Redirect to owner dashboard
-                window.location.href = 'owner-dashboard.html';
-            }
-        }
-    </script>
-
-    <style>
-        /* User Type Selection Styles */
-        .user-type-selection {
-            margin-bottom: 25px;
-        }
-
-        .user-type-title {
-            font-size: 16px;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 15px;
-            text-align: center;
-        }
-
-        .user-type-options {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-        }
-
-        .user-type-option {
-            padding: 20px 15px;
-            background: white;
-            border: 2px solid #ddd;
-            border-radius: 12px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .user-type-option.active {
-            background: #333;
-            color: white;
-            border-color: #333;
-        }
-
-        .user-type-option:hover:not(.active) {
-            border-color: #333;
-            background: #f5f5f5;
-        }
-
-        .user-type-icon {
-            font-size: 24px;
-            margin-bottom: 8px;
-        }
-
-        .user-type-label {
-            font-size: 14px;
-            font-weight: 600;
-        }
-
-        /* Adjust form spacing */
-        .auth-form {
-            padding: 30px 20px;
-        }
-    </style>
+    <script src="js/register.js"></script>
 </body>
 </html>

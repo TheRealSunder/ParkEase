@@ -1,34 +1,11 @@
-<style>
-        /* Pricing Details Styling */
-        .pricing-details {
-            text-align: right;
-        }
-
-        .base-rate {
-            font-size: 14px;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 2px;
-        }
-
-        .pricing-model {
-            font-size: 11px;
-            color: #666;
-            font-style: italic;
-        }
-
-        .price {
-            font-size: 14px;
-            font-weight: 600;
-            color: #333;
-        }
-    </style><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ParkEase - Find Parking</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/home.css">
 </head>
 <body>
     <div class="phone-container">
@@ -131,45 +108,6 @@
         </div>
     </div>
 
-<script>
-    const egiMaxSlots = 100;
-    let egiSlots = 4;
-    const egiSpan = document.getElementById("egi-availability");
-
-    function updateEGISlots() {
-        const change = Math.random() < 0.5 ? -1 : 1;
-        const newSlots = egiSlots + change;
-
-        if (newSlots >= 0 && newSlots <= egiMaxSlots) {
-            egiSlots = newSlots;
-            egiSpan.textContent = `${egiSlots} slots`;
-        }
-        const nextInterval = Math.random() * 9000 + 1000;
-        setTimeout(updateEGISlots, nextInterval);
-    }
-
-    setTimeout(updateEGISlots, Math.random() * 9000 + 1000);
-
-    // One Archer's Place timer
-    const oapMaxSlots = 50;
-    let oapSlots = 14;
-    const oapSpan = document.getElementById("oap-availability");
-
-    function updateOAPSlots() {
-        const change = Math.random() < 0.5 ? -1 : 1;
-        const newSlots = oapSlots + change;
-
-        if (newSlots >= 0 && newSlots <= oapMaxSlots) {
-            oapSlots = newSlots;
-            oapSpan.textContent = `${oapSlots} slots`;
-        }
-        const nextInterval = Math.random() * 9000 + 1000;
-        setTimeout(updateOAPSlots, nextInterval);
-    }
-
-    setTimeout(updateOAPSlots, Math.random() * 9000 + 1000);
-</script>
-
-
+    <script src="js/home.js"></script>
 </body>
 </html>
