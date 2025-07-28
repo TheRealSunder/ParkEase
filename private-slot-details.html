@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ParkEase - Private Slot Details</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/private-slot-details.css">
+</head>
+<body>
+    <div class="phone-container">
+        <div class="screen">
+            <div class="header">
+                <div class="status-bar">
+                    <span>9:41</span>
+                    <span>100%</span>
+                </div>
+                <button class="back-btn" onclick="window.location.href='private-parking.html'">←</button>
+                <h1 id="slotTitle">Private Parking Slot</h1>
+                <p id="slotLocation">Slot Details</p>
+            </div>
+            
+            <div class="content">
+                <!-- Parking Spot Image -->
+                <div class="slot-image-section">
+                    <div class="image-container">
+                        <img id="slotImage" src="images/owner_1.png" alt="Parking Spot" onerror="this.src='images/placeholder.png'">
+                        <div class="image-overlay">
+                            <div class="availability-badge" id="availabilityBadge">Available</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slot Overview -->
+                <div class="slot-overview-section">
+                    <div class="overview-header">
+                        <div class="slot-info">
+                            <div class="slot-name" id="slotName">One Archer's Place - Tower A</div>
+                            <div class="slot-distance" id="slotDistance">0.3 km from DLSU • 5 min walk</div>
+                            <div class="slot-details" id="slotDetails">Level 2, Slot 15 • Covered parking</div>
+                        </div>
+                        <div class="slot-price">
+                            <div class="price-amount" id="priceAmount">₱200</div>
+                            <div class="price-duration">8 hours</div>
+                        </div>
+                    </div>
+                    
+                    <div class="slot-rating">
+                        <div class="rating-stars" id="ratingStars">
+                            <span class="star filled">★</span>
+                            <span class="star filled">★</span>
+                            <span class="star filled">★</span>
+                            <span class="star filled">★</span>
+                            <span class="star">★</span>
+                        </div>
+                        <span class="rating-text" id="ratingText">4.8 (12 reviews)</span>
+                    </div>
+                </div>
+
+                <!-- Owner Information -->
+                <div class="owner-section">
+                    <div class="section-title">Parking Owner</div>
+                    <div class="owner-card">
+                        <div class="owner-avatar" id="ownerAvatar">MS</div>
+                        <div class="owner-info">
+                            <div class="owner-name" id="ownerName">Maria Santos</div>
+                            <div class="owner-meta">
+                                <div class="owner-rating">⭐ 4.9 Owner Rating</div>
+                                <div class="owner-experience">2 years hosting</div>
+                            </div>
+                            <div class="owner-response">Usually responds within 1 hour</div>
+                        </div>
+                        <button class="contact-owner-btn" onclick="contactOwner()">
+                            Contact
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Parking Features -->
+                <div class="features-section">
+                    <div class="section-title">Parking Features</div>
+                    <div class="features-grid" id="featuresGrid">
+                        <div class="feature-item">
+                            <div class="feature-icon">🏢</div>
+                            <div class="feature-text">Covered Parking</div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">🔒</div>
+                            <div class="feature-text">Secure Building</div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">🚶</div>
+                            <div class="feature-text">Easy Access</div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">📹</div>
+                            <div class="feature-text">CCTV Monitored</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Location & Directions -->
+                <div class="location-section">
+                    <div class="section-title">Location & Directions</div>
+                    <div class="location-card">
+                        <div class="location-address" id="locationAddress">
+                            One Archer's Place, Taft Avenue, Manila
+                        </div>
+                        <div class="location-directions" id="locationDirections">
+                            Walk south on Taft Ave from DLSU main gate for 300m. Building is on the right side.
+                        </div>
+                        <button class="directions-btn" onclick="getDirections()">
+                            Get Directions
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Reviews Section -->
+                <div class="reviews-section">
+                    <div class="reviews-header">
+                        <div class="section-title">Reviews</div>
+                        <div class="reviews-summary" id="reviewsSummary">12 reviews</div>
+                    </div>
+                    
+                    <div class="reviews-list" id="reviewsList">
+                        <!-- Reviews will be loaded dynamically -->
+                    </div>
+                    
+                    <button class="view-all-reviews-btn" onclick="viewAllReviews()">
+                        View All Reviews
+                    </button>
+                </div>
+
+                <!-- Booking Section -->
+                <div class="booking-section">
+                    <div class="section-title">Book This Slot</div>
+                    <div class="booking-card">
+                        <div class="booking-time-picker">
+                            <div class="time-input-group">
+                                <label>Date</label>
+                                <input type="date" id="bookingDate" class="time-input">
+                            </div>
+                            <div class="time-input-group">
+                                <label>Start Time</label>
+                                <input type="time" id="startTime" class="time-input" value="09:00">
+                            </div>
+                            <div class="time-input-group">
+                                <label>Duration</label>
+                                <select id="duration" class="time-input">
+                                    <option value="4">4 hours</option>
+                                    <option value="6">6 hours</option>
+                                    <option value="8" selected>8 hours</option>
+                                    <option value="12">12 hours</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="booking-summary">
+                            <div class="summary-row">
+                                <span>Slot Rate (8 hours):</span>
+                                <span id="slotRate">₱200</span>
+                            </div>
+                            <div class="summary-row">
+                                <span>Service Fee:</span>
+                                <span>₱20</span>
+                            </div>
+                            <div class="summary-row total">
+                                <span>Total:</span>
+                                <span id="totalAmount">₱220</span>
+                            </div>
+                            <div class="summary-row payment">
+                                <span>Pay Now (Deposit):</span>
+                                <span>₱50</span>
+                            </div>
+                            <div class="summary-row payment">
+                                <span>Pay on Arrival:</span>
+                                <span id="payOnArrival">₱170</span>
+                            </div>
+                        </div>
+                        
+                        <button class="book-now-btn" onclick="bookSlot()">
+                            Book Now - ₱50 Deposit
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Owner Modal -->
+    <div id="contactModal" class="contact-modal" style="display: none;">
+        <div class="modal-overlay" onclick="hideContactModal()"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Contact Owner</h3>
+                <button class="close-btn" onclick="hideContactModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="contact-options">
+                    <button class="contact-option" onclick="callOwner()">
+                        <div class="contact-icon">📞</div>
+                        <div class="contact-text">
+                            <div class="contact-title">Call</div>
+                            <div class="contact-subtitle" id="ownerPhone">0917-123-4567</div>
+                        </div>
+                    </button>
+                    
+                    <button class="contact-option" onclick="messageOwner()">
+                        <div class="contact-icon">💬</div>
+                        <div class="contact-text">
+                            <div class="contact-title">Message</div>
+                            <div class="contact-subtitle">Send a text message</div>
+                        </div>
+                    </button>
+                </div>
+                
+                <div class="contact-note">
+                    <div class="note-title">Contact Guidelines</div>
+                    <div class="note-text">
+                        • Be respectful and clear about your parking needs<br>
+                        • Confirm availability before arriving<br>
+                        • Follow building rules and regulations
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/private-slot-details.js"></script>
+</body>
+</html>

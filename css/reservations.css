@@ -632,3 +632,158 @@
         gap: 8px;
     }
 }
+
+/* Add this section to css/reservations.css */
+
+/* Current Location Section */
+.current-location-section {
+    margin-bottom: 20px;
+}
+
+.location-display {
+    background: white;
+    border: 2px solid #ddd;
+    border-radius: 12px;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.location-display:hover {
+    border-color: #333;
+    background: #f5f5f5;
+}
+
+.location-icon {
+    font-size: 24px;
+    margin-right: 12px;
+}
+
+.location-info {
+    flex: 1;
+}
+
+.location-label {
+    font-size: 12px;
+    color: #666;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 2px;
+}
+
+.location-name {
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+}
+
+.change-location {
+    font-size: 14px;
+    color: #666;
+    font-weight: 500;
+    text-decoration: underline;
+}
+
+.change-location:hover {
+    color: #333;
+}
+
+/* Results Count */
+.results-count {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 15px;
+    text-align: center;
+    font-style: italic;
+}
+
+/* Private Parking Section */
+.private-header {
+    text-align: center;
+    margin-bottom: 20px;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 12px;
+    border: 1px solid #e9ecef;
+}
+
+.private-header .section-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.private-header .section-subtitle {
+    font-size: 14px;
+    color: #666;
+    line-height: 1.4;
+}
+
+/* Current Location Section */
+.current-location-section {
+    margin-bottom: 20px;
+}
+
+.location-display {
+    background: white;
+    border: 2px solid #ddd;
+    border-radius: 12px;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.location-display:hover {
+    border-color: #333;
+    background: #f5f5f5;
+}
+
+.location-icon {
+    font-size: 24px;
+    margin-right: 12px;
+}
+
+.location-info {
+    flex: 1;
+}
+
+.location-label {
+    font-size: 12px;
+    color: #666;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 2px;
+}
+
+.location-name {
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+}
+
+.change-location {
+    font-size: 14px;
+    color: #666;
+    font-weight: 500;
+    text-decoration: underline;
+}
+
+.change-location:hover {
+    color: #333;
+}
+
+/* Results Count */
+.results-count {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 15px;
+    text-align: center;
+    font-style: italic;
+}
+
+/* Private Parking Search */

@@ -16,7 +16,7 @@
                     <span>100%</span>
                 </div>
                 <h1>My Parking</h1>
-                <p>Reservations and private parking</p>
+                <p>Public parking and private slot rentals</p>
             </div>
             
             <div class="content">
@@ -181,14 +181,20 @@
                             No reservations match the selected filter. 
                             Browse available parking spots to make a new reservation.
                         </div>
-                        <button class="empty-action-btn" onclick="window.location.href='home.html'">
-                            Find Parking
+                        <button class="empty-action-btn" onclick="window.location.href='dlsu-home.html'">
+                            Find Public Parking
                         </button>
                     </div>
                 </div>
 
                 <!-- Private Parking Section -->
                 <div class="parking-section" id="privateSection" style="display: none;">
+                    <!-- Private Parking Header -->
+                    <div class="private-header">
+                        <div class="section-title">Private Parking</div>
+                        <div class="section-subtitle">Rent parking slots from individual owners near your campus</div>
+                    </div>
+
                     <!-- Search & Filter for Private -->
                     <div class="private-search-section">
                         <div class="search-filters">
@@ -322,11 +328,14 @@
             </div>
             
             <div class="bottom-nav">
-                <a href="home.html" class="nav-item">
+                <a href="dlsu-home.html" class="nav-item">
                     <div class="nav-icon">Home</div>
                 </a>
-                <a href="reservations.html" class="nav-item active">
-                    <div class="nav-icon">Parking</div>
+                <a href="public-parking.html" class="nav-item active">
+                    <div class="nav-icon">Public</div>
+                </a>
+                <a href="private-parking.html" class="nav-item">
+                    <div class="nav-icon">Private</div>
                 </a>
                 <a href="profile.html" class="nav-item">
                     <div class="nav-icon">Profile</div>

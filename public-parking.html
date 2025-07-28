@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ParkEase - Public Parking</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/reservations.css">
+</head>
+<body>
+    <div class="phone-container">
+        <div class="screen">
+            <div class="header">
+                <div class="status-bar">
+                    <span>9:41</span>
+                    <span>100%</span>
+                </div>
+                <h1>Public Parking</h1>
+                <p>Commercial parking lots and garages</p>
+            </div>
+            
+            <div class="content">
+                <!-- Filter Tabs for Public -->
+                <div class="filter-tabs">
+                    <div class="filter-tab active" onclick="filterReservations('all')">All</div>
+                    <div class="filter-tab" onclick="filterReservations('active')">Active</div>
+                    <div class="filter-tab" onclick="filterReservations('completed')">Completed</div>
+                    <div class="filter-tab" onclick="filterReservations('cancelled')">Cancelled</div>
+                </div>
+
+                <!-- Current Reservations -->
+                <div class="reservations-section">
+                    <div id="activeReservations">
+                        <!-- Reserved Status -->
+                        <div class="reservation-item reserved" data-status="active">
+                            <div class="reservation-header">
+                                <div class="reservation-info">
+                                    <div class="parking-name">EGI Taft Parking</div>
+                                    <div class="reservation-date">Reserved 5 minutes ago</div>
+                                </div>
+                                <div class="reservation-status">
+                                    <span class="status-badge reserved">Reserved</span>
+                                </div>
+                            </div>
+                            <div class="reservation-timer">
+                                <div class="timer-label">Time Remaining:</div>
+                                <div class="timer-display">24:32</div>
+                            </div>
+                            <div class="reservation-details">
+                                <div class="detail-item">
+                                    <span>Downpayment Paid:</span>
+                                    <span>₱50</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span>Remaining on arrival:</span>
+                                    <span>₱25/hr - ₱50</span>
+                                </div>
+                            </div>
+                            <div class="reservation-actions">
+                                <button class="cancel-btn" onclick="cancelReservation('egi-taft')">
+                                    Cancel Reservation
+                                </button>
+                                <button class="directions-btn" onclick="getDirections()">
+                                    Get Directions
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Ongoing Status -->
+                        <div class="reservation-item ongoing" data-status="active">
+                            <div class="reservation-header">
+                                <div class="reservation-info">
+                                    <div class="parking-name">NU Main Parking</div>
+                                    <div class="reservation-date">Parked since 1:30 PM</div>
+                                </div>
+                                <div class="reservation-status">
+                                    <span class="status-badge ongoing">Ongoing</span>
+                                </div>
+                            </div>
+                            <div class="ongoing-timer">
+                                <div class="timer-label">Duration:</div>
+                                <div class="timer-display ongoing-display">1h 45m</div>
+                                <div class="current-cost">Current Cost: ₱80</div>
+                            </div>
+                            <div class="reservation-details">
+                                <div class="detail-item">
+                                    <span>Base Rate Paid:</span>
+                                    <span>₱45</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span>Additional Hours:</span>
+                                    <span>₱35 (1h 45m)</span>
+                                </div>
+                            </div>
+                            <div class="reservation-actions">
+                                <button class="checkout-btn" onclick="checkoutParking('nu-main')">
+                                    Check Out & Pay
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="reservations-section">
+                    <div class="section-title">Recent Activity</div>
+                    <div id="recentReservations">
+                        <!-- Completed Status -->
+                        <div class="reservation-item completed" data-status="completed">
+                            <div class="reservation-header">
+                                <div class="reservation-info">
+                                    <div class="parking-name">One Archer's Place</div>
+                                    <div class="reservation-date">Yesterday, 2:30 PM - 4:45 PM</div>
+                                </div>
+                                <div class="reservation-status">
+                                    <span class="status-badge completed">Completed</span>
+                                </div>
+                            </div>
+                            <div class="reservation-details">
+                                <div class="detail-item">
+                                    <span>Duration:</span>
+                                    <span>2h 15m</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span>Total Paid:</span>
+                                    <span>₱68</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span>Payment Method:</span>
+                                    <span>Cash on exit</span>
+                                </div>
+                            </div>
+                            <div class="reservation-actions">
+                                <button class="review-btn" onclick="leaveReview('one-archers')">
+                                    Leave Review
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Cancelled Status -->
+                        <div class="reservation-item cancelled" data-status="cancelled">
+                            <div class="reservation-header">
+                                <div class="reservation-info">
+                                    <div class="parking-name">UST Main Parking</div>
+                                    <div class="reservation-date">3 days ago, 9:15 AM</div>
+                                </div>
+                                <div class="reservation-status">
+                                    <span class="status-badge cancelled">Cancelled</span>
+                                </div>
+                            </div>
+                            <div class="reservation-details">
+                                <div class="detail-item">
+                                    <span>Downpayment:</span>
+                                    <span>₱60 (Non-refundable)</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span>Cancellation time:</span>
+                                    <span>15 minutes after booking</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span>Reason:</span>
+                                    <span>Plans changed</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Empty State (for filtered results) -->
+                <div id="emptyState" class="empty-state" style="display: none;">
+                    <div class="empty-text">No Public Parking Reservations Found</div>
+                    <div class="empty-subtext">
+                        No reservations match the selected filter. 
+                        Browse available parking lots to make a new reservation.
+                    </div>
+                    <button class="empty-action-btn" onclick="window.location.href='dlsu-home.html'">
+                        Find Public Parking
+                    </button>
+                </div>
+            </div>
+            
+            <div class="bottom-nav">
+                <a href="dlsu-home.html" class="nav-item">
+                    <div class="nav-icon">Home</div>
+                </a>
+                <a href="public-parking.html" class="nav-item active">
+                    <div class="nav-icon">Public</div>
+                </a>
+                <a href="private-parking.html" class="nav-item">
+                    <div class="nav-icon">Private</div>
+                </a>
+                <a href="profile.html" class="nav-item">
+                    <div class="nav-icon">Profile</div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/reservations.js"></script>
+</body>
+</html>

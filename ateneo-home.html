@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ParkEase - Ateneo Campus</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="css/university-selector.css">
+</head>
+<body>
+    <div class="phone-container">
+        <div class="screen">
+            <div class="header ateneo-theme">
+                <div class="status-bar">
+                    <span>9:41</span>
+                    <span>100%</span>
+                </div>
+                <div class="university-selector" onclick="showUniversityModal()">
+                    <div class="current-university">
+                        <div class="university-image">
+                            <img src="images/ateneo_header.png" alt="Ateneo" onerror="this.style.display='none'">
+                        </div>
+                        <div class="university-info">
+                            <div class="university-name">Ateneo Campus</div>
+                            <div class="university-location">Quezon City</div>
+                        </div>
+                        <div class="selector-arrow">▼</div>
+                    </div>
+                </div>
+                <h1>Find Parking</h1>
+                <p>Near Ateneo Campus, Quezon City</p>
+            </div>
+            
+            <div class="content">
+                <div class="search-container">
+                    <input type="text" class="search-input" placeholder="Search parking lots...">
+                    <button class="search-btn">Search</button>
+                </div>
+                
+                <div class="parking-list">
+                    <div class="parking-card">
+                        <div class="parking-header">
+                            <div>
+                                <div class="parking-name">Ateneo Covered Court Parking</div>
+                                <div class="parking-distance">On campus • Near SEC Building</div>
+                            </div>
+                            <div class="availability">
+                                <span id="ateneo-court-availability" class="slots-available">6 slots</span>
+                            </div>
+                        </div>
+                        <div class="parking-info">
+                            <div class="pricing-details">
+                                <div class="base-rate">₱60 base rate</div>
+                                <div class="pricing-model">All-day parking</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="parking-card">
+                        <div class="parking-header">
+                            <div>
+                                <div class="parking-name">Katipunan Avenue Parking</div>
+                                <div class="parking-distance">0.3 km away • 4 min walk to campus</div>
+                            </div>
+                            <div class="availability">
+                                <span id="katipunan-availability" class="slots-available">15 slots</span>
+                            </div>
+                        </div>
+                        <div class="parking-info">
+                            <div class="pricing-details">
+                                <div class="base-rate">₱40/hr</div>
+                                <div class="pricing-model">Hourly parking</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="parking-card">
+                        <div class="parking-header">
+                            <div>
+                                <div class="parking-name">UP Town Center Parking</div>
+                                <div class="parking-distance">0.8 km away • 10 min walk to Ateneo</div>
+                            </div>
+                            <div class="availability">
+                                <span id="uptown-availability" class="slots-available">45 slots</span>
+                            </div>
+                        </div>
+                        <div class="parking-info">
+                            <div class="pricing-details">
+                                <div class="base-rate">₱30/hr</div>
+                                <div class="pricing-model">Mall parking</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="parking-card">
+                        <div class="parking-header">
+                            <div>
+                                <div class="parking-name">Street Parking (Loyola Heights)</div>
+                                <div class="parking-distance">0.2 km away • 3 min walk to campus</div>
+                            </div>
+                            <div class="availability">
+                                <span id="loyola-availability" class="slots-available">5 slots</span>
+                            </div>
+                        </div>
+                        <div class="parking-info">
+                            <div class="pricing-details">
+                                <div class="base-rate">₱25/hr</div>
+                                <div class="pricing-model">Street parking</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bottom-nav">
+                <a href="ateneo-home.html" class="nav-item active">
+                    <div class="nav-icon">Home</div>
+                </a>
+                <a href="reservations.html" class="nav-item">
+                    <div class="nav-icon">Parking</div>
+                </a>
+                <a href="profile.html" class="nav-item">
+                    <div class="nav-icon">Profile</div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- University Selection Modal -->
+    <div id="universityModal" class="university-modal" style="display: none;">
+        <div class="modal-overlay" onclick="hideUniversityModal()"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Select University</h3>
+                <button class="close-btn" onclick="hideUniversityModal()">×</button>
+            </div>
+            <div class="university-list">
+                <div class="university-option" data-university="dlsu" onclick="selectUniversity('dlsu')">
+                    <div class="university-option-image">
+                        <img src="images/dlsu_header.png" alt="DLSU" onerror="this.style.display='none'">
+                    </div>
+                    <div class="university-option-info">
+                        <div class="university-option-name">De La Salle University</div>
+                        <div class="university-option-location">Manila</div>
+                    </div>
+                    <div class="university-option-check">✓</div>
+                </div>
+                
+                <div class="university-option" data-university="ust" onclick="selectUniversity('ust')">
+                    <div class="university-option-image">
+                        <img src="images/ust_header.png" alt="UST" onerror="this.style.display='none'">
+                    </div>
+                    <div class="university-option-info">
+                        <div class="university-option-name">University of Santo Tomas</div>
+                        <div class="university-option-location">Manila</div>
+                    </div>
+                    <div class="university-option-check">✓</div>
+                </div>
+                
+                <div class="university-option selected" data-university="ateneo" onclick="selectUniversity('ateneo')">
+                    <div class="university-option-image">
+                        <img src="images/ateneo_header.png" alt="Ateneo" onerror="this.style.display='none'">
+                    </div>
+                    <div class="university-option-info">
+                        <div class="university-option-name">Ateneo de Manila University</div>
+                        <div class="university-option-location">Quezon City</div>
+                    </div>
+                    <div class="university-option-check">✓</div>
+                </div>
+                
+                <div class="university-option" data-university="nu" onclick="selectUniversity('nu')">
+                    <div class="university-option-image">
+                        <img src="images/nu_header.png" alt="NU" onerror="this.style.display='none'">
+                    </div>
+                    <div class="university-option-info">
+                        <div class="university-option-name">National University</div>
+                        <div class="university-option-location">Manila</div>
+                    </div>
+                    <div class="university-option-check">✓</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/university-selector.js"></script>
+    <script src="js/ateneo-home.js"></script>
+</body>
+</html>

@@ -1,0 +1,598 @@
+/* Private Slot Details Page */
+
+/* Parking Spot Image */
+.slot-image-section {
+    margin-bottom: 20px;
+}
+
+.image-container {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #f5f5f5;
+}
+
+.image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.image-overlay {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+}
+
+.availability-badge {
+    background: #28a745;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 16px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+/* Slot Overview */
+.slot-overview-section {
+    background: white;
+    border: 2px solid #ddd;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.overview-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 15px;
+}
+
+.slot-info {
+    flex: 1;
+}
+
+.slot-name {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.slot-distance {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 3px;
+}
+
+.slot-details {
+    font-size: 13px;
+    color: #999;
+}
+
+.slot-price {
+    text-align: right;
+}
+
+.price-amount {
+    font-size: 24px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 2px;
+}
+
+.price-duration {
+    font-size: 12px;
+    color: #666;
+}
+
+.slot-rating {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.rating-stars {
+    display: flex;
+    gap: 2px;
+}
+
+.star {
+    font-size: 16px;
+    color: #ddd;
+}
+
+.star.filled {
+    color: #FFD700;
+}
+
+.rating-text {
+    font-size: 14px;
+    color: #666;
+    font-weight: 500;
+}
+
+/* Owner Section */
+.owner-section {
+    margin-bottom: 20px;
+}
+
+.section-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.owner-card {
+    background: white;
+    border: 2px solid #ddd;
+    border-radius: 12px;
+    padding: 18px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.owner-avatar {
+    width: 50px;
+    height: 50px;
+    background: #333;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.owner-info {
+    flex: 1;
+}
+
+.owner-name {
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.owner-meta {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 3px;
+}
+
+.owner-rating,
+.owner-experience {
+    font-size: 12px;
+    color: #666;
+}
+
+.owner-response {
+    font-size: 11px;
+    color: #999;
+    font-style: italic;
+}
+
+.contact-owner-btn {
+    background: #333;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.contact-owner-btn:hover {
+    background: #444;
+}
+
+/* Features Section */
+.features-section {
+    margin-bottom: 20px;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.feature-item {
+    background: white;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.feature-icon {
+    font-size: 20px;
+}
+
+.feature-text {
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+}
+
+/* Location Section */
+.location-section {
+    margin-bottom: 20px;
+}
+
+.location-card {
+    background: white;
+    border: 2px solid #ddd;
+    border-radius: 12px;
+    padding: 18px;
+}
+
+.location-address {
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+.location-directions {
+    font-size: 14px;
+    color: #666;
+    line-height: 1.4;
+    margin-bottom: 15px;
+}
+
+.directions-btn {
+    background: white;
+    color: #333;
+    border: 2px solid #ddd;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.directions-btn:hover {
+    border-color: #333;
+    background: #f5f5f5;
+}
+
+/* Reviews Section */
+.reviews-section {
+    margin-bottom: 20px;
+}
+
+.reviews-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.reviews-summary {
+    font-size: 14px;
+    color: #666;
+}
+
+.reviews-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 15px;
+}
+
+.review-item {
+    background: white;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+}
+
+.review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.reviewer-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+}
+
+.review-date {
+    font-size: 12px;
+    color: #999;
+}
+
+.review-rating {
+    margin-bottom: 6px;
+}
+
+.review-text {
+    font-size: 14px;
+    color: #666;
+    line-height: 1.4;
+}
+
+.view-all-reviews-btn {
+    width: 100%;
+    background: white;
+    color: #333;
+    border: 2px solid #ddd;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.view-all-reviews-btn:hover {
+    border-color: #333;
+    background: #f5f5f5;
+}
+
+/* Booking Section */
+.booking-section {
+    margin-bottom: 20px;
+}
+
+.booking-card {
+    background: white;
+    border: 2px solid #ddd;
+    border-radius: 12px;
+    padding: 20px;
+}
+
+.booking-time-picker {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.booking-time-picker .time-input-group:first-child {
+    grid-column: 1 / -1;
+}
+
+.time-input-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.time-input-group label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 6px;
+}
+
+.time-input {
+    padding: 10px;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: border-color 0.3s ease;
+}
+
+.time-input:focus {
+    outline: none;
+    border-color: #333;
+}
+
+.booking-summary {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.summary-row:last-child {
+    margin-bottom: 0;
+}
+
+.summary-row.total {
+    padding-top: 8px;
+    border-top: 1px solid #ddd;
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.summary-row.payment {
+    font-size: 13px;
+    color: #666;
+}
+
+.book-now-btn {
+    width: 100%;
+    background: #333;
+    color: white;
+    border: none;
+    padding: 16px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.book-now-btn:hover {
+    background: #444;
+}
+
+/* Contact Modal */
+.contact-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.3s ease;
+}
+
+.contact-modal .modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(4px);
+}
+
+.contact-modal .modal-content {
+    background: white;
+    border-radius: 16px;
+    width: 90%;
+    max-width: 400px;
+    position: relative;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    animation: slideUp 0.3s ease;
+}
+
+.contact-modal .modal-header {
+    padding: 20px 20px 15px 20px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.contact-modal .modal-header h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+    margin: 0;
+}
+
+.contact-modal .close-btn {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #999;
+    cursor: pointer;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 15px;
+    transition: all 0.2s ease;
+}
+
+.contact-modal .close-btn:hover {
+    background: #f5f5f5;
+    color: #333;
+}
+
+.modal-body {
+    padding: 20px;
+}
+
+.contact-options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.contact-option {
+    background: white;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+    text-align: left;
+}
+
+.contact-option:hover {
+    border-color: #333;
+    background: #f5f5f5;
+}
+
+.contact-icon {
+    font-size: 24px;
+}
+
+.contact-text {
+    flex: 1;
+}
+
+.contact-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 2px;
+}
+
+.contact-subtitle {
+    font-size: 14px;
+    color: #666;
+}
+
+.contact-note {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 15px;
+    border: 1px solid #e9ecef;
+}
+
+.note-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+.note-text {
+    font-size: 12px;
+    color: #666;
+    line-height: 1.4;
+}
+
+/* Responsive */
+@media (max-width: 400px) {
+    .features-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .booking-time-picker {
+        grid-template-columns: 1fr;
+    }
+    
+    .booking-time-picker .time-input-group:first-child {
+        grid-column: 1;
+    }
+}

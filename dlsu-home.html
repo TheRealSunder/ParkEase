@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ParkEase - DLSU Campus</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="css/university-selector.css">
+</head>
+<body>
+    <div class="phone-container">
+        <div class="screen">
+            <div class="header dlsu-theme">
+                <div class="status-bar">
+                    <span>9:41</span>
+                    <span>100%</span>
+                </div>
+                <div class="university-selector" onclick="showUniversityModal()">
+                    <div class="current-university">
+                        <div class="university-image">
+                            <img src="images/dlsu_header.png" alt="DLSU" onerror="this.style.display='none'">
+                        </div>
+                        <div class="university-info">
+                            <div class="university-name">DLSU Campus</div>
+                            <div class="university-location">Manila</div>
+                        </div>
+                        <div class="selector-arrow">▼</div>
+                    </div>
+                </div>
+                <h1>Find Parking</h1>
+                <p>Near DLSU Campus, Manila</p>
+            </div>
+            
+            <div class="content">
+                <div class="search-container">
+                    <input type="text" class="search-input" placeholder="Search parking lots...">
+                    <button class="search-btn">Search</button>
+                </div>
+                
+                <div class="parking-list">
+                    <div class="parking-card" onclick="window.location.href='dlsu-razon-details.html'">
+                        <div class="parking-header">
+                            <div>
+                                <div class="parking-name">DLSU Razon Parking</div>
+                                <div class="parking-distance">On campus • 1 min walk to SJ Hall</div>
+                            </div>
+                            <div class="availability">
+                                <span class="slots-available slots-full">0 slots</span>
+                            </div>
+                        </div>
+                        <div class="parking-info">
+                            <div class="pricing-details">
+                                <div class="base-rate">₱50 base rate</div>
+                                <div class="pricing-model">All-day parking</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="parking-card" onclick="window.location.href='egi-taft-details.html'">
+                        <div class="parking-header">
+                            <div>
+                                <div class="parking-name">EGI Taft Parking</div>
+                                <div class="parking-distance">0.2 km away • 3 min walk to campus</div>
+                            </div>
+                            <div class="availability">
+                                <span id="egi-availability" class="slots-available slots-limited">4 slots</span>
+                            </div>
+                        </div>
+                        <div class="parking-info">
+                            <div class="pricing-details">
+                                <div class="base-rate">₱30 base + ₱25/hr</div>
+                                <div class="pricing-model">Hourly after initial</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="parking-card">
+                        <div class="parking-header">
+                            <div>
+                                <div class="parking-name">One Archer's Place</div>
+                                <div class="parking-distance">0.3 km away • 5 min walk to DLSU</div>
+                            </div>
+                            <div class="availability">
+                                <span id="oap-availability" class="slots-available">14 slots</span>
+                            </div>
+                        </div>
+                        <div class="parking-info">
+                            <div class="pricing-details">
+                                <div class="base-rate">₱30/hr</div>
+                                <div class="pricing-model">Hourly parking</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="parking-card">
+                        <div class="parking-header">
+                            <div>
+                                <div class="parking-name">Street Parking (Leon Guinto)</div>
+                                <div class="parking-distance">0.1 km away • 2 min walk to campus</div>
+                            </div>
+                            <div class="availability">
+                                <span id="street-availability" class="slots-available slots-limited">2 slots</span>
+                            </div>
+                        </div>
+                        <div class="parking-info">
+                            <div class="pricing-details">
+                                <div class="base-rate">₱20/hr</div>
+                                <div class="pricing-model">Street parking</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bottom-nav">
+                <a href="dlsu-home.html" class="nav-item active">
+                    <div class="nav-icon">Home</div>
+                </a>
+                <a href="public-parking.html" class="nav-item">
+                    <div class="nav-icon">Public</div>
+                </a>
+                <a href="private-parking.html" class="nav-item">
+                    <div class="nav-icon">Private</div>
+                </a>
+                <a href="profile.html" class="nav-item">
+                    <div class="nav-icon">Profile</div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- University Selection Modal -->
+    <div id="universityModal" class="university-modal" style="display: none;">
+        <div class="modal-overlay" onclick="hideUniversityModal()"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Select University</h3>
+                <button class="close-btn" onclick="hideUniversityModal()">×</button>
+            </div>
+            <div class="university-list">
+                <div class="university-option selected" data-university="dlsu" onclick="selectUniversity('dlsu')">
+                    <div class="university-option-image">
+                        <img src="images/dlsu_header.png" alt="DLSU" onerror="this.style.display='none'">
+                    </div>
+                    <div class="university-option-info">
+                        <div class="university-option-name">De La Salle University</div>
+                        <div class="university-option-location">Manila</div>
+                    </div>
+                    <div class="university-option-check">✓</div>
+                </div>
+                
+                <div class="university-option" data-university="ust" onclick="selectUniversity('ust')">
+                    <div class="university-option-image">
+                        <img src="images/ust_header.png" alt="UST" onerror="this.style.display='none'">
+                    </div>
+                    <div class="university-option-info">
+                        <div class="university-option-name">University of Santo Tomas</div>
+                        <div class="university-option-location">Manila</div>
+                    </div>
+                    <div class="university-option-check">✓</div>
+                </div>
+                
+                <div class="university-option" data-university="ateneo" onclick="selectUniversity('ateneo')">
+                    <div class="university-option-image">
+                        <img src="images/ateneo_header.png" alt="Ateneo" onerror="this.style.display='none'">
+                    </div>
+                    <div class="university-option-info">
+                        <div class="university-option-name">Ateneo de Manila University</div>
+                        <div class="university-option-location">Quezon City</div>
+                    </div>
+                    <div class="university-option-check">✓</div>
+                </div>
+                
+                <div class="university-option" data-university="nu" onclick="selectUniversity('nu')">
+                    <div class="university-option-image">
+                        <img src="images/nu_header.png" alt="NU" onerror="this.style.display='none'">
+                    </div>
+                    <div class="university-option-info">
+                        <div class="university-option-name">National University</div>
+                        <div class="university-option-location">Manila</div>
+                    </div>
+                    <div class="university-option-check">✓</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/university-selector.js"></script>
+    <script src="js/dlsu-home.js"></script>
+</body>
+</html>

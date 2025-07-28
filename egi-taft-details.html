@@ -6,6 +6,7 @@
     <title>ParkEase - EGI Taft Parking</title>
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/egi-taft-details.css">
+    <link rel="stylesheet" href="css/parking-reviews.css">
 </head>
 <body>
     <div class="phone-container">
@@ -15,12 +16,67 @@
                     <span>9:41</span>
                     <span>100%</span>
                 </div>
-                <button class="back-btn" onclick="window.location.href='home.html'">←</button>
+                <button class="back-btn" onclick="window.location.href='dlsu-home.html'">←</button>
                 <h1>EGI Taft Parking</h1>
                 <p>Off-Campus Commercial Parking</p>
             </div>
             
             <div class="content">
+                <!-- Rating Overview -->
+                <div class="rating-overview-section">
+                    <div class="rating-summary">
+                        <div class="overall-rating">
+                            <div class="rating-score">4.2</div>
+                            <div class="rating-stars">
+                                <span class="star filled">★</span>
+                                <span class="star filled">★</span>
+                                <span class="star filled">★</span>
+                                <span class="star filled">★</span>
+                                <span class="star">★</span>
+                            </div>
+                            <div class="rating-count">Based on 47 reviews</div>
+                        </div>
+                        <div class="rating-breakdown">
+                            <div class="rating-bar-item">
+                                <span class="rating-level">5★</span>
+                                <div class="rating-bar">
+                                    <div class="rating-fill" style="width: 55%"></div>
+                                </div>
+                                <span class="rating-percent">55%</span>
+                            </div>
+                            <div class="rating-bar-item">
+                                <span class="rating-level">4★</span>
+                                <div class="rating-bar">
+                                    <div class="rating-fill" style="width: 30%"></div>
+                                </div>
+                                <span class="rating-percent">30%</span>
+                            </div>
+                            <div class="rating-bar-item">
+                                <span class="rating-level">3★</span>
+                                <div class="rating-bar">
+                                    <div class="rating-fill" style="width: 10%"></div>
+                                </div>
+                                <span class="rating-percent">10%</span>
+                            </div>
+                            <div class="rating-bar-item">
+                                <span class="rating-level">2★</span>
+                                <div class="rating-bar">
+                                    <div class="rating-fill" style="width: 3%"></div>
+                                </div>
+                                <span class="rating-percent">3%</span>
+                            </div>
+                            <div class="rating-bar-item">
+                                <span class="rating-level">1★</span>
+                                <div class="rating-bar">
+                                    <div class="rating-fill" style="width: 2%"></div>
+                                </div>
+                                <span class="rating-percent">2%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Current Status -->
                 <div class="detail-section">
                     <div class="detail-title">Current Status</div>
                     <div class="detail-grid">
@@ -35,9 +91,13 @@
                     </div>
                 </div>
 
+                <!-- Parking Information - Collapsible -->
                 <div class="detail-section">
-                    <div class="detail-title">Parking Information</div>
-                    <div class="info-box">
+                    <div class="detail-title collapsible-header" onclick="toggleParkingInfo()">
+                        <span>Parking Information</span>
+                        <span class="collapse-arrow" id="parkingInfoArrow">▼</span>
+                    </div>
+                    <div class="info-box collapsible-content" id="parkingInfoContent">
                         <p><strong>Operating Hours:</strong> 24/7</p>
                         <p><strong>Distance:</strong> 0.2 km away • 3 min walk to DLSU</p>
                         <p><strong>Security:</strong> 24/7 security guard, CCTV monitoring</p>
@@ -48,6 +108,7 @@
                     </div>
                 </div>
 
+                <!-- Reservation Section - Moved Up -->
                 <div class="reservation-section">
                     <div class="detail-title">Reserve Your Spot</div>
                     <div class="reservation-card">
@@ -70,52 +131,132 @@
                     </div>
                 </div>
 
-                <!-- Simple Confirmation Modal -->
-                <div id="confirmModal" class="payment-modal" style="display: none;">
-                    <div class="modal-content">
-                        <div class="confirm-header">
-                            <h3>Reserve Parking Spot?</h3>
+                <!-- Reviews Section - Simplified -->
+                <div class="reviews-section">
+                    <div class="reviews-header">
+                        <div class="section-title">Reviews</div>
+                        <button class="write-review-btn" onclick="showWriteReviewModal()">
+                            Write Review
+                        </button>
+                    </div>
+
+                    <!-- Review Filters - Star Rating Filter -->
+                    <div class="review-filters">
+                        <div class="filter-tabs">
+                            <div class="filter-tab active" onclick="filterReviews('all')">All</div>
+                            <div class="filter-tab" onclick="filterReviews('5')">5★</div>
+                            <div class="filter-tab" onclick="filterReviews('4')">4★</div>
+                            <div class="filter-tab" onclick="filterReviews('3')">3★</div>
+                            <div class="filter-tab" onclick="filterReviews('2')">2★</div>
+                            <div class="filter-tab" onclick="filterReviews('1')">1★</div>
                         </div>
-                        <div class="confirm-details">
-                            <p>Reserve your spot at EGI Taft Parking for ₱50 downpayment?</p>
-                            <div class="reservation-info">
-                                <p><strong>Downpayment:</strong> ₱50</p>
-                                <p><strong>Valid for:</strong> 30 minutes</p>
-                                <p><strong>Remaining cost:</strong> ₱25/hr on arrival</p>
-                            </div>
-                        </div>
-                        <div class="confirm-actions">
-                            <button class="cancel-btn" onclick="closeConfirmation()">Cancel</button>
-                            <button class="confirm-btn" onclick="confirmReservation()">Reserve Now</button>
-                        </div>
+                    </div>
+
+                    <!-- Reviews List - First 3 Only -->
+                    <div class="reviews-list" id="reviewsList">
+                        <!-- Sample reviews will be loaded here -->
+                    </div>
+
+                    <div class="view-all-section">
+                        <button class="view-all-btn" onclick="viewAllReviews()">
+                            View All Reviews
+                        </button>
                     </div>
                 </div>
 
-                <!-- Success Modal -->
-                <div id="successModal" class="payment-modal" style="display: none;">
-                    <div class="modal-content">
-                        <div class="success-content">
-                            <div class="success-icon">✅</div>
-                            <h3>Reservation Confirmed!</h3>
-                            <p>Your parking spot has been reserved</p>
-                            <div class="success-details">
-                                <p><strong>Location:</strong> EGI Taft Parking</p>
-                                <p><strong>Valid until:</strong> <span id="expirationTime"></span></p>
-                                <p><strong>Downpayment:</strong> ₱50</p>
-                            </div>
-                            <button class="success-btn" onclick="viewReservations()">
-                                View My Reservations
-                            </button>
-                            <button class="secondary-btn" onclick="goHome()">
-                                Back to Home
-                            </button>
+                
+            </div>
+        </div>
+    </div>
+
+    <!-- Write Review Modal -->
+    <div id="writeReviewModal" class="review-modal" style="display: none;">
+        <div class="modal-overlay" onclick="hideWriteReviewModal()"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Write a Review</h3>
+                <button class="close-btn" onclick="hideWriteReviewModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="review-form">
+                    <div class="form-group">
+                        <label>Your Rating</label>
+                        <div class="star-rating" id="starRating">
+                            <span class="star-input" data-rating="1">★</span>
+                            <span class="star-input" data-rating="2">★</span>
+                            <span class="star-input" data-rating="3">★</span>
+                            <span class="star-input" data-rating="4">★</span>
+                            <span class="star-input" data-rating="5">★</span>
+                        </div>
+                        <div class="rating-label" id="ratingLabel">Tap to rate</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Review Title</label>
+                        <input type="text" id="reviewTitle" placeholder="Summarize your experience" maxlength="60">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Your Review</label>
+                        <textarea id="reviewText" placeholder="Share details about your parking experience..." rows="4" maxlength="500"></textarea>
+                        <div class="char-count">
+                            <span id="charCount">0</span>/500
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="modal-footer">
+                <button class="cancel-btn" onclick="hideWriteReviewModal()">Cancel</button>
+                <button class="submit-btn" onclick="submitReview()" id="submitReviewBtn" disabled>
+                    Submit Review
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirmation/Success Modals (similar to reservation modals) -->
+    <div id="confirmModal" class="payment-modal" style="display: none;">
+        <div class="modal-content">
+            <div class="confirm-header">
+                <h3>Reserve Parking Spot?</h3>
+            </div>
+            <div class="confirm-details">
+                <p>Reserve your spot at EGI Taft Parking for ₱50 downpayment?</p>
+                <div class="reservation-info">
+                    <p><strong>Downpayment:</strong> ₱50</p>
+                    <p><strong>Valid for:</strong> 30 minutes</p>
+                    <p><strong>Remaining cost:</strong> ₱25/hr on arrival</p>
+                </div>
+            </div>
+            <div class="confirm-actions">
+                <button class="cancel-btn" onclick="closeConfirmation()">Cancel</button>
+                <button class="confirm-btn" onclick="confirmReservation()">Reserve Now</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="successModal" class="payment-modal" style="display: none;">
+        <div class="modal-content">
+            <div class="success-content">
+                <div class="success-icon">✅</div>
+                <h3>Reservation Confirmed!</h3>
+                <p>Your parking spot has been reserved</p>
+                <div class="success-details">
+                    <p><strong>Location:</strong> EGI Taft Parking</p>
+                    <p><strong>Valid until:</strong> <span id="expirationTime"></span></p>
+                    <p><strong>Downpayment:</strong> ₱50</p>
+                </div>
+                <button class="success-btn" onclick="viewReservations()">
+                    View My Reservations
+                </button>
+                <button class="secondary-btn" onclick="goHome()">
+                    Back to Home
+                </button>
             </div>
         </div>
     </div>
 
     <script src="js/egi-taft-details.js"></script>
+    <script src="js/parking-reviews.js"></script>
 </body>
 </html>
